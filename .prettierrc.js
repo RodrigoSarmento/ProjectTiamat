@@ -1,5 +1,17 @@
 module.exports = {
-  arrowParens: 'avoid',
   singleQuote: true,
-  trailingComma: 'all',
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrder: [
+    '^react$',
+    '^react-native$',
+    '^react/.+',
+    '<THIRD_PARTY_MODULES>',
+    '^framework-ui/',
+    '^@react-navigation/',
+    '^@?\\w',
+    '^\\.\\./',
+    '^\\./',
+  ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
 };

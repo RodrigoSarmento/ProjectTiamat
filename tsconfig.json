@@ -1,8 +1,44 @@
 {
   "extends": "@react-native/typescript-config",
+  "include": [
+    "App.tsx",
+    "index.js",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx",
+    "global.d.ts"
+  ],
   "compilerOptions": {
-    "types": ["jest"]
+    "paths": {
+      "@assets": ["./src/assets"],
+      "@assets/*": ["./src/assets/*"],
+      "@components": ["./src/components/index.ts"],
+      "@components/*": ["./src/components/*"],
+      "@helper": ["./src/helper"],
+      "@helper/*": ["./src/helper/*"],
+      "@hooks": ["./src/hooks"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@jest": ["./jest"],
+      "@jest/*": ["./jest/*"],
+      "@navigators": ["./src/navigators"],
+      "@navigators/*": ["./src/navigators/*"],
+      "@redux": ["./src/redux"],
+      "@redux/*": ["./src/redux/*"],
+      "@screens": ["./src/screens"],
+      "@screens/*": ["./src/screens/*"],
+      "@styles": ["./src/styles/index.ts"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils": ["./src/utils"],
+      "@utils/*": ["./src/utils/*"]
+    },
+    "types": ["react-native", "node", "jest"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["**/node_modules", "**/Pods"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

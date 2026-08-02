@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+android/
+ios/
+Core-iOS/
+Core-Android/
+.metro/
+.husky/
+*.js
+**node_modules**
