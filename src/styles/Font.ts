@@ -1,160 +1,182 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 
 import * as Colors from './Colors';
 
-// We still don't have a font family, fallback to default TODO:
-export const bold = {
-  fontFamily: 'OpenSans-Bold',
+const base: TextStyle = {
   includeFontPadding: false,
 };
-export const light = {
-  fontFamily: 'OpenSans-Light',
-  includeFontPadding: false,
+
+/** Cinzel — display / titles */
+export const cinzelRegular: TextStyle = {
+  ...base,
+  fontFamily: 'Cinzel-Regular',
 };
-export const medium = {
-  fontFamily: 'OpenSans-Medium',
-  includeFontPadding: false,
+export const cinzelMedium: TextStyle = {
+  ...base,
+  fontFamily: 'Cinzel-Medium',
 };
-export const regular = {
-  fontFamily: 'OpenSans-Regular',
-  includeFontPadding: false,
+export const cinzelSemiBold: TextStyle = {
+  ...base,
+  fontFamily: 'Cinzel-SemiBold',
+};
+export const cinzelBold: TextStyle = {
+  ...base,
+  fontFamily: 'Cinzel-Bold',
+};
+export const cinzelExtraBold: TextStyle = {
+  ...base,
+  fontFamily: 'Cinzel-ExtraBold',
+};
+export const cinzelBlack: TextStyle = {
+  ...base,
+  fontFamily: 'Cinzel-Black',
+};
+
+/** Crimson Text — body / UI copy */
+export const crimsonRegular: TextStyle = {
+  ...base,
+  fontFamily: 'CrimsonText-Regular',
+};
+export const crimsonSemiBold: TextStyle = {
+  ...base,
+  fontFamily: 'CrimsonText-SemiBold',
+};
+export const crimsonBold: TextStyle = {
+  ...base,
+  fontFamily: 'CrimsonText-Bold',
+};
+export const crimsonItalic: TextStyle = {
+  ...base,
+  fontFamily: 'CrimsonText-Italic',
+};
+export const crimsonBoldItalic: TextStyle = {
+  ...base,
+  fontFamily: 'CrimsonText-BoldItalic',
+};
+export const crimsonSemiBoldItalic: TextStyle = {
+  ...base,
+  fontFamily: 'CrimsonText-SemiBoldItalic',
+};
+
+export const newRocker: TextStyle = {
+  ...base,
+  fontFamily: 'NewRocker-Regular',
 };
 
 export const Fonts = StyleSheet.create({
-  //Used for the header screen title, should be only once per screen
+  // Screen header title — once per screen
   headerTitle: {
-    ...medium,
+    ...cinzelSemiBold,
     fontSize: 24,
-    fontWeight: '700',
-    letterSpacing: 0,
+    letterSpacing: 0.5,
     color: Colors.blackAbsolute,
   },
-  //Used for the main screen title, should be only once per screen
+  // Main screen title — once per screen
   titleScreen: {
-    ...bold,
+    ...cinzelBold,
     fontSize: 30,
-    fontWeight: '600',
-    letterSpacing: -0.75,
+    letterSpacing: 0.4,
     color: Colors.blackPrimary,
   },
-  // Handy for dividing your screen into sections
+  // Section headings
   titleSection: {
-    ...bold,
+    ...cinzelBold,
     fontSize: 26,
-    fontWeight: 'bold',
-    letterSpacing: -0.39,
+    letterSpacing: 0.3,
     color: Colors.blackPrimary,
   },
-  // modal
+  // Modal title
   titleModal: {
-    ...bold,
+    ...cinzelBold,
     fontSize: 20,
-    fontWeight: 'bold',
-    letterSpacing: -0.39,
+    letterSpacing: 0.3,
     color: Colors.blackPrimary,
   },
-  // Designer for sections within sections
+  // Nested section headings
   titleSubSection: {
-    ...bold,
+    ...cinzelSemiBold,
     fontSize: 22,
-    fontWeight: '600',
-    letterSpacing: -0.33,
+    letterSpacing: 0.25,
     color: Colors.blackPrimary,
   },
-  // For large amount of content. Pairs with large body and default body
+  // Large content title
   titleBody: {
-    ...bold,
+    ...cinzelSemiBold,
     fontSize: 18,
-    fontWeight: '600',
-    letterSpacing: -0.18,
+    letterSpacing: 0.2,
     color: Colors.blackPrimary,
   },
   titleBodyRegular: {
-    ...regular,
+    ...cinzelRegular,
     fontSize: 18,
-    fontWeight: '400',
-    letterSpacing: -0.18,
+    letterSpacing: 0.2,
+    color: Colors.blackPrimary,
+  },
+  // Group labels
+  titleGroup: {
+    ...cinzelMedium,
+    fontSize: 14,
+    letterSpacing: 0.4,
     color: Colors.blackPrimary,
   },
 
-  // Used to group actions or infos
-  titleGroup: {
-    ...medium,
-    fontSize: 14,
-    fontWeight: '500',
-    letterSpacing: 0.21,
-    color: Colors.blackPrimary,
-  },
-  // Used for paragraphs. Pairs with screen title and section title
+  // Body copy
   contentBase: {
-    ...regular,
+    ...crimsonRegular,
     fontSize: 16,
-    fontWeight: '400',
-    letterSpacing: -0.08,
+    letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
-  // Highlights important words or small titles
   contentBaseBold: {
-    ...bold,
+    ...crimsonBold,
     fontSize: 16,
-    fontWeight: 'bold',
-    letterSpacing: -0.16,
+    letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
-  // When you need something a little smaller then base
   contentSmall: {
-    ...regular,
+    ...crimsonRegular,
     fontSize: 14,
-    fontWeight: '400',
     color: Colors.blackPrimary,
   },
-  // Same as content small but bold
   contentSmallBold: {
-    ...bold,
+    ...crimsonSemiBold,
     fontSize: 14,
-    fontWeight: 'bold',
-    letterSpacing: 0.175,
+    letterSpacing: 0.15,
     color: Colors.blackPrimary,
   },
   caption: {
-    ...regular,
+    ...crimsonRegular,
     fontSize: 12,
-    fontWeight: '400',
     color: Colors.blackPrimary,
   },
   captionBold: {
-    ...bold,
+    ...crimsonBold,
     fontSize: 12,
-    fontWeight: 'bold',
     letterSpacing: 0.12,
     color: Colors.blackPrimary,
   },
   extraSmall: {
-    ...regular,
+    ...crimsonRegular,
     fontSize: 10,
-    fontWeight: '400',
-    color: Colors.blackPrimary,
     letterSpacing: 0.1,
+    color: Colors.blackPrimary,
   },
   extraSmallBold: {
-    ...bold,
+    ...crimsonBold,
     fontSize: 10,
-    fontWeight: 'bold',
     letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
   numberDisplay: {
-    ...bold,
-    fontSize: 32,
-    fontWeight: '600',
-    letterSpacing: -1.28,
+    ...cinzelMedium,
+    fontSize: 18,
+    letterSpacing: -0.5,
     color: Colors.blackPrimary,
   },
   numberShowcase: {
-    ...bold,
+    ...crimsonBold,
     fontSize: 26,
-    fontWeight: '600',
-    letterSpacing: -1.04,
+    letterSpacing: -0.4,
     color: Colors.blackPrimary,
   },
 });

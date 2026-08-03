@@ -26,6 +26,7 @@ module.exports = {
     'prettier',
     'react-hooks',
     'react-native',
+    'unused-imports',
   ],
   rules: {
     'no-multiple-empty-lines': 'warn',
@@ -37,12 +38,14 @@ module.exports = {
     'max-depth': 'warn',
     'import/no-cycle': 'error',
     'import/no-self-import': 'error',
-    'import/no-extraneous-dependencies': 'error',
     'import/no-duplicates': 'error',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-unused-expressions': 'off',
-    '@typescript-eslint/no-unused-vars': [
+    // Handled by unused-imports (imports = warn, vars = error)
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': [
       'error',
       { vars: 'all', args: 'none', ignoreRestSiblings: false },
     ],

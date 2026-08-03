@@ -4,28 +4,8 @@ import * as Colors from './Colors';
 
 export const CommonStyles = StyleSheet.create({
   flex1: { flex: 1 },
-  screenContainer: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    padding: 20,
-    gap: 24,
-  },
-  screenContainerWithPaddingBottom: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    padding: 20,
-    gap: 24,
-    paddingBottom: 0,
-  },
-  sectionContainer: {
-    gap: 20,
-  },
-  subSectionContainer: {
-    gap: 14,
-  },
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: Colors.white,
   },
   rowSpaceBetween: {
     flexDirection: 'row',
