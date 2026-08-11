@@ -11,13 +11,14 @@ const ImageButton: React.FC<ImageButtonProps> = ({
   style,
   text,
   textStyle,
+  containerStyle,
   ...imageProps
 }) => {
   return (
     <Pressable
       disabled={disabled}
       onPress={onPress}
-      style={[styles.pressable, disabled && styles.disabled]}
+      style={[disabled && styles.disabled, containerStyle]}
     >
       <Image {...imageProps} style={style} />
       {text ? (

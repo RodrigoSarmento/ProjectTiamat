@@ -4,9 +4,6 @@ import * as Colors from './Colors';
 
 export const CommonStyles = StyleSheet.create({
   flex1: { flex: 1 },
-  safeAreaContainer: {
-    flex: 1,
-  },
   rowSpaceBetween: {
     flexDirection: 'row',
     justifyContent: 'space-between',

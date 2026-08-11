@@ -2,6 +2,9 @@ import { useMemo, useState } from 'react';
 
 import { ImageBackground, ScrollView, Text, View } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+
 import { ImageButton } from '@components/image-button';
 import { MAX_STAT, StatBar } from '@components/stat-bar';
 import { saveStatus } from '@redux/slices/SavesSlice';
@@ -19,6 +22,10 @@ import { styles } from './CharacterCreation.styles';
 const CharacterCreation = () => {
   const [attributes, setAttributes] = useState<IStatus>(INITIAL_ATTRIBUTES);
   const dispatch = useDispatch();
+  const navigation =
+    useNavigation<
+      StackNavigationProp<GameStackParamsList, 'CharacterCreation'>
+    >();
 
   const spentPoints = useMemo(
     () => Object.values(attributes).reduce((sum, value) => sum + value, 0),
@@ -55,7 +62,7 @@ const CharacterCreation = () => {
       style={CommonStyles.flex1}
       resizeMode="cover"
     >
-      <SafeAreaView style={CommonStyles.safeAreaContainer}>
+      <SafeAreaView style={CommonStyles.flex1}>
         <View style={CommonStyles.flex1}>
           <ScrollView
             style={CommonStyles.flex1}
@@ -94,6 +101,7 @@ const CharacterCreation = () => {
               text="Begin the journey"
               onPress={() => {
                 dispatch(saveStatus(attributes));
+                navigation.navigate('Game');
               }}
               textStyle={styles.saveButtonText}
             />

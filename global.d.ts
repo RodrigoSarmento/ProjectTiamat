@@ -15,6 +15,13 @@ declare global {
     wisdom: number;
     charisma: number;
   }
+
+  type GameStackParamsList = {
+    Start: undefined;
+    CharacterCreation: undefined;
+    Game: undefined;
+    Menu: undefined;
+  };
 }
 
 export {};

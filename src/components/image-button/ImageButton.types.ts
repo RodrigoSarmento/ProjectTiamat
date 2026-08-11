@@ -1,6 +1,7 @@
-import type { ImageProps, TextStyle } from 'react-native';
+import type { ImageProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 export type ImageButtonProps = ImageProps & {
+  containerStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
   onPress?: () => void;
   text?: string;
