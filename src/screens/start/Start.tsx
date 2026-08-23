@@ -27,14 +27,14 @@ const Start = () => {
 
   return (
     <ImageBackground
-      source={require('@assets/backgrounds/home_gem_ruins.png')}
+      source={require('@assets/backgrounds/home_cyberpunk.png')}
       style={CommonStyles.flex1}
       resizeMode="cover"
     >
       <SafeAreaView style={CommonStyles.flex1}>
         <View style={styles.content}>
           <ImageButton
-            source={require('@assets/buttons/button_start_plaque.png')}
+            source={require('@assets/buttons/button_start.png')}
             text="Start"
             textStyle={styles.startButtonText}
             style={styles.startButton}

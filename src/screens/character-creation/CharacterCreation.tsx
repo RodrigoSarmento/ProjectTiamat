@@ -8,7 +8,7 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import { ImageButton } from '@components/image-button';
 import { MAX_STAT, StatBar } from '@components/stat-bar';
 import { saveStatus } from '@redux/slices/SavesSlice';
-import { CommonStyles, Fonts } from '@styles';
+import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
@@ -58,7 +58,7 @@ const CharacterCreation = () => {
 
   return (
     <ImageBackground
-      source={require('@assets/backgrounds/journal_page.png')}
+      source={require('@assets/backgrounds/character_creation.png')}
       style={CommonStyles.flex1}
       resizeMode="cover"
     >
@@ -69,7 +69,7 @@ const CharacterCreation = () => {
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
-            <Text style={Fonts.titleScreen}>Paladin</Text>
+            <Text style={styles.title}>Char name</Text>
             <View style={styles.pointsBlock}>
               <Text style={styles.pointsValue}>
                 Points remaining:{'   '}
@@ -96,9 +96,9 @@ const CharacterCreation = () => {
             </View>
             <ImageButton
               disabled={!canConfirm}
-              source={require('@assets/buttons/button_wax_seal.png')}
+              source={require('@assets/buttons/button_confirm.png')}
               style={styles.button}
-              text="Begin the journey"
+              text="Initialize"
               onPress={() => {
                 dispatch(saveStatus(attributes));
                 navigation.navigate('Game');

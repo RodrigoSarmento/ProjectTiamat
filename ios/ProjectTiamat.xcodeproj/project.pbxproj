@@ -12,20 +12,13 @@
 		4C28024DF6A97E825CE6F36B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		4CEED7AE6D1848EB9E1CAF4E /* Cinzel-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 216ED0E1DF644024A32B4756 /* Cinzel-Black.ttf */; };
-		CBB5600482DA4813A4F73D1A /* Cinzel-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 764BBAC92A9142F6A3094F8E /* Cinzel-Bold.ttf */; };
-		0E40FA6797104323855707E7 /* CrimsonText-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E45EF95CE78440696E54F15 /* CrimsonText-SemiBold.ttf */; };
-		9100077C0C794718A36587CB /* Cinzel-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB6D6AE9294841F9AD808D8A /* Cinzel-SemiBold.ttf */; };
-		646F5445596A49EEAE59C93D /* Cinzel-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10AE2D7CA98542EA8AAFB0BD /* Cinzel-Medium.ttf */; };
-		19137EBABD89413C93E0D045 /* CrimsonText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA9B96BB262E4D55A4E79245 /* CrimsonText-Bold.ttf */; };
-		6A232E31C8874E7AB4071AFA /* Cinzel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040A665C5A1F4E2587830CA7 /* Cinzel-Regular.ttf */; };
-		3F3F55A3D7A4476A948B2903 /* CrimsonText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 862C3A42C0E042DAB71EFC7E /* CrimsonText-Regular.ttf */; };
-		BCC612B887CB4A10BD99D89D /* CrimsonText-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B32A32C3139F415E9C048355 /* CrimsonText-SemiBoldItalic.ttf */; };
-		DC4EF0C0B1884B1E9E10B548 /* Cinzel-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F17BEB80D2E4B02B726E2C0 /* Cinzel-VariableFont_wght.ttf */; };
-		715434CBE337436A912F3A36 /* CrimsonText-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D321884C5D549CEBEC21A52 /* CrimsonText-BoldItalic.ttf */; };
-		4E6AAF449FF24CA7811BADF3 /* CrimsonText-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9539C5B84FF48D2906F51B7 /* CrimsonText-Italic.ttf */; };
-		7760E58BBEF44161BDFD2B64 /* Cinzel-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1136DECEA7B420F98FA4A34 /* Cinzel-ExtraBold.ttf */; };
-		2EFBD5E8A959420D82ACD5D0 /* NewRocker-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD89233D0F0E44BA84CE37CC /* NewRocker-Regular.ttf */; };
+		8E941D8C0AE94723BC2E6ED3 /* Oxanium-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E364DBE99D3D4E2FAC69B5D3 /* Oxanium-Regular.ttf */; };
+		539C16BCC15A41A295556D56 /* Oxanium-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA9CABD0F9444027A9F46875 /* Oxanium-Light.ttf */; };
+		D8AAF48F63834EAB95C13FF7 /* Oxanium-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF218A6776E7469D97E15D90 /* Oxanium-ExtraBold.ttf */; };
+		DCF37D27A3E7439F9675BF2E /* Oxanium-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DBA400685F434391AE2A979A /* Oxanium-Bold.ttf */; };
+		548F586D458E48849268D526 /* Oxanium-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6A84E41A86144D485256900 /* Oxanium-Medium.ttf */; };
+		1894AF5CDBA34AD383AFD566 /* Oxanium-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C455A91F48134221A4939628 /* Oxanium-ExtraLight.ttf */; };
+		ABDBF7ECB09E4921A939215D /* Oxanium-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1707A2E60A42FFA12A173E /* Oxanium-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,20 +32,13 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ProjectTiamat/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ProjectTiamat/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		216ED0E1DF644024A32B4756 /* Cinzel-Black.ttf */ = {isa = PBXFileReference; name = "Cinzel-Black.ttf"; path = "../src/assets/fonts/Cinzel-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		764BBAC92A9142F6A3094F8E /* Cinzel-Bold.ttf */ = {isa = PBXFileReference; name = "Cinzel-Bold.ttf"; path = "../src/assets/fonts/Cinzel-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6E45EF95CE78440696E54F15 /* CrimsonText-SemiBold.ttf */ = {isa = PBXFileReference; name = "CrimsonText-SemiBold.ttf"; path = "../src/assets/fonts/CrimsonText-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AB6D6AE9294841F9AD808D8A /* Cinzel-SemiBold.ttf */ = {isa = PBXFileReference; name = "Cinzel-SemiBold.ttf"; path = "../src/assets/fonts/Cinzel-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		10AE2D7CA98542EA8AAFB0BD /* Cinzel-Medium.ttf */ = {isa = PBXFileReference; name = "Cinzel-Medium.ttf"; path = "../src/assets/fonts/Cinzel-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AA9B96BB262E4D55A4E79245 /* CrimsonText-Bold.ttf */ = {isa = PBXFileReference; name = "CrimsonText-Bold.ttf"; path = "../src/assets/fonts/CrimsonText-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		040A665C5A1F4E2587830CA7 /* Cinzel-Regular.ttf */ = {isa = PBXFileReference; name = "Cinzel-Regular.ttf"; path = "../src/assets/fonts/Cinzel-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		862C3A42C0E042DAB71EFC7E /* CrimsonText-Regular.ttf */ = {isa = PBXFileReference; name = "CrimsonText-Regular.ttf"; path = "../src/assets/fonts/CrimsonText-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B32A32C3139F415E9C048355 /* CrimsonText-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "CrimsonText-SemiBoldItalic.ttf"; path = "../src/assets/fonts/CrimsonText-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8F17BEB80D2E4B02B726E2C0 /* Cinzel-VariableFont_wght.ttf */ = {isa = PBXFileReference; name = "Cinzel-VariableFont_wght.ttf"; path = "../src/assets/fonts/Cinzel-VariableFont_wght.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2D321884C5D549CEBEC21A52 /* CrimsonText-BoldItalic.ttf */ = {isa = PBXFileReference; name = "CrimsonText-BoldItalic.ttf"; path = "../src/assets/fonts/CrimsonText-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E9539C5B84FF48D2906F51B7 /* CrimsonText-Italic.ttf */ = {isa = PBXFileReference; name = "CrimsonText-Italic.ttf"; path = "../src/assets/fonts/CrimsonText-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C1136DECEA7B420F98FA4A34 /* Cinzel-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Cinzel-ExtraBold.ttf"; path = "../src/assets/fonts/Cinzel-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BD89233D0F0E44BA84CE37CC /* NewRocker-Regular.ttf */ = {isa = PBXFileReference; name = "NewRocker-Regular.ttf"; path = "../src/assets/fonts/NewRocker-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E364DBE99D3D4E2FAC69B5D3 /* Oxanium-Regular.ttf */ = {isa = PBXFileReference; name = "Oxanium-Regular.ttf"; path = "../src/assets/fonts/Oxanium-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BA9CABD0F9444027A9F46875 /* Oxanium-Light.ttf */ = {isa = PBXFileReference; name = "Oxanium-Light.ttf"; path = "../src/assets/fonts/Oxanium-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AF218A6776E7469D97E15D90 /* Oxanium-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Oxanium-ExtraBold.ttf"; path = "../src/assets/fonts/Oxanium-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DBA400685F434391AE2A979A /* Oxanium-Bold.ttf */ = {isa = PBXFileReference; name = "Oxanium-Bold.ttf"; path = "../src/assets/fonts/Oxanium-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C6A84E41A86144D485256900 /* Oxanium-Medium.ttf */ = {isa = PBXFileReference; name = "Oxanium-Medium.ttf"; path = "../src/assets/fonts/Oxanium-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C455A91F48134221A4939628 /* Oxanium-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Oxanium-ExtraLight.ttf"; path = "../src/assets/fonts/Oxanium-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6A1707A2E60A42FFA12A173E /* Oxanium-SemiBold.ttf */ = {isa = PBXFileReference; name = "Oxanium-SemiBold.ttf"; path = "../src/assets/fonts/Oxanium-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,20 +116,13 @@
 		9F561387EFF24EBFA97ECF33 /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				216ED0E1DF644024A32B4756 /* Cinzel-Black.ttf */,
-				764BBAC92A9142F6A3094F8E /* Cinzel-Bold.ttf */,
-				6E45EF95CE78440696E54F15 /* CrimsonText-SemiBold.ttf */,
-				AB6D6AE9294841F9AD808D8A /* Cinzel-SemiBold.ttf */,
-				10AE2D7CA98542EA8AAFB0BD /* Cinzel-Medium.ttf */,
-				AA9B96BB262E4D55A4E79245 /* CrimsonText-Bold.ttf */,
-				040A665C5A1F4E2587830CA7 /* Cinzel-Regular.ttf */,
-				862C3A42C0E042DAB71EFC7E /* CrimsonText-Regular.ttf */,
-				B32A32C3139F415E9C048355 /* CrimsonText-SemiBoldItalic.ttf */,
-				8F17BEB80D2E4B02B726E2C0 /* Cinzel-VariableFont_wght.ttf */,
-				2D321884C5D549CEBEC21A52 /* CrimsonText-BoldItalic.ttf */,
-				E9539C5B84FF48D2906F51B7 /* CrimsonText-Italic.ttf */,
-				C1136DECEA7B420F98FA4A34 /* Cinzel-ExtraBold.ttf */,
-				BD89233D0F0E44BA84CE37CC /* NewRocker-Regular.ttf */,
+				E364DBE99D3D4E2FAC69B5D3 /* Oxanium-Regular.ttf */,
+				BA9CABD0F9444027A9F46875 /* Oxanium-Light.ttf */,
+				AF218A6776E7469D97E15D90 /* Oxanium-ExtraBold.ttf */,
+				DBA400685F434391AE2A979A /* Oxanium-Bold.ttf */,
+				C6A84E41A86144D485256900 /* Oxanium-Medium.ttf */,
+				C455A91F48134221A4939628 /* Oxanium-ExtraLight.ttf */,
+				6A1707A2E60A42FFA12A173E /* Oxanium-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -212,20 +191,13 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				4C28024DF6A97E825CE6F36B /* PrivacyInfo.xcprivacy in Resources */,
-				4CEED7AE6D1848EB9E1CAF4E /* Cinzel-Black.ttf in Resources */,
-				CBB5600482DA4813A4F73D1A /* Cinzel-Bold.ttf in Resources */,
-				0E40FA6797104323855707E7 /* CrimsonText-SemiBold.ttf in Resources */,
-				9100077C0C794718A36587CB /* Cinzel-SemiBold.ttf in Resources */,
-				646F5445596A49EEAE59C93D /* Cinzel-Medium.ttf in Resources */,
-				19137EBABD89413C93E0D045 /* CrimsonText-Bold.ttf in Resources */,
-				6A232E31C8874E7AB4071AFA /* Cinzel-Regular.ttf in Resources */,
-				3F3F55A3D7A4476A948B2903 /* CrimsonText-Regular.ttf in Resources */,
-				BCC612B887CB4A10BD99D89D /* CrimsonText-SemiBoldItalic.ttf in Resources */,
-				DC4EF0C0B1884B1E9E10B548 /* Cinzel-VariableFont_wght.ttf in Resources */,
-				715434CBE337436A912F3A36 /* CrimsonText-BoldItalic.ttf in Resources */,
-				4E6AAF449FF24CA7811BADF3 /* CrimsonText-Italic.ttf in Resources */,
-				7760E58BBEF44161BDFD2B64 /* Cinzel-ExtraBold.ttf in Resources */,
-				2EFBD5E8A959420D82ACD5D0 /* NewRocker-Regular.ttf in Resources */,
+				8E941D8C0AE94723BC2E6ED3 /* Oxanium-Regular.ttf in Resources */,
+				539C16BCC15A41A295556D56 /* Oxanium-Light.ttf in Resources */,
+				D8AAF48F63834EAB95C13FF7 /* Oxanium-ExtraBold.ttf in Resources */,
+				DCF37D27A3E7439F9675BF2E /* Oxanium-Bold.ttf in Resources */,
+				548F586D458E48849268D526 /* Oxanium-Medium.ttf in Resources */,
+				1894AF5CDBA34AD383AFD566 /* Oxanium-ExtraLight.ttf in Resources */,
+				ABDBF7ECB09E4921A939215D /* Oxanium-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

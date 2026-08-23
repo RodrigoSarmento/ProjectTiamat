@@ -10,13 +10,14 @@ export const styles = StyleSheet.create({
     marginBottom: '10%',
   },
   startButton: {
-    width: Common.screenWidth,
+    alignSelf: 'center',
+    width: Common.screenWidth * 0.8,
     height: 100,
-    resizeMode: 'cover',
   },
   startButtonText: {
     ...newRocker,
     fontSize: 32,
-    color: Colors.blackPrimary,
+    letterSpacing: 4,
+    color: Colors.white,
   },
 });

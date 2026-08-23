@@ -7,114 +7,87 @@ const base: TextStyle = {
 };
 
 /** Cinzel — display / titles */
-export const cinzelRegular: TextStyle = {
+export const regular: TextStyle = {
   ...base,
-  fontFamily: 'Cinzel-Regular',
+  fontFamily: 'Oxanium-Regular',
 };
-export const cinzelMedium: TextStyle = {
+export const medium: TextStyle = {
   ...base,
-  fontFamily: 'Cinzel-Medium',
+  fontFamily: 'Oxanium-Medium',
 };
-export const cinzelSemiBold: TextStyle = {
+export const semiBold: TextStyle = {
   ...base,
-  fontFamily: 'Cinzel-SemiBold',
+  fontFamily: 'Oxanium-SemiBold',
 };
-export const cinzelBold: TextStyle = {
+export const bold: TextStyle = {
   ...base,
-  fontFamily: 'Cinzel-Bold',
+  fontFamily: 'Oxanium-Bold',
 };
-export const cinzelExtraBold: TextStyle = {
+export const extraBold: TextStyle = {
   ...base,
-  fontFamily: 'Cinzel-ExtraBold',
+  fontFamily: 'Oxanium-ExtraBold',
 };
-export const cinzelBlack: TextStyle = {
+export const oxaniumLight: TextStyle = {
   ...base,
-  fontFamily: 'Cinzel-Black',
+  fontFamily: 'Oxanium-Light',
 };
-
-/** Crimson Text — body / UI copy */
-export const crimsonRegular: TextStyle = {
+export const oxaniumExtraLight: TextStyle = {
   ...base,
-  fontFamily: 'CrimsonText-Regular',
-};
-export const crimsonSemiBold: TextStyle = {
-  ...base,
-  fontFamily: 'CrimsonText-SemiBold',
-};
-export const crimsonBold: TextStyle = {
-  ...base,
-  fontFamily: 'CrimsonText-Bold',
-};
-export const crimsonItalic: TextStyle = {
-  ...base,
-  fontFamily: 'CrimsonText-Italic',
-};
-export const crimsonBoldItalic: TextStyle = {
-  ...base,
-  fontFamily: 'CrimsonText-BoldItalic',
-};
-export const crimsonSemiBoldItalic: TextStyle = {
-  ...base,
-  fontFamily: 'CrimsonText-SemiBoldItalic',
-};
-
-export const newRocker: TextStyle = {
-  ...base,
-  fontFamily: 'NewRocker-Regular',
+  fontFamily: 'Oxanium-ExtraLight',
 };
 
 export const Fonts = StyleSheet.create({
   // Screen header title — once per screen
   headerTitle: {
-    ...cinzelSemiBold,
+    ...semiBold,
     fontSize: 24,
     letterSpacing: 0.5,
     color: Colors.blackAbsolute,
   },
   // Main screen title — once per screen
   titleScreen: {
-    ...cinzelBold,
+    ...bold,
     fontSize: 30,
     letterSpacing: 0.4,
     color: Colors.blackPrimary,
   },
   // Section headings
   titleSection: {
-    ...cinzelBold,
+    ...bold,
     fontSize: 26,
     letterSpacing: 0.3,
     color: Colors.blackPrimary,
   },
   // Modal title
   titleModal: {
-    ...cinzelBold,
+    ...bold,
     fontSize: 20,
     letterSpacing: 0.3,
     color: Colors.blackPrimary,
   },
   // Nested section headings
   titleSubSection: {
-    ...cinzelSemiBold,
+    ...semiBold,
     fontSize: 22,
     letterSpacing: 0.25,
     color: Colors.blackPrimary,
   },
   // Large content title
   titleBody: {
-    ...cinzelSemiBold,
+    ...semiBold,
     fontSize: 18,
     letterSpacing: 0.2,
     color: Colors.blackPrimary,
   },
   titleBodyRegular: {
-    ...cinzelRegular,
+    ...regular,
     fontSize: 18,
     letterSpacing: 0.2,
     color: Colors.blackPrimary,
   },
   // Group labels
   titleGroup: {
-    ...cinzelMedium,
+    ...medium,
     fontSize: 14,
     letterSpacing: 0.4,
     color: Colors.blackPrimary,
@@ -122,59 +95,59 @@ export const Fonts = StyleSheet.create({
 
   // Body copy
   contentBase: {
-    ...crimsonRegular,
+    ...regular,
     fontSize: 16,
     letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
   contentBaseBold: {
-    ...crimsonBold,
+    ...bold,
     fontSize: 16,
     letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
   contentSmall: {
-    ...crimsonRegular,
+    ...regular,
     fontSize: 14,
     color: Colors.blackPrimary,
   },
   contentSmallBold: {
-    ...crimsonSemiBold,
+    ...semiBold,
     fontSize: 14,
     letterSpacing: 0.15,
     color: Colors.blackPrimary,
   },
   caption: {
-    ...crimsonRegular,
+    ...regular,
     fontSize: 12,
     color: Colors.blackPrimary,
   },
   captionBold: {
-    ...crimsonBold,
+    ...bold,
     fontSize: 12,
     letterSpacing: 0.12,
     color: Colors.blackPrimary,
   },
   extraSmall: {
-    ...crimsonRegular,
+    ...regular,
     fontSize: 10,
     letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
   extraSmallBold: {
-    ...crimsonBold,
+    ...bold,
     fontSize: 10,
     letterSpacing: 0.1,
     color: Colors.blackPrimary,
   },
   numberDisplay: {
-    ...cinzelMedium,
+    ...medium,
     fontSize: 18,
     letterSpacing: -0.5,
     color: Colors.blackPrimary,
   },
   numberShowcase: {
-    ...crimsonBold,
+    ...bold,
     fontSize: 26,
     letterSpacing: -0.4,
     color: Colors.blackPrimary,

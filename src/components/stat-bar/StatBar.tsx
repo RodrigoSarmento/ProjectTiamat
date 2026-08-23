@@ -20,8 +20,7 @@ const StatBar: React.FC<IStatBar> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.shortLabel}>{shortLabel}</Text>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.shortLabel}>{label}</Text>
       <Text style={styles.description}>{description}</Text>
 
       <View style={styles.controls}>
@@ -41,7 +40,7 @@ const StatBar: React.FC<IStatBar> = ({
                   ? require('@assets/icons/square_filled.png')
                   : require('@assets/icons/square_empty.png')
               }
-              style={styles.segment}
+              style={index < value ? styles.segmentFilled : styles.segmentEmpty}
               resizeMode="contain"
             />
           ))}

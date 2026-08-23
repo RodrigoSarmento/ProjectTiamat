@@ -20,7 +20,6 @@ declare global {
     Start: undefined;
     CharacterCreation: undefined;
     Game: undefined;
-    Menu: undefined;
   };
 }
 

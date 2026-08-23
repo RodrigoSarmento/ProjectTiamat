@@ -11,7 +11,12 @@ export const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: 12,
   },
+  title: {
+    ...Fonts.titleScreen,
+    color: Colors.white,
+  },
   button: {
+    alignSelf: 'center',
     width: 200,
     height: 200,
   },
@@ -22,11 +27,12 @@ export const styles = StyleSheet.create({
   },
   pointsValue: {
     ...Fonts.numberDisplay,
-    color: Colors.primaryColor,
+    color: Colors.neonMagenta,
   },
   saveButtonText: {
     ...newRocker,
     fontSize: 16,
-    color: Colors.noInternet,
+    letterSpacing: 1,
+    color: Colors.white,
   },
 });

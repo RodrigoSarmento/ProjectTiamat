@@ -2,60 +2,32 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/Cinzel-Black.ttf",
-      "sha1": "38ac576cc25bdb4aeba45ec9f79e6cfc9d5cb754"
+      "path": "src/assets/fonts/Oxanium-Bold.ttf",
+      "sha1": "2d37d075b498e6baf5cf290ca77d2b326ce44a95"
     },
     {
-      "path": "src/assets/fonts/Cinzel-Bold.ttf",
-      "sha1": "b88b6bb7c15bc9c8b1a049f40b6c716a5d3c0672"
+      "path": "src/assets/fonts/Oxanium-ExtraBold.ttf",
+      "sha1": "709439c7e3697519d9763998ed006ef5da6a126b"
     },
     {
-      "path": "src/assets/fonts/Cinzel-ExtraBold.ttf",
-      "sha1": "dec4bbb4c34f8c308cbc6863938169e55dd2ec5f"
+      "path": "src/assets/fonts/Oxanium-ExtraLight.ttf",
+      "sha1": "b87987e86f79711b1348e8fa79b99f4aadda8f42"
     },
     {
-      "path": "src/assets/fonts/Cinzel-Medium.ttf",
-      "sha1": "461f559b5df84aa8cabca9fbea702275c00cdce8"
+      "path": "src/assets/fonts/Oxanium-Light.ttf",
+      "sha1": "2813cdc60c7f1415045b55448b12d452b1e5587c"
     },
     {
-      "path": "src/assets/fonts/Cinzel-Regular.ttf",
-      "sha1": "e69b593cf3181656bb3634477f0ceb0089846645"
+      "path": "src/assets/fonts/Oxanium-Medium.ttf",
+      "sha1": "5a42a0e7e39cbc6f2a7f43ccad1caa33f0e37b72"
     },
     {
-      "path": "src/assets/fonts/Cinzel-SemiBold.ttf",
-      "sha1": "4b4d4822a26728e680a5f0ea9a8957ca2d5c84d2"
+      "path": "src/assets/fonts/Oxanium-Regular.ttf",
+      "sha1": "4fc4c1253a093656c148ca5eab1e002334c0d666"
     },
     {
-      "path": "src/assets/fonts/Cinzel-VariableFont_wght.ttf",
-      "sha1": "c0c881eb9d89385f57c162f2a00a29c29b02f458"
-    },
-    {
-      "path": "src/assets/fonts/CrimsonText-Bold.ttf",
-      "sha1": "4079be58c5ebc634879a096cc63ad82d858ed2c9"
-    },
-    {
-      "path": "src/assets/fonts/CrimsonText-BoldItalic.ttf",
-      "sha1": "3c95d9a60acd07e8fad552b6c7d4789cf5e306d7"
-    },
-    {
-      "path": "src/assets/fonts/CrimsonText-Italic.ttf",
-      "sha1": "f92c8ec809dbc2d804ad60dcf391e4a128eed08f"
-    },
-    {
-      "path": "src/assets/fonts/CrimsonText-Regular.ttf",
-      "sha1": "61b3f0d113dcf62c7619aff1bae3a6646286720b"
-    },
-    {
-      "path": "src/assets/fonts/CrimsonText-SemiBold.ttf",
-      "sha1": "12d88291e2b1d9db88e6039f08b71864887aa5ca"
-    },
-    {
-      "path": "src/assets/fonts/CrimsonText-SemiBoldItalic.ttf",
-      "sha1": "1104b7da57b8969ffb9bf1707960497dedacc61a"
-    },
-    {
-      "path": "src/assets/fonts/NewRocker-Regular.ttf",
-      "sha1": "2cbf7146839cac6010666494f533f67103535db9"
+      "path": "src/assets/fonts/Oxanium-SemiBold.ttf",
+      "sha1": "72e9680b005fbe0b869a0269a19433e84c93f658"
     }
   ]
 }

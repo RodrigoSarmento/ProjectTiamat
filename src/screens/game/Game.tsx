@@ -1,17 +1,17 @@
-import { ImageBackground } from 'react-native';
+import { useState } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-import type { StackNavigationProp } from '@react-navigation/stack';
+import { ImageBackground, View } from 'react-native';
 
-import { ImageButton } from '@components/image-button';
+import { Dialogue } from '@components/dialogue';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { SAMPLE_DIALOGUE } from './Game.constants';
 import { styles } from './Game.styles';
 
 const Game = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<GameStackParamsList, 'Game'>>();
+  const [lineIndex, setLineIndex] = useState(0);
+  const line = SAMPLE_DIALOGUE[lineIndex];
 
   return (
     <ImageBackground
@@ -20,19 +20,18 @@ const Game = () => {
       resizeMode="cover"
     >
       <SafeAreaView style={CommonStyles.flex1}>
-        <ImageButton
-          source={require('@assets/buttons/button_bookmark_menu.png')}
-          containerStyle={styles.bookmarkMenuContainer}
-          style={styles.bookmarkMenuButton}
-          resizeMode="cover"
-          onPress={() => navigation.navigate('Menu')}
-        />
-        <ImageButton
-          source={require('@assets/icons/icon_map.png')}
-          containerStyle={styles.mapButtonContainer}
-          style={styles.mapButton}
-          resizeMode="cover"
-        />
+        <View style={styles.dialogueContainer}>
+          <Dialogue
+            name={line.name}
+            text={line.text}
+            portrait={line.portrait}
+            onPress={() =>
+              setLineIndex((current) =>
+                Math.min(current + 1, SAMPLE_DIALOGUE.length - 1),
+              )
+            }
+          />
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );

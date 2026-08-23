@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  dialogueContainer: {
+  row: {
+    flexDirection: 'row',
+  },
+  clip: {
+    overflow: 'hidden',
+  },
+  image: {
     position: 'absolute',
-    left: 12,
-    right: 12,
-    bottom: 16,
-    zIndex: 1,
   },
 });

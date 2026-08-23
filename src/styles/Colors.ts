@@ -39,4 +39,7 @@ export const downloadBlue = '#0000FF';
 export const primaryColor = '#153b72';
 export const primaryDarkColor = '#041c3dff';
 
+export const neonCyan = '#3CF6FF';
+export const neonMagenta = '#FF2EC4';
+
 export const placeholderTextColor = '#767575';

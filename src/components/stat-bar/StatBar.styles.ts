@@ -4,23 +4,23 @@ import { Colors, Fonts } from '@styles';
 
 export const styles = StyleSheet.create({
   stepButtonImage: {
-    width: 24,
-    height: 24,
+    width: 40,
+    height: 40,
   },
   container: {
     paddingVertical: 12,
   },
   shortLabel: {
     ...Fonts.titleSubSection,
-    color: Colors.primaryColor,
+    color: Colors.neonCyan,
   },
   label: {
     ...Fonts.contentBaseBold,
-    color: Colors.blackPrimary,
+    color: Colors.white,
   },
   description: {
     ...Fonts.contentBase,
-    color: Colors.grayText,
+    color: Colors.grayLightText,
   },
   controls: {
     flexDirection: 'row',
@@ -34,9 +34,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
-  segment: {
+  segmentFilled: {
     flex: 1,
     height: 24,
-    tintColor: 'black',
+    tintColor: Colors.neonCyan,
+  },
+  segmentEmpty: {
+    flex: 1,
+    height: 24,
+    tintColor: Colors.gray,
   },
 });

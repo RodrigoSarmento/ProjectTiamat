@@ -58,20 +58,13 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Cinzel-Black.ttf</string>
-		<string>Cinzel-Bold.ttf</string>
-		<string>CrimsonText-SemiBold.ttf</string>
-		<string>Cinzel-SemiBold.ttf</string>
-		<string>Cinzel-Medium.ttf</string>
-		<string>CrimsonText-Bold.ttf</string>
-		<string>Cinzel-Regular.ttf</string>
-		<string>CrimsonText-Regular.ttf</string>
-		<string>CrimsonText-SemiBoldItalic.ttf</string>
-		<string>Cinzel-VariableFont_wght.ttf</string>
-		<string>CrimsonText-BoldItalic.ttf</string>
-		<string>CrimsonText-Italic.ttf</string>
-		<string>Cinzel-ExtraBold.ttf</string>
-		<string>NewRocker-Regular.ttf</string>
+		<string>Oxanium-Regular.ttf</string>
+		<string>Oxanium-Light.ttf</string>
+		<string>Oxanium-ExtraBold.ttf</string>
+		<string>Oxanium-Bold.ttf</string>
+		<string>Oxanium-Medium.ttf</string>
+		<string>Oxanium-ExtraLight.ttf</string>
+		<string>Oxanium-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>
