@@ -19,6 +19,8 @@
 		548F586D458E48849268D526 /* Oxanium-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6A84E41A86144D485256900 /* Oxanium-Medium.ttf */; };
 		1894AF5CDBA34AD383AFD566 /* Oxanium-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C455A91F48134221A4939628 /* Oxanium-ExtraLight.ttf */; };
 		ABDBF7ECB09E4921A939215D /* Oxanium-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1707A2E60A42FFA12A173E /* Oxanium-SemiBold.ttf */; };
+		C03F5E4D6F708192A3B4C5D6 /* theme_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A81F3C2B4D5E6F708192A3B4 /* theme_1.mp3 */; };
+		D14A6F5E708192A3B4C5D6E7 /* theme_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B92E4D3C5E6F708192A3B4C5 /* theme_2.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		C6A84E41A86144D485256900 /* Oxanium-Medium.ttf */ = {isa = PBXFileReference; name = "Oxanium-Medium.ttf"; path = "../src/assets/fonts/Oxanium-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		C455A91F48134221A4939628 /* Oxanium-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Oxanium-ExtraLight.ttf"; path = "../src/assets/fonts/Oxanium-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		6A1707A2E60A42FFA12A173E /* Oxanium-SemiBold.ttf */ = {isa = PBXFileReference; name = "Oxanium-SemiBold.ttf"; path = "../src/assets/fonts/Oxanium-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A81F3C2B4D5E6F708192A3B4 /* theme_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "theme_1.mp3"; path = "../src/assets/sounds/theme_1.mp3"; sourceTree = "<group>"; };
+		B92E4D3C5E6F708192A3B4C5 /* theme_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "theme_2.mp3"; path = "../src/assets/sounds/theme_2.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,8 @@
 				C6A84E41A86144D485256900 /* Oxanium-Medium.ttf */,
 				C455A91F48134221A4939628 /* Oxanium-ExtraLight.ttf */,
 				6A1707A2E60A42FFA12A173E /* Oxanium-SemiBold.ttf */,
+				A81F3C2B4D5E6F708192A3B4 /* theme_1.mp3 */,
+				B92E4D3C5E6F708192A3B4C5 /* theme_2.mp3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -198,6 +204,8 @@
 				548F586D458E48849268D526 /* Oxanium-Medium.ttf in Resources */,
 				1894AF5CDBA34AD383AFD566 /* Oxanium-ExtraLight.ttf in Resources */,
 				ABDBF7ECB09E4921A939215D /* Oxanium-SemiBold.ttf in Resources */,
+				C03F5E4D6F708192A3B4C5D6 /* theme_1.mp3 in Resources */,
+				D14A6F5E708192A3B4C5D6E7 /* theme_2.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

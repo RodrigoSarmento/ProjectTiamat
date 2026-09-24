@@ -22,10 +22,7 @@ import { styles } from './CharacterCreation.styles';
 const CharacterCreation = () => {
   const [attributes, setAttributes] = useState<IStatus>(INITIAL_ATTRIBUTES);
   const dispatch = useDispatch();
-  const navigation =
-    useNavigation<
-      StackNavigationProp<GameStackParamsList, 'CharacterCreation'>
-    >();
+  const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
 
   const spentPoints = useMemo(
     () => Object.values(attributes).reduce((sum, value) => sum + value, 0),
@@ -101,7 +98,7 @@ const CharacterCreation = () => {
               text="Initialize"
               onPress={() => {
                 dispatch(saveStatus(attributes));
-                navigation.navigate('Game');
+                navigation.replace('Game');
               }}
               textStyle={styles.saveButtonText}
             />

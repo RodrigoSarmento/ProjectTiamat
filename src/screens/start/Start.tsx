@@ -4,10 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { ImageButton } from '@components/image-button';
-import { RootState } from '@redux/store';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
 
 import { styles } from './Start.styles';
 
@@ -15,14 +13,8 @@ const Start = () => {
   const navigation =
     useNavigation<StackNavigationProp<GameStackParamsList, 'Start'>>();
 
-  const { save } = useSelector((state: RootState) => state.saves);
-
   const handleStart = () => {
-    if (save) {
-      navigation.navigate('Game');
-    } else {
-      navigation.navigate('CharacterCreation');
-    }
+    navigation.replace('Game');
   };
 
   return (

@@ -6,6 +6,7 @@ import { NineSliceImage } from '@components/nine-slice-image';
 
 import {
   CONTINUE_LABEL,
+  DIALOGUE_MAX_LINES,
   PANEL_CAP_INSETS,
   PANEL_SOURCE_SIZE,
 } from './Dialogue.constants';
@@ -20,12 +21,9 @@ const Dialogue: React.FC<IDialogue> = ({
   testID = 'Dialogue',
 }) => {
   return (
-    <Pressable
+    <View
       testID={testID}
-      accessibilityRole="button"
       accessibilityLabel={name ? `${name}: ${text}` : text}
-      accessibilityHint="Continue"
-      onPress={onPress}
       style={styles.container}
     >
       <View style={styles.panel}>
@@ -47,23 +45,34 @@ const Dialogue: React.FC<IDialogue> = ({
             </Text>
           </View>
         ) : null}
-        <Text numberOfLines={4} style={styles.text}>
+        <Text numberOfLines={DIALOGUE_MAX_LINES} style={styles.text}>
           {text}
         </Text>
-        <Text style={styles.continue}>{CONTINUE_LABEL}</Text>
+        <Pressable
+          testID={`${testID}-continue`}
+          accessibilityRole="button"
+          accessibilityLabel="Continue"
+          hitSlop={12}
+          onPress={onPress}
+          style={styles.continueButton}
+        >
+          <Text style={styles.continue}>{CONTINUE_LABEL}</Text>
+        </Pressable>
       </View>
-      <ImageBackground
-        source={require('@assets/ui/dialogue_portrait_frame.png')}
-        style={styles.portraitWrap}
-      >
-        <Image
-          testID={`${testID}-portrait`}
-          source={portrait}
-          style={styles.portraitImage}
-          resizeMode="cover"
-        />
-      </ImageBackground>
-    </Pressable>
+      {portrait ? (
+        <ImageBackground
+          source={require('@assets/ui/dialogue_portrait_frame.png')}
+          style={styles.portraitWrap}
+        >
+          <Image
+            testID={`${testID}-portrait`}
+            source={portrait}
+            style={styles.portraitImage}
+            resizeMode="cover"
+          />
+        </ImageBackground>
+      ) : null}
+    </View>
   );
 };
 

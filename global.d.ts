@@ -5,9 +5,11 @@ declare global {
     | 'constitution'
     | 'intelligence'
     | 'wisdom'
-    | 'charisma';
+    | 'charisma'
+    | 'energy';
 
   interface IStatus {
+    energy: number;
     strength: number;
     dexterity: number;
     constitution: number;
@@ -18,7 +20,6 @@ declare global {
 
   type GameStackParamsList = {
     Start: undefined;
-    CharacterCreation: undefined;
     Game: undefined;
   };
 }

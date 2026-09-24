@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { CharacterCreation } from '@screens/character-creation';
 import { Game } from '@screens/game';
 import { Start } from '@screens/start';
 
@@ -10,13 +9,13 @@ const Stack = createStackNavigator<GameStackParamsList>();
 
 const GameStackNavigator = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="Start" // TODO: If user already started the game, go to main screen
-      screenOptions={bookPageTransition}
-    >
+    <Stack.Navigator initialRouteName="Start" screenOptions={bookPageTransition}>
       <Stack.Screen name="Start" component={Start} />
-      <Stack.Screen name="CharacterCreation" component={CharacterCreation} />
-      <Stack.Screen name="Game" component={Game} />
+      <Stack.Screen
+        name="Game"
+        component={Game}
+        options={{ gestureEnabled: false }}
+      />
     </Stack.Navigator>
   );
 };

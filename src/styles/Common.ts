@@ -1,8 +1,19 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, PixelRatio } from 'react-native';
 
-// Screen dimensions
 export const screenHeight = Dimensions.get('window').height;
 export const screenWidth = Dimensions.get('window').width;
+
+const BASE_WIDTH = 390;
+const MIN_FONT_SCALE = 0.88;
+const MAX_FONT_SCALE = 1.15;
+
+export const scaleFont = (size: number) => {
+  const scale = Math.min(
+    MAX_FONT_SCALE,
+    Math.max(MIN_FONT_SCALE, screenWidth / BASE_WIDTH),
+  );
+  return PixelRatio.roundToNearestPixel(size * scale);
+};
 
 export const radiusSmall = 8; // For small containers
 export const radiusBase = 12;

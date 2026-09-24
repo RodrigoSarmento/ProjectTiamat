@@ -1,23 +1,31 @@
-import type { ImageSourcePropType } from 'react-native';
+import {
+  DIALOGUE_FONT_SIZE,
+  DIALOGUE_HORIZONTAL_PADDING,
+} from '@components/dialogue';
+import {
+  NARRATOR_FONT_SIZE,
+  NARRATOR_HORIZONTAL_PADDING,
+} from '@components/narrator-text';
+import { Common } from '@styles';
 
-export const SAMPLE_DIALOGUE: {
-  name: string;
-  text: string;
-  portrait: ImageSourcePropType;
-}[] = [
-  {
-    name: 'Shop owner',
-    text: 'You look lost, paladin. Street like this eats the unarmed. You look lost, paladin. Street like this eats the unarmed.',
-    portrait: require('@assets/characters/character_shop_owner.png'),
-  },
-  {
-    name: 'Shop owner',
-    text: 'I keep a few things that bite back. Steel, scrap, and secrets.',
-    portrait: require('@assets/characters/character_shop_owner.png'),
-  },
-  {
-    name: 'Shop owner',
-    text: 'Coin first. Then we talk about what you think you need.',
-    portrait: require('@assets/characters/character_shop_owner.png'),
-  },
-];
+export { DIALOGUE_MAX_LINES } from '@components/dialogue';
+export { NARRATOR_MAX_LINES } from '@components/narrator-text';
+
+const CHAR_WIDTH_RATIO = 0.55;
+
+const charsPerLine = (fontSize: number, horizontalPadding: number) =>
+  Math.max(
+    20,
+    Math.floor(
+      (Common.screenWidth - horizontalPadding) / (fontSize * CHAR_WIDTH_RATIO),
+    ),
+  );
+
+export const NARRATOR_CHARS_PER_LINE = charsPerLine(
+  NARRATOR_FONT_SIZE,
+  NARRATOR_HORIZONTAL_PADDING,
+);
+export const DIALOGUE_CHARS_PER_LINE = charsPerLine(
+  DIALOGUE_FONT_SIZE,
+  DIALOGUE_HORIZONTAL_PADDING,
+);

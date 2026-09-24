@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Colors, Fonts } from '@styles';
 
 import {
+  DIALOGUE_FONT_SIZE,
+  DIALOGUE_LINE_HEIGHT,
   NEON_MAGENTA,
   PORTRAIT_INSET,
   PORTRAIT_SIZE,
@@ -46,13 +48,17 @@ export const styles = StyleSheet.create({
   text: {
     ...Fonts.contentBase,
     color: Colors.white,
-    fontSize: 18,
-    lineHeight: 24,
+    fontSize: DIALOGUE_FONT_SIZE,
+    lineHeight: DIALOGUE_LINE_HEIGHT,
+  },
+  continueButton: {
+    alignSelf: 'flex-end',
+    marginTop: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
   },
   continue: {
     ...Fonts.contentSmallBold,
-    alignSelf: 'flex-end',
-    marginTop: 8,
     color: NEON_MAGENTA,
     letterSpacing: 3,
   },

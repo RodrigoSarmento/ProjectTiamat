@@ -42,10 +42,23 @@ describe('Dialogue', () => {
     expect(screen.getByTestId('Dialogue-portrait')).toBeOnTheScreen();
   });
 
-  it('calls onPress when the card is pressed', async () => {
+  it('hides the portrait when none is provided', async () => {
+    await renderDialogue({ portrait: undefined });
+
+    expect(screen.queryByTestId('Dialogue-portrait')).not.toBeOnTheScreen();
+  });
+
+  it('calls onPress when continue is pressed', async () => {
+    await renderDialogue();
+
+    await fireEvent.press(screen.getByTestId('Dialogue-continue'));
+    expect(mockOnPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not advance when the card body is pressed', async () => {
     await renderDialogue();
 
     await fireEvent.press(screen.getByTestId('Dialogue'));
-    expect(mockOnPress).toHaveBeenCalledTimes(1);
+    expect(mockOnPress).not.toHaveBeenCalled();
   });
 });

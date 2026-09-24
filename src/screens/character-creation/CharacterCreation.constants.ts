@@ -1,6 +1,7 @@
 import type { AttributeMeta } from './CharacterCreation.types';
 
 export const INITIAL_ATTRIBUTES: IStatus = {
+  energy: 0,
   strength: 0,
   dexterity: 0,
   constitution: 0,

@@ -1,3 +1,5 @@
+import { Common } from '@styles';
+
 export const PANEL_SOURCE_SIZE = {
   width: 256,
   height: 171,
@@ -18,3 +20,8 @@ export const PORTRAIT_INSET = '14%';
 export const NEON_MAGENTA = '#FF2EC4';
 
 export const CONTINUE_LABEL = '>>>';
+
+export const DIALOGUE_MAX_LINES = 3;
+export const DIALOGUE_FONT_SIZE = Common.scaleFont(18);
+export const DIALOGUE_LINE_HEIGHT = Common.scaleFont(24);
+export const DIALOGUE_HORIZONTAL_PADDING = 38;

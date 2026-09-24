@@ -1,0 +1,9 @@
+{
+  "chapters": [
+    {
+      "id": "prologue",
+      "file": "chapters/prologue.json",
+      "entry": "dreaming"
+    }
+  ]
+}
