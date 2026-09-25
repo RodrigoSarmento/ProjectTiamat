@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
+import { CONTINUE_LABEL } from '@components/continue-button';
+
 import NarratorText from './NarratorText';
-import { CONTINUE_LABEL } from './NarratorText.constants';
 import type { INarratorText } from './NarratorText.types';
 
 const mockOnPress = jest.fn();

@@ -5,6 +5,9 @@ import type {
   IStoryLine,
   IStoryNode,
   IStoryPassageNode,
+  CharacterId,
+  PortraitPosition,
+  StoryFlag,
 } from '@data/story';
 
 import { paginateText } from './paginateText';
@@ -17,8 +20,9 @@ export type IStoryNarratorPage = {
 
 export type IStoryDialoguePage = {
   kind: 'dialogue';
-  characterId: string;
+  characterId: CharacterId;
   text: string;
+  portraitPosition: PortraitPosition;
 };
 
 export type IStoryPage = IStoryNarratorPage | IStoryDialoguePage;
@@ -46,6 +50,8 @@ export const getPassagePages = (
             kind: 'dialogue' as const,
             characterId: beat.characterId,
             text,
+            portraitPosition:
+              beat.portraitPosition ?? node.portraitPosition ?? 'right',
           }
         : {
             kind: 'narrator' as const,
@@ -61,7 +67,13 @@ export const getPassageBeats = (node: IStoryPassageNode): IStoryLine[] => {
     return node.lines;
   }
   if (node.text) {
-    return [{ text: node.text, characterId: node.characterId }];
+    return [
+      {
+        text: node.text,
+        characterId: node.characterId,
+        portraitPosition: node.portraitPosition,
+      },
+    ];
   }
   return [];
 };
@@ -107,14 +119,17 @@ export const passageOpensWithChoices = (node: IStoryNode | undefined) =>
     (node.choices?.length ?? 0) > 0,
   );
 
-export const isChoiceAvailable = (choice: IStoryChoice, flags: string[]) =>
+export const isChoiceAvailable = (choice: IStoryChoice, flags: StoryFlag[]) =>
   (choice.requires ?? []).every((flag) => flags.includes(flag));
 
 export type IPresentedStoryChoice = IStoryChoice & { disabled: boolean };
 
+export const isQuickChoicePrompt = (choices: IPresentedStoryChoice[]) =>
+  choices.length > 0 && choices.every((choice) => choice.isQuickChoice);
+
 export const visibleChoices = (
   choices: IStoryChoice[] | undefined,
-  flags: string[],
+  flags: StoryFlag[],
   usedChoiceIds: string[],
 ): IPresentedStoryChoice[] =>
   (choices ?? []).flatMap((choice) => {
@@ -144,7 +159,7 @@ const addTemporaryStatusDelta = (
 };
 
 export const splitConsequences = (consequences?: IStoryConsequence[]) => {
-  const flags: string[] = [];
+  const flags: StoryFlag[] = [];
   let temporaryStatus: Partial<IStatus> = {};
 
   for (const consequence of consequences ?? []) {
@@ -169,9 +184,9 @@ export const splitConsequences = (consequences?: IStoryConsequence[]) => {
 };
 
 export const withFlagConsequences = (
-  flags: string[],
-  extraFlags: string[],
-): string[] => {
+  flags: StoryFlag[],
+  extraFlags: StoryFlag[],
+): StoryFlag[] => {
   if (!extraFlags.length) {
     return flags;
   }

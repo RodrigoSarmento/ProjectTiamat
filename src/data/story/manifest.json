@@ -2,7 +2,7 @@
   "chapters": [
     {
       "id": "prologue",
-      "file": "chapters/prologue.json",
+      "file": "chapters/prologue.ts",
       "entry": "dreaming"
     }
   ]

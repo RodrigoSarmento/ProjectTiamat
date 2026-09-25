@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import type { IStoryBackground, IStoryChapter, StoryNodeId } from '@data/story';
+import type { IStoryBackground, IStoryChapter, StoryFlag, StoryNodeId } from '@data/story';
 import {
   applyBackground,
   getPassagePages,
@@ -35,7 +35,7 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   const [isChoicesOpen, setIsChoicesOpen] = useState(() =>
     passageOpensWithChoices(chapter.nodes[chapter.entry]),
   );
-  const [flags, setFlags] = useState<string[]>([]);
+  const [flags, setFlags] = useState<StoryFlag[]>([]);
   const [usedChoiceIds, setUsedChoiceIds] = useState<string[]>([]);
   const [currentBackground, setBackground] = useState<IStoryBackground>(() =>
     applyBackground(
@@ -123,8 +123,10 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     choices: availableChoices,
     isChoicesOpen,
     currentBackground,
+    nodeIds: Object.keys(chapter.nodes),
     advance,
     closeChoices,
     selectChoice,
+    goToNode,
   };
 };

@@ -31,14 +31,4 @@ export const styles = StyleSheet.create({
     fontSize: NARRATOR_FONT_SIZE,
     lineHeight: NARRATOR_LINE_HEIGHT,
   },
-  continueButton: {
-    alignSelf: 'flex-end',
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  continue: {
-    ...Fonts.contentSmallBold,
-    color: Colors.neonMagenta,
-    letterSpacing: 3,
-  },
 });

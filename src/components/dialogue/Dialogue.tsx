@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Image, ImageBackground, Pressable, Text, View } from 'react-native';
+import { Image, ImageBackground, Text, View } from 'react-native';
 
+import { ContinueButton } from '@components/continue-button';
 import { NineSliceImage } from '@components/nine-slice-image';
 
 import {
-  CONTINUE_LABEL,
   DIALOGUE_MAX_LINES,
   PANEL_CAP_INSETS,
   PANEL_SOURCE_SIZE,
@@ -17,9 +17,12 @@ const Dialogue: React.FC<IDialogue> = ({
   name,
   text,
   portrait,
+  portraitPosition = 'right',
   onPress,
   testID = 'Dialogue',
 }) => {
+  const isLeft = portraitPosition === 'left';
+
   return (
     <View
       testID={testID}
@@ -34,7 +37,7 @@ const Dialogue: React.FC<IDialogue> = ({
           style={styles.panelImage}
         />
         {name ? (
-          <View style={styles.namePlate}>
+          <View style={[styles.namePlate, isLeft && styles.namePlateLeft]}>
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
@@ -48,21 +51,16 @@ const Dialogue: React.FC<IDialogue> = ({
         <Text numberOfLines={DIALOGUE_MAX_LINES} style={styles.text}>
           {text}
         </Text>
-        <Pressable
-          testID={`${testID}-continue`}
-          accessibilityRole="button"
-          accessibilityLabel="Continue"
-          hitSlop={12}
-          onPress={onPress}
-          style={styles.continueButton}
-        >
-          <Text style={styles.continue}>{CONTINUE_LABEL}</Text>
-        </Pressable>
+        <ContinueButton onPress={onPress} testID={`${testID}-continue`} />
       </View>
       {portrait ? (
         <ImageBackground
+          testID={`${testID}-portrait-wrap`}
           source={require('@assets/ui/dialogue_portrait_frame.png')}
-          style={styles.portraitWrap}
+          style={[
+            styles.portraitWrap,
+            isLeft ? styles.portraitLeft : styles.portraitRight,
+          ]}
         >
           <Image
             testID={`${testID}-portrait`}

@@ -7,10 +7,10 @@ export const STORY_BACKGROUND_IMAGES = {
 export type StoryBackgroundImageId = keyof typeof STORY_BACKGROUND_IMAGES;
 
 export const getStoryBackgroundImage = (
-  id?: string,
+  id?: StoryBackgroundImageId,
 ): ImageSourcePropType | undefined => {
-  if (!id || !(id in STORY_BACKGROUND_IMAGES)) {
+  if (!id) {
     return undefined;
   }
-  return STORY_BACKGROUND_IMAGES[id as StoryBackgroundImageId];
+  return STORY_BACKGROUND_IMAGES[id];
 };

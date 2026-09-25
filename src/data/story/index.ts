@@ -1,10 +1,8 @@
-import type { IStoryChapter } from './Story.types';
-import prologueJson from './chapters/prologue.json';
+export { prologueChapter } from './chapters/prologue';
 
-export const prologueChapter = prologueJson as IStoryChapter;
-
-export { CHARACTERS, getCharacter } from './characters';
+export { CHARACTERS, CharacterId, getCharacter } from './characters';
 export type { IStoryCharacter } from './characters';
+export { StoryFlag } from './flags';
 export {
   STORY_BACKGROUND_IMAGES,
   getStoryBackgroundImage,
@@ -24,5 +22,6 @@ export type {
   IStoryPassageNode,
   IStoryTemporaryStatusConsequence,
   IStoryTemporaryStatusDelta,
+  PortraitPosition,
   StoryNodeId,
 } from './Story.types';

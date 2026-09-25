@@ -3,10 +3,15 @@ import { ImageBackground, View } from 'react-native';
 import { ChoiceSelectModal } from '@components/choice-select-modal';
 import { Dialogue } from '@components/dialogue';
 import { NarratorText } from '@components/narrator-text';
-import { getCharacter, getStoryBackgroundImage, prologueChapter } from '@data/story';
+import {
+  getCharacter,
+  getStoryBackgroundImage,
+  prologueChapter,
+} from '@data/story';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import GameDebugJump from './Game.debug';
 import { useStoryGame } from './Game.hooks';
 import { styles } from './Game.styles';
 
@@ -16,9 +21,11 @@ const Game = () => {
     choices,
     isChoicesOpen,
     currentBackground,
+    nodeIds,
     advance,
     closeChoices,
     selectChoice,
+    goToNode,
   } = useStoryGame(prologueChapter);
   const backgroundImage = getStoryBackgroundImage(
     currentBackground.backgroundImage,
@@ -31,6 +38,7 @@ const Game = () => {
           name={getCharacter(page.characterId)?.name}
           text={page.text}
           portrait={getCharacter(page.characterId)?.portrait}
+          portraitPosition={page.portraitPosition}
           onPress={advance}
         />
       </View>
@@ -49,6 +57,7 @@ const Game = () => {
         onSelect={selectChoice}
         onClose={closeChoices}
       />
+      {__DEV__ ? <GameDebugJump nodeIds={nodeIds} onJump={goToNode} /> : null}
     </SafeAreaView>
   );
 

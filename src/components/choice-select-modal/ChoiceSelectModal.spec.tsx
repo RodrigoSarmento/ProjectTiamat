@@ -1,6 +1,12 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react-native';
 
 import ChoiceSelectModal from './ChoiceSelectModal';
+import { QUICK_CHOICE_MS_PER_OPTION } from './ChoiceSelectModal.constants';
 import type { IChoiceSelectModal } from './ChoiceSelectModal.types';
 
 const mockOnSelect = jest.fn();
@@ -20,9 +26,34 @@ const defaultProps: IChoiceSelectModal = {
   onClose: mockOnClose,
 };
 
+const quickChoices = [
+  {
+    id: 'dont-look',
+    label: 'Desviar o olhar',
+    isQuickChoice: true,
+    disabled: false,
+  },
+  {
+    id: 'dont-react',
+    label: 'Não Reagir',
+    isQuickChoice: true,
+    disabled: false,
+  },
+  {
+    id: 'focus',
+    label: 'Focar o Olhar',
+    isQuickChoice: true,
+    disabled: false,
+  },
+];
+
 describe('ChoiceSelectModal', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('renders the choices when visible', async () => {
@@ -53,5 +84,54 @@ describe('ChoiceSelectModal', () => {
 
     await fireEvent.press(screen.getByTestId('StoryChoices-corporate'));
     expect(mockOnSelect).toHaveBeenCalledWith(defaultProps.choices[0]);
+  });
+
+  it('auto-selects the first quick choice and does not commit on press', async () => {
+    await render(
+      <ChoiceSelectModal {...defaultProps} choices={quickChoices} />,
+    );
+
+    expect(screen.getByTestId('StoryChoices-dont-look')).toHaveAccessibilityState(
+      { selected: true },
+    );
+    expect(screen.getByText('12s')).toBeOnTheScreen();
+    expect(screen.getByText('Confirmar')).toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByTestId('StoryChoices-focus'));
+
+    expect(mockOnSelect).not.toHaveBeenCalled();
+    expect(screen.getByTestId('StoryChoices-focus')).toHaveAccessibilityState({
+      selected: true,
+    });
+  });
+
+  it('confirms the selected quick choice without waiting', async () => {
+    await render(
+      <ChoiceSelectModal {...defaultProps} choices={quickChoices} />,
+    );
+
+    await fireEvent.press(screen.getByTestId('StoryChoices-dont-react'));
+    await fireEvent.press(screen.getByTestId('ChoiceSelectModal-confirm'));
+
+    expect(mockOnSelect).toHaveBeenCalledWith(quickChoices[1]);
+  });
+
+  it('auto-confirms the first quick choice when the timer ends', async () => {
+    jest.useFakeTimers();
+    await render(
+      <ChoiceSelectModal {...defaultProps} choices={quickChoices} />,
+    );
+
+    await act(() => {
+      jest.advanceTimersByTime(
+        quickChoices.length * QUICK_CHOICE_MS_PER_OPTION - 1,
+      );
+    });
+    expect(mockOnSelect).not.toHaveBeenCalled();
+
+    await act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    expect(mockOnSelect).toHaveBeenCalledWith(quickChoices[0]);
   });
 });

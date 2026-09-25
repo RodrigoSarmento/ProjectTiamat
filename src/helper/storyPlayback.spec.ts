@@ -1,9 +1,15 @@
-import type { IStoryChoice, IStoryPassageNode } from '@data/story';
+import {
+  CharacterId,
+  type IStoryChoice,
+  type IStoryPassageNode,
+  StoryFlag,
+} from '@data/story';
 
 import {
   applyBackground,
   getPassagePages,
   isChoiceAvailable,
+  isQuickChoicePrompt,
   passageOpensWithChoices,
   splitConsequences,
   visibleChoices,
@@ -19,7 +25,7 @@ const narratorNode: IStoryPassageNode = {
 
 const dialogueNode: IStoryPassageNode = {
   type: 'passage',
-  characterId: 'shop-owner',
+  characterId: CharacterId.jo,
   text: 'Hello there, paladin.',
 };
 
@@ -28,15 +34,15 @@ const choices: IStoryChoice[] = [
   {
     id: 'locked',
     label: 'Locked',
-    requires: ['dreamed_corporate'],
+    requires: [StoryFlag.dreamedCorporate],
   },
 ];
 
 describe('storyPlayback', () => {
   it('keeps the last background until a node replaces it', () => {
-    expect(
-      applyBackground({ backgroundColor: 'black' }, undefined),
-    ).toEqual({ backgroundColor: 'black' });
+    expect(applyBackground({ backgroundColor: 'black' }, undefined)).toEqual({
+      backgroundColor: 'black',
+    });
     expect(
       applyBackground(
         { backgroundColor: 'black' },
@@ -63,15 +69,18 @@ describe('storyPlayback', () => {
     expect(pages).toEqual([
       {
         kind: 'dialogue',
-        characterId: 'shop-owner',
+        characterId: CharacterId.jo,
         text: 'Hello there, paladin.',
+        portraitPosition: 'right',
       },
     ]);
   });
 
   it('unlocks a choice only when required flags are set', () => {
     expect(isChoiceAvailable(choices[1], [])).toBe(false);
-    expect(isChoiceAvailable(choices[1], ['dreamed_corporate'])).toBe(true);
+    expect(isChoiceAvailable(choices[1], [StoryFlag.dreamedCorporate])).toBe(
+      true,
+    );
   });
 
   it('hides consumed and locked choices', () => {
@@ -79,10 +88,57 @@ describe('storyPlayback', () => {
       'open',
     ]);
     expect(
-      visibleChoices(choices, ['dreamed_corporate'], ['open']).map(
+      visibleChoices(choices, [StoryFlag.dreamedCorporate], ['open']).map(
         (choice) => choice.id,
       ),
     ).toEqual(['locked']);
+  });
+
+  it('keeps isQuickChoice on presented choices', () => {
+    expect(
+      visibleChoices(
+        [{ id: 'focus', label: 'Focar o Olhar', isQuickChoice: true }],
+        [],
+        [],
+      ),
+    ).toEqual([
+      {
+        id: 'focus',
+        label: 'Focar o Olhar',
+        isQuickChoice: true,
+        disabled: false,
+      },
+    ]);
+  });
+
+  it('treats a prompt as quick only when every choice is timed', () => {
+    expect(
+      isQuickChoicePrompt([
+        {
+          id: 'dont-look',
+          label: 'Desviar o olhar',
+          isQuickChoice: true,
+          disabled: false,
+        },
+        {
+          id: 'focus',
+          label: 'Focar o Olhar',
+          isQuickChoice: true,
+          disabled: false,
+        },
+      ]),
+    ).toBe(true);
+    expect(
+      isQuickChoicePrompt([
+        { id: 'open', label: 'Open', disabled: false },
+        {
+          id: 'focus',
+          label: 'Focar o Olhar',
+          isQuickChoice: true,
+          disabled: false,
+        },
+      ]),
+    ).toBe(false);
   });
 
   it('keeps once-choices visible and disabled after use', () => {
@@ -96,9 +152,7 @@ describe('storyPlayback', () => {
       },
     ];
 
-    expect(
-      visibleChoices(onceChoices, [], ['ask-about-service']),
-    ).toEqual([
+    expect(visibleChoices(onceChoices, [], ['ask-about-service'])).toEqual([
       {
         id: 'continue',
         label: 'Continue',
@@ -118,15 +172,20 @@ describe('storyPlayback', () => {
   it('splits flag and temporaryStatus consequences', () => {
     expect(
       splitConsequences([
-        { type: 'flag', value: 'dreamed_corporate' },
+        { type: 'flag', value: StoryFlag.dreamedCorporate },
         { type: 'temporaryStatus', value: { energy: 1 } },
         { type: 'temporaryStatus', value: { energy: 2, charisma: 1 } },
       ]),
     ).toEqual({
-      flags: ['dreamed_corporate'],
+      flags: [StoryFlag.dreamedCorporate],
       temporaryStatus: { energy: 3, charisma: 1 },
     });
-    expect(withFlagConsequences(['a'], ['b'])).toEqual(['a', 'b']);
+    expect(
+      withFlagConsequences(
+        [StoryFlag.dreamedCorporate],
+        [StoryFlag.dreamedPeace],
+      ),
+    ).toEqual([StoryFlag.dreamedCorporate, StoryFlag.dreamedPeace]);
   });
 
   it('plays several beats from lines in one passage', () => {
@@ -135,7 +194,7 @@ describe('storyPlayback', () => {
         type: 'passage',
         title: 'On the bus',
         lines: [
-          { characterId: 'jo', text: 'Wake up.' },
+          { characterId: CharacterId.jo, text: 'Wake up.' },
           { text: 'He shakes a can.' },
         ],
       },
@@ -146,7 +205,12 @@ describe('storyPlayback', () => {
     );
 
     expect(pages).toEqual([
-      { kind: 'dialogue', characterId: 'jo', text: 'Wake up.' },
+      {
+        kind: 'dialogue',
+        characterId: CharacterId.jo,
+        text: 'Wake up.',
+        portraitPosition: 'right',
+      },
       {
         kind: 'narrator',
         text: 'He shakes a can.',
@@ -166,5 +230,64 @@ describe('storyPlayback', () => {
     expect(
       passageOpensWithChoices({ type: 'endTrecho', nextChapter: 'chapter-01' }),
     ).toBe(false);
+  });
+
+  it('uses line portraitPosition and defaults to right', () => {
+    expect(
+      getPassagePages(
+        {
+          type: 'passage',
+          characterId: CharacterId.jo,
+          portraitPosition: 'left',
+          text: 'From the passage.',
+        },
+        10,
+        40,
+        3,
+        38,
+      ),
+    ).toEqual([
+      {
+        kind: 'dialogue',
+        characterId: CharacterId.jo,
+        text: 'From the passage.',
+        portraitPosition: 'left',
+      },
+    ]);
+    expect(
+      getPassagePages(
+        {
+          type: 'passage',
+          lines: [
+            {
+              characterId: CharacterId.securityGuard,
+              text: 'Left side.',
+              portraitPosition: 'left',
+            },
+            {
+              characterId: CharacterId.jo,
+              text: 'Default side.',
+            },
+          ],
+        },
+        10,
+        40,
+        3,
+        38,
+      ),
+    ).toEqual([
+      {
+        kind: 'dialogue',
+        characterId: CharacterId.securityGuard,
+        text: 'Left side.',
+        portraitPosition: 'left',
+      },
+      {
+        kind: 'dialogue',
+        characterId: CharacterId.jo,
+        text: 'Default side.',
+        portraitPosition: 'right',
+      },
+    ]);
   });
 });

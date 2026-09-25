@@ -1,26 +1,39 @@
 import type { ImageSourcePropType } from 'react-native';
 
+export enum CharacterId {
+  securityGuard = 1,
+  maleVoice = 2,
+  jo = 3,
+  gus = 4,
+}
+
 export interface IStoryCharacter {
-  id: string;
+  id: CharacterId;
   name: string;
   portrait?: ImageSourcePropType;
 }
 
-export const CHARACTERS: Record<string, IStoryCharacter> = {
-  'shop-owner': {
-    id: 'shop-owner',
-    name: 'Shop owner',
-    portrait: require('@assets/characters/character_shop_owner.png'),
+export const CHARACTERS: Record<CharacterId, IStoryCharacter> = {
+  [CharacterId.securityGuard]: {
+    id: CharacterId.securityGuard,
+    name: 'Segurança',
+    portrait: require('@assets/characters/character_security_guard.png'),
   },
-  'male-voice': {
-    id: 'male-voice',
+  [CharacterId.maleVoice]: {
+    id: CharacterId.maleVoice,
     name: 'Voz masculina',
   },
-  jo: {
-    id: 'jo',
+  [CharacterId.jo]: {
+    id: CharacterId.jo,
     name: 'Jô',
-    portrait: require('@assets/characters/character_shop_owner.png'),
+    portrait: require('@assets/characters/character_jo.png'),
+  },
+  [CharacterId.gus]: {
+    name: 'Gus',
+    id: CharacterId.gus,
+    portrait: require('@assets/characters/character_gus.png'),
   },
 };
 
-export const getCharacter = (characterId: string) => CHARACTERS[characterId];
+export const getCharacter = (characterId: CharacterId) =>
+  CHARACTERS[characterId];

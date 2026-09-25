@@ -85,7 +85,7 @@ describe('StoryChoices', () => {
     ).not.toBeOnTheScreen();
   });
 
-  it('does not mark choices when every option continues the story', async () => {
+  it('marks the continue choice when optional topics are also listed', async () => {
     await render(<StoryChoices {...defaultProps} />);
 
     expect(
@@ -94,5 +94,16 @@ describe('StoryChoices', () => {
     expect(
       screen.queryByTestId('StoryChoices-crime-continue'),
     ).not.toBeOnTheScreen();
+  });
+
+  it('marks the selected choice', async () => {
+    await render(<StoryChoices {...defaultProps} selectedId="crime" />);
+
+    expect(screen.getByTestId('StoryChoices-crime')).toHaveAccessibilityState({
+      selected: true,
+    });
+    expect(
+      screen.getByTestId('StoryChoices-corporate'),
+    ).toHaveAccessibilityState({ selected: false });
   });
 });

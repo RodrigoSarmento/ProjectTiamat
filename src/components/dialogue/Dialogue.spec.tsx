@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
+import { CONTINUE_LABEL } from '@components/continue-button';
+
 import Dialogue from './Dialogue';
-import { CONTINUE_LABEL } from './Dialogue.constants';
 import type { IDialogue } from './Dialogue.types';
 
 const mockOnPress = jest.fn();
@@ -46,6 +47,25 @@ describe('Dialogue', () => {
     await renderDialogue({ portrait: undefined });
 
     expect(screen.queryByTestId('Dialogue-portrait')).not.toBeOnTheScreen();
+    expect(
+      screen.queryByTestId('Dialogue-portrait-wrap'),
+    ).not.toBeOnTheScreen();
+  });
+
+  it('places the portrait on the right by default', async () => {
+    await renderDialogue();
+
+    expect(screen.getByTestId('Dialogue-portrait-wrap')).toHaveStyle({
+      right: 8,
+    });
+  });
+
+  it('places the portrait on the left when asked', async () => {
+    await renderDialogue({ portraitPosition: 'left' });
+
+    expect(screen.getByTestId('Dialogue-portrait-wrap')).toHaveStyle({
+      left: 8,
+    });
   });
 
   it('calls onPress when continue is pressed', async () => {

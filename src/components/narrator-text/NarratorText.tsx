@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { CONTINUE_LABEL } from './NarratorText.constants';
+import { ContinueButton } from '@components/continue-button';
+
 import { styles } from './NarratorText.styles';
 import type { INarratorText } from './NarratorText.types';
 
@@ -18,16 +19,7 @@ const NarratorText: React.FC<INarratorText> = ({
         {title ? <Text style={styles.title}>{title}</Text> : null}
         <Text style={styles.text}>{text}</Text>
       </View>
-      <Pressable
-        testID={`${testID}-continue`}
-        accessibilityRole="button"
-        accessibilityLabel="Continue"
-        hitSlop={12}
-        onPress={onPress}
-        style={styles.continueButton}
-      >
-        <Text style={styles.continue}>{CONTINUE_LABEL}</Text>
-      </Pressable>
+      <ContinueButton onPress={onPress} testID={`${testID}-continue`} />
     </View>
   );
 };

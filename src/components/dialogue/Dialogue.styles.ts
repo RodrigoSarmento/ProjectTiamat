@@ -51,23 +51,20 @@ export const styles = StyleSheet.create({
     fontSize: DIALOGUE_FONT_SIZE,
     lineHeight: DIALOGUE_LINE_HEIGHT,
   },
-  continueButton: {
-    alignSelf: 'flex-end',
-    marginTop: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  continue: {
-    ...Fonts.contentSmallBold,
-    color: NEON_MAGENTA,
-    letterSpacing: 3,
-  },
   portraitWrap: {
     position: 'absolute',
-    right: 8,
     top: -PORTRAIT_SIZE / 1.5,
     width: PORTRAIT_SIZE,
     height: PORTRAIT_SIZE,
+  },
+  portraitRight: {
+    right: 8,
+  },
+  portraitLeft: {
+    left: 8,
+  },
+  namePlateLeft: {
+    alignSelf: 'flex-end',
   },
   portraitImage: {
     position: 'absolute',

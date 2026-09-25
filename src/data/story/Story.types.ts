@@ -1,8 +1,15 @@
+import type { StoryBackgroundImageId } from './backgrounds';
+import type { CharacterId } from './characters';
+import type { StoryFlag } from './flags';
+
 export type StoryNodeId = string;
+
+export type PortraitPosition = 'left' | 'right';
 
 export interface IStoryLine {
   text: string;
-  characterId?: string;
+  characterId?: CharacterId;
+  portraitPosition?: PortraitPosition;
 }
 
 export type IStoryTemporaryStatusDelta = {
@@ -11,7 +18,7 @@ export type IStoryTemporaryStatusDelta = {
 
 export type IStoryFlagConsequence = {
   type: 'flag';
-  value: string;
+  value: StoryFlag;
 };
 
 export type IStoryTemporaryStatusConsequence = {
@@ -20,30 +27,31 @@ export type IStoryTemporaryStatusConsequence = {
 };
 
 export type IStoryConsequence =
-  | IStoryFlagConsequence
-  | IStoryTemporaryStatusConsequence;
+  IStoryFlagConsequence | IStoryTemporaryStatusConsequence;
 
 export interface IStoryChoice {
   id: string;
   label: string;
   next?: StoryNodeId;
-  requires?: string[];
+  requires?: StoryFlag[];
   consequences?: IStoryConsequence[];
   once?: boolean;
+  isQuickChoice?: boolean;
 }
 
 export interface IStoryBackground {
   backgroundColor?: string;
-  backgroundImage?: string;
+  backgroundImage?: StoryBackgroundImageId;
 }
 
 export interface IStoryPassageNode {
   type: 'passage';
   title?: string;
   backgroundColor?: string;
-  backgroundImage?: string;
+  backgroundImage?: StoryBackgroundImageId;
   text?: string;
-  characterId?: string;
+  characterId?: CharacterId;
+  portraitPosition?: PortraitPosition;
   lines?: IStoryLine[];
   next?: StoryNodeId;
   choices?: IStoryChoice[];

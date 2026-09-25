@@ -26,6 +26,10 @@ export const styles = StyleSheet.create({
   used: {
     opacity: 0.5,
   },
+  selected: {
+    borderColor: Colors.neonCyan,
+    backgroundColor: 'rgba(60, 246, 255, 0.12)',
+  },
   label: {
     ...Fonts.contentBase,
     color: Colors.white,

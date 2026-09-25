@@ -8,6 +8,7 @@ import type { IStoryChoices } from './StoryChoices.types';
 const StoryChoices: React.FC<IStoryChoices> = ({
   choices,
   onSelect,
+  selectedId,
   testID = 'StoryChoices',
 }) => {
   const markContinue =
@@ -24,14 +25,13 @@ const StoryChoices: React.FC<IStoryChoices> = ({
           <Pressable
             key={choice.id}
             testID={`${testID}-${choice.id}`}
-            accessibilityRole="button"
-            accessibilityLabel={
-              continues ? `${choice.label}, continues the dialogue` : choice.label
-            }
-            accessibilityState={{ disabled: choice.disabled }}
             disabled={choice.disabled}
             onPress={() => onSelect(choice)}
-            style={[styles.choice, choice.disabled && styles.used]}
+            style={[
+              styles.choice,
+              choice.disabled && styles.used,
+              selectedId === choice.id && styles.selected,
+            ]}
           >
             {continues ? (
               <View

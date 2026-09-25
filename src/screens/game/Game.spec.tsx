@@ -108,4 +108,14 @@ describe('Game', () => {
     expect(screen.getByText(/A luz toma forma/)).toBeOnTheScreen();
     expect(screen.getByText('TELA PRETA - Sonhando')).toBeOnTheScreen();
   });
+
+  it('jumps to a node from the debug list', async () => {
+    await renderGame();
+
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+    await fireEvent.press(screen.getByTestId('GameDebugJump-wake-on-bus'));
+
+    expect(screen.getByText(/Você acorda repentinamente/)).toBeOnTheScreen();
+    expect(screen.queryByText('TELA PRETA - Sonhando')).not.toBeOnTheScreen();
+  });
 });
