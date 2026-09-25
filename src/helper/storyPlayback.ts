@@ -11,6 +11,7 @@ import type {
 } from '@data/story';
 
 import { paginateText } from './paginateText';
+import { storyText } from './storyText';
 
 export type IStoryNarratorPage = {
   kind: 'narrator';
@@ -39,7 +40,7 @@ export const getPassagePages = (
   return beats.flatMap((beat) => {
     const isDialogue = Boolean(beat.characterId);
     const pages = paginateText(
-      beat.text,
+      storyText(beat.text),
       isDialogue ? dialogueMaxLines : narratorMaxLines,
       isDialogue ? dialogueCharsPerLine : narratorCharsPerLine,
     );
@@ -56,7 +57,7 @@ export const getPassagePages = (
         : {
             kind: 'narrator' as const,
             text,
-            title: node.title,
+            title: node.title ? storyText(node.title) : undefined,
           },
     );
   });
@@ -140,7 +141,13 @@ export const visibleChoices = (
     if (used && !choice.once) {
       return [];
     }
-    return [{ ...choice, disabled: used && Boolean(choice.once) }];
+    return [
+      {
+        ...choice,
+        label: storyText(choice.label),
+        disabled: used && Boolean(choice.once),
+      },
+    ];
   });
 
 const addTemporaryStatusDelta = (

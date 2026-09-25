@@ -290,4 +290,26 @@ describe('storyPlayback', () => {
       },
     ]);
   });
+
+  it('resolves prologue translation keys before paginating', () => {
+    const pages = getPassagePages(
+      {
+        type: 'passage',
+        title: 'prologue.dreaming.title',
+        text: 'prologue.wake-voice.text',
+      },
+      10,
+      40,
+      3,
+      38,
+    );
+
+    expect(pages).toEqual([
+      {
+        kind: 'narrator',
+        text: 'Ô! Acorda aê!',
+        title: 'TELA PRETA - Sonhando',
+      },
+    ]);
+  });
 });

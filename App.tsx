@@ -1,3 +1,4 @@
+import './src/i18n';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
