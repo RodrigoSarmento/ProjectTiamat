@@ -48,9 +48,7 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
     : 0;
   const promptEpoch = !isVisible
     ? 'closed'
-    : isQuick
-      ? `quick:${choices.map((choice) => choice.id).join(',')}`
-      : 'normal';
+    : `${isQuick ? 'quick' : 'normal'}:${choices.map((choice) => choice.id).join(',')}`;
 
   const [epoch, setEpoch] = useState(promptEpoch);
   const [selectedId, setSelectedId] = useState<string | undefined>(
@@ -90,6 +88,7 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
   useEffect(() => {
     if (!isVisible || !isQuick) {
       timerProgress.setValue(1);
+      hasCommittedRef.current = false;
       return;
     }
 
@@ -122,7 +121,7 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
       clearInterval(tick);
       clearTimeout(timeout);
     };
-  }, [isVisible, isQuick, choices.length, timerProgress]);
+  }, [isVisible, isQuick, promptEpoch, choices.length, timerProgress]);
 
   const commit = (choice?: IPresentedStoryChoice) => {
     if (!choice || choice.disabled || hasCommittedRef.current) {

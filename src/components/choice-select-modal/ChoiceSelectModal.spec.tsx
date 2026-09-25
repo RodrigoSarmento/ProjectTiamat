@@ -110,4 +110,44 @@ describe('ChoiceSelectModal', () => {
     });
     expect(mockOnSelect).toHaveBeenCalledWith(quickChoices[0]);
   });
+
+  it('selects a later normal prompt after an earlier one committed', async () => {
+    const view = await render(<ChoiceSelectModal {...defaultProps} />);
+
+    await fireEvent.press(screen.getByTestId('StoryChoices-corporate'));
+    expect(mockOnSelect).toHaveBeenCalledTimes(1);
+
+    mockOnSelect.mockClear();
+    const drinkChoices = [
+      { id: 'accept-drink', label: 'Aceitar a bebida', disabled: false },
+      { id: 'refuse-drink', label: 'Recusar a bebida', disabled: false },
+    ];
+    await view.rerender(
+      <ChoiceSelectModal {...defaultProps} choices={drinkChoices} />,
+    );
+
+    await fireEvent.press(screen.getByTestId('StoryChoices-accept-drink'));
+    expect(mockOnSelect).toHaveBeenCalledWith(drinkChoices[0]);
+  });
+
+  it('lets Confirm work on a second quick prompt with the same option count', async () => {
+    const secondQuick = quickChoices.map((choice) => ({
+      ...choice,
+      id: `next-${choice.id}`,
+    }));
+    const view = await render(
+      <ChoiceSelectModal {...defaultProps} choices={quickChoices} />,
+    );
+
+    await fireEvent.press(screen.getByTestId('ChoiceSelectModal-confirm'));
+    expect(mockOnSelect).toHaveBeenCalledTimes(1);
+
+    mockOnSelect.mockClear();
+    await view.rerender(
+      <ChoiceSelectModal {...defaultProps} choices={secondQuick} />,
+    );
+
+    await fireEvent.press(screen.getByTestId('ChoiceSelectModal-confirm'));
+    expect(mockOnSelect).toHaveBeenCalledWith(secondQuick[0]);
+  });
 });

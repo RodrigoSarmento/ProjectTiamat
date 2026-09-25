@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Pressable, Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { styles } from './StoryChoices.styles';
 import type { IStoryChoices } from './StoryChoices.types';
@@ -22,7 +22,7 @@ const StoryChoices: React.FC<IStoryChoices> = ({
         const continues = markContinue && !choice.once;
 
         return (
-          <Pressable
+          <TouchableOpacity
             key={choice.id}
             testID={`${testID}-${choice.id}`}
             disabled={choice.disabled}
@@ -40,7 +40,7 @@ const StoryChoices: React.FC<IStoryChoices> = ({
               />
             ) : null}
             <Text style={styles.label}>{choice.label}</Text>
-          </Pressable>
+          </TouchableOpacity>
         );
       })}
     </View>
