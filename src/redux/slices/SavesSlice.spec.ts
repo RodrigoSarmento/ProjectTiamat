@@ -46,4 +46,19 @@ describe('SavesSlice', () => {
 
     expect(state.save?.currentBackground).toEqual({ backgroundColor: 'black' });
   });
+
+  it('does nothing when applying temporary status without a save', () => {
+    expect(
+      savesReducer({ save: undefined }, applyTemporaryStatus({ energy: 1 })),
+    ).toEqual({ save: undefined });
+  });
+
+  it('does nothing when setting background without a save', () => {
+    expect(
+      savesReducer(
+        { save: undefined },
+        setCurrentBackground({ backgroundColor: 'black' }),
+      ),
+    ).toEqual({ save: undefined });
+  });
 });

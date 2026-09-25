@@ -11,9 +11,10 @@ import {
 
 import { StoryChoices } from '@components/story-choices';
 import {
-  isQuickChoicePrompt,
   type IPresentedStoryChoice,
+  isQuickChoicePrompt,
 } from '@helper/storyPlayback';
+import { storyText } from '@helper/storyText';
 
 import {
   ANIMATION_MS,
@@ -35,7 +36,9 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
 }) => {
   const [slideAnim] = useState(() => new Animated.Value(SLIDE_DISTANCE));
   const [timerProgress] = useState(() => new Animated.Value(1));
-  const selectedChoiceRef = useRef<IPresentedStoryChoice | undefined>(undefined);
+  const selectedChoiceRef = useRef<IPresentedStoryChoice | undefined>(
+    undefined,
+  );
   const hasCommittedRef = useRef(false);
   const onSelectRef = useRef(onSelect);
   const isQuick = isQuickChoicePrompt(choices);
@@ -157,8 +160,6 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
         ) : (
           <Pressable
             testID={`${testID}-backdrop`}
-            accessibilityRole="button"
-            accessibilityLabel="Close choices"
             onPress={onClose}
             style={styles.backdrop}
           />
@@ -192,12 +193,12 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
           {isQuick ? (
             <Pressable
               testID={`${testID}-confirm`}
-              accessibilityRole="button"
-              accessibilityLabel="Confirmar"
               onPress={() => commit(selectedChoice)}
               style={styles.confirm}
             >
-              <Text style={styles.confirmLabel}>Confirmar</Text>
+              <Text style={styles.confirmLabel}>
+                {storyText('chrome.confirm')}
+              </Text>
             </Pressable>
           ) : null}
         </Animated.View>

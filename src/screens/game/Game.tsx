@@ -8,6 +8,7 @@ import {
   getStoryBackgroundImage,
   prologueChapter,
 } from '@data/story';
+import { storyText } from '@helper/storyText';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -31,13 +32,15 @@ const Game = () => {
     currentBackground.backgroundImage,
   );
 
+  const speaker =
+    page?.kind === 'dialogue' ? getCharacter(page.characterId) : undefined;
   const pageContent =
     page?.kind === 'dialogue' ? (
       <View style={styles.dialogueContainer}>
         <Dialogue
-          name={getCharacter(page.characterId)?.name}
+          name={speaker ? storyText(speaker.name) : undefined}
           text={page.text}
-          portrait={getCharacter(page.characterId)?.portrait}
+          portrait={speaker?.portrait}
           portraitPosition={page.portraitPosition}
           onPress={advance}
         />

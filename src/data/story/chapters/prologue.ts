@@ -91,7 +91,7 @@ export const prologueChapter = {
     },
     'wake-on-bus': {
       type: 'passage',
-      backgroundImage: 'gameplay_page',
+      backgroundImage: 'metro_crowded',
       text: 'prologue.wake-on-bus.text',
       next: 'jo-offer',
     },
@@ -284,6 +284,7 @@ export const prologueChapter = {
       type: 'passage',
       text: 'prologue.approaching-line.text',
       next: 'approaching-line-gus-blocked',
+      backgroundImage: 'building_turnstiles',
     },
     'approaching-line-gus-blocked': {
       type: 'passage',

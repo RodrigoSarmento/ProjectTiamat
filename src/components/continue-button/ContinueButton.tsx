@@ -13,8 +13,6 @@ const ContinueButton: React.FC<IContinueButton> = ({
   return (
     <Pressable
       testID={testID}
-      accessibilityRole="button"
-      accessibilityLabel="Continue"
       hitSlop={12}
       onPress={onPress}
       style={styles.button}

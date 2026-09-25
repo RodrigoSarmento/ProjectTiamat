@@ -68,6 +68,12 @@ not the person who wrote it.
 understand, and keep it to a line or two. Otherwise match the surrounding code and
 let it speak for itself.
 
+### Story graph and UI — skip unless asked
+
+- **Last-node WIP dead ends: skip.** Do not flag a missing `next` / dead Continue on the last node of a chapter or trecho still being written. **Do flag** a stuck node in the middle of the graph (reachable, later nodes exist, nothing goes onward).
+- **Empty pages: do not recommend runtime fallbacks.** Leave an empty page visible so it can be fixed in chapter JSON / TS. Do not suggest auto-advance, dummy copy, or a runtime skip.
+- **Accessibility: skip unless asked.** Do not flag missing `accessibilityRole` / `accessibilityLabel` / selected state / VoiceOver unless the user asked for a11y.
+
 ### When to run checks
 
 Run repo checks **once, after applying fixes** — not during the read-only review
@@ -103,6 +109,14 @@ If no fixes were applied, skip the checks.
      helpers, Toast/NetInfo, screen/component placement),
    - **unhandled edge / use cases** (offline, empty local media, partial sync),
    - **missing or weak tests** for non-trivial behavior.
+
+   Instruct it **not** to flag (see Story graph and UI — skip unless asked):
+   last-node WIP dead ends (missing `next` / dead Continue on the last node of a
+   chapter or trecho still being written — **do** flag a stuck **middle**-graph
+   node); empty pages that should stay visible so they can be fixed in chapter
+   JSON / TS (no runtime fallback / auto-advance); accessibility
+   (`accessibilityRole` / `accessibilityLabel` / selected state / VoiceOver)
+   unless the user asked for a11y.
 
    It must return **only** a severity-ranked list of findings (each: severity,
    `file:line`, what's wrong, suggested fix), written in plain natural language

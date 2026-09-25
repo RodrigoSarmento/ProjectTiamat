@@ -92,7 +92,6 @@ const DiceRollD20 = forwardRef<DiceRollD20Ref, DiceRollD20Props>(
             allowsInlineMediaPlayback
             setSupportMultipleWindows={false}
             androidLayerType="hardware"
-            accessibilityLabel="Roll a twenty-sided die"
           />
         </View>
         <Text style={styles.hint}>

@@ -1,8 +1,9 @@
 import { act, renderHook } from '@testing-library/react-native';
 import Sound from 'react-native-sound';
 
-import { SOUND_FILE } from './useSound.constants';
 import { useSound } from './useSound';
+import { SOUND_FILE } from './useSound.constants';
+import type { IPlaySoundOptions } from './useSound.types';
 
 type SoundInstance = {
   play: jest.Mock;
@@ -17,33 +18,18 @@ const SoundMock = Sound as unknown as jest.Mock & {
   MAIN_BUNDLE: string;
 };
 
-jest.mock('react-native-sound', () => {
-  const MockSound = jest.fn(
-    (
-      _file: string,
-      _bundle: string,
-      callback?: (error: Error | undefined) => void,
-    ) => {
-      const instance: SoundInstance = {
-        play: jest.fn(),
-        stop: jest.fn(),
-        release: jest.fn(),
-        setVolume: jest.fn(),
-        setNumberOfLoops: jest.fn(),
-      };
-      callback?.(undefined);
-      return instance;
-    },
-  );
+const lastPlayer = () => SoundMock.mock.instances.at(-1) as SoundInstance;
 
-  (MockSound as unknown as { setCategory: jest.Mock }).setCategory = jest.fn();
-  (MockSound as unknown as { MAIN_BUNDLE: string }).MAIN_BUNDLE = 'MAIN_BUNDLE';
-
-  return MockSound;
-});
-
-const lastPlayer = () =>
-  SoundMock.mock.results.at(-1)?.value as SoundInstance;
+const playLoaded = async (
+  playSound: (file: string, options?: IPlaySoundOptions) => void,
+  file: string,
+  options?: IPlaySoundOptions,
+) => {
+  await act(async () => {
+    playSound(file, options);
+    await Promise.resolve();
+  });
+};
 
 describe('useSound', () => {
   beforeEach(() => {
@@ -59,9 +45,7 @@ describe('useSound', () => {
   it('loads a bundled file and plays it', async () => {
     const { result } = await renderHook(() => useSound());
 
-    act(() => {
-      result.current.playSound(SOUND_FILE.theme1);
-    });
+    await playLoaded(result.current.playSound, SOUND_FILE.theme1);
 
     expect(SoundMock).toHaveBeenCalledWith(
       'theme_1.mp3',
@@ -74,8 +58,9 @@ describe('useSound', () => {
   it('loops and applies volume when requested', async () => {
     const { result } = await renderHook(() => useSound());
 
-    act(() => {
-      result.current.playSound(SOUND_FILE.theme2, { loop: true, volume: 0.4 });
+    await playLoaded(result.current.playSound, SOUND_FILE.theme2, {
+      loop: true,
+      volume: 0.4,
     });
 
     expect(lastPlayer().setNumberOfLoops).toHaveBeenCalledWith(-1);
@@ -85,8 +70,8 @@ describe('useSound', () => {
   it('stops and releases a playing file', async () => {
     const { result } = await renderHook(() => useSound());
 
-    act(() => {
-      result.current.playSound(SOUND_FILE.theme1, { loop: true });
+    await playLoaded(result.current.playSound, SOUND_FILE.theme1, {
+      loop: true,
     });
     const player = lastPlayer();
 
@@ -101,8 +86,8 @@ describe('useSound', () => {
   it('releases players on unmount', async () => {
     const { result, unmount } = await renderHook(() => useSound());
 
-    act(() => {
-      result.current.playSound(SOUND_FILE.theme1, { loop: true });
+    await playLoaded(result.current.playSound, SOUND_FILE.theme1, {
+      loop: true,
     });
     const player = lastPlayer();
 

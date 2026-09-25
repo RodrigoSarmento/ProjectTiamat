@@ -7,6 +7,7 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { ImageButton } from '@components/image-button';
 import { MAX_STAT, StatBar } from '@components/stat-bar';
+import { storyText } from '@helper/storyText';
 import { saveStatus } from '@redux/slices/SavesSlice';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -66,11 +67,14 @@ const CharacterCreation = () => {
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
-            <Text style={styles.title}>Char name</Text>
+            <Text style={styles.title}>
+              {storyText('characterCreation.charName')}
+            </Text>
             <View style={styles.pointsBlock}>
               <Text style={styles.pointsValue}>
-                Points remaining:{'   '}
-                {remainingPoints}
+                {storyText('characterCreation.pointsRemaining', {
+                  remaining: remainingPoints,
+                })}
               </Text>
             </View>
 
@@ -78,9 +82,9 @@ const CharacterCreation = () => {
               {ATTRIBUTE_META.map((attribute) => (
                 <StatBar
                   key={attribute.id}
-                  label={attribute.label}
+                  label={storyText(attribute.label)}
                   shortLabel={attribute.shortLabel}
-                  description={attribute.description}
+                  description={storyText(attribute.description)}
                   value={attributes[attribute.id]}
                   canIncrease={
                     remainingPoints > 0 && attributes[attribute.id] < MAX_STAT
@@ -95,7 +99,7 @@ const CharacterCreation = () => {
               disabled={!canConfirm}
               source={require('@assets/buttons/button_confirm.png')}
               style={styles.button}
-              text="Initialize"
+              text={storyText('characterCreation.initialize')}
               onPress={() => {
                 dispatch(saveStatus(attributes));
                 navigation.replace('Game');

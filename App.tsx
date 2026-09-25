@@ -5,13 +5,12 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { SOUND_FILE, useSound } from '@hooks/use-sound';
+import GameStackNavigator from '@navigators/GameStackNavigator';
 import { persistor, store } from '@redux/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
-import GameStackNavigator from './src/routes/GameStackNavigator';
 
 function App() {
   const { playSound } = useSound();

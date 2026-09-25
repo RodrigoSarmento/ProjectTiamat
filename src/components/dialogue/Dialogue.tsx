@@ -24,11 +24,7 @@ const Dialogue: React.FC<IDialogue> = ({
   const isLeft = portraitPosition === 'left';
 
   return (
-    <View
-      testID={testID}
-      accessibilityLabel={name ? `${name}: ${text}` : text}
-      style={styles.container}
-    >
+    <View testID={testID} style={styles.container}>
       <View style={styles.panel}>
         <NineSliceImage
           source={require('@assets/ui/dialogue_panel.png')}

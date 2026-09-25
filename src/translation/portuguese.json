@@ -141,5 +141,46 @@
     "gus-approaching": {
       "text": "Você percebe que não tem para onde fugir. Vai ser preciso fazer a coisa mais chata qu um humano pode fazer: interagir com seus semelhantes. O que fazer agora?"
     }
+  },
+  "chrome": {
+    "start": "Iniciar",
+    "confirm": "Confirmar"
+  },
+  "characters": {
+    "securityGuard": "Segurança",
+    "maleVoice": "Voz masculina",
+    "jo": "Jô",
+    "gus": "Gus"
+  },
+  "characterCreation": {
+    "charName": "Nome",
+    "pointsRemaining": "Pontos restantes:   {{remaining}}",
+    "initialize": "Inicializar",
+    "attributes": {
+      "strength": {
+        "label": "Força",
+        "description": "Bônus de força, levantamento e quebra de barreiras."
+      },
+      "dexterity": {
+        "label": "Destreza",
+        "description": "Bônus de agilidade, salto e movimento silencioso."
+      },
+      "constitution": {
+        "label": "Constituição",
+        "description": "Bônus de resistência e de aguentar adversidade."
+      },
+      "intelligence": {
+        "label": "Inteligência",
+        "description": "Bônus de investigação e de lembrar conhecimento."
+      },
+      "wisdom": {
+        "label": "Sabedoria",
+        "description": "Bônus de percepção, intuição e insight."
+      },
+      "charisma": {
+        "label": "Carisma",
+        "description": "Bônus de persuasão, presença e liderança."
+      }
+    }
   }
 }

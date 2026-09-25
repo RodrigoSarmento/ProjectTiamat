@@ -16,20 +16,20 @@ export interface IStoryCharacter {
 export const CHARACTERS: Record<CharacterId, IStoryCharacter> = {
   [CharacterId.securityGuard]: {
     id: CharacterId.securityGuard,
-    name: 'Segurança',
+    name: 'characters.securityGuard',
     portrait: require('@assets/characters/character_security_guard.png'),
   },
   [CharacterId.maleVoice]: {
     id: CharacterId.maleVoice,
-    name: 'Voz masculina',
+    name: 'characters.maleVoice',
   },
   [CharacterId.jo]: {
     id: CharacterId.jo,
-    name: 'Jô',
+    name: 'characters.jo',
     portrait: require('@assets/characters/character_jo.png'),
   },
   [CharacterId.gus]: {
-    name: 'Gus',
+    name: 'characters.gus',
     id: CharacterId.gus,
     portrait: require('@assets/characters/character_gus.png'),
   },

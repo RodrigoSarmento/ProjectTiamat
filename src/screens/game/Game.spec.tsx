@@ -1,14 +1,7 @@
 import { prologueChapter } from '@data/story';
 import { getPassagePages } from '@helper/storyPlayback';
-import SavesSlice from '@redux/slices/SavesSlice';
-import { configureStore } from '@reduxjs/toolkit';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react-native';
-import { Provider } from 'react-redux';
+import { renderWithProviders } from '@test/renderWithProviders';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 
 import Game from './Game';
 import {
@@ -31,14 +24,7 @@ const dreamingPages =
       )
     : [];
 
-const renderGame = () => {
-  const store = configureStore({ reducer: { saves: SavesSlice } });
-  return render(
-    <Provider store={store}>
-      <Game />
-    </Provider>,
-  );
-};
+const renderGame = () => renderWithProviders(<Game />);
 
 const advanceToChoices = async () => {
   for (let index = 0; index < dreamingPages.length; index += 1) {

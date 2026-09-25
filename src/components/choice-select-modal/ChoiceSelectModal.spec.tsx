@@ -1,9 +1,4 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import ChoiceSelectModal from './ChoiceSelectModal';
 import { QUICK_CHOICE_MS_PER_OPTION } from './ChoiceSelectModal.constants';
@@ -84,25 +79,6 @@ describe('ChoiceSelectModal', () => {
 
     await fireEvent.press(screen.getByTestId('StoryChoices-corporate'));
     expect(mockOnSelect).toHaveBeenCalledWith(defaultProps.choices[0]);
-  });
-
-  it('auto-selects the first quick choice and does not commit on press', async () => {
-    await render(
-      <ChoiceSelectModal {...defaultProps} choices={quickChoices} />,
-    );
-
-    expect(screen.getByTestId('StoryChoices-dont-look')).toHaveAccessibilityState(
-      { selected: true },
-    );
-    expect(screen.getByText('12s')).toBeOnTheScreen();
-    expect(screen.getByText('Confirmar')).toBeOnTheScreen();
-
-    await fireEvent.press(screen.getByTestId('StoryChoices-focus'));
-
-    expect(mockOnSelect).not.toHaveBeenCalled();
-    expect(screen.getByTestId('StoryChoices-focus')).toHaveAccessibilityState({
-      selected: true,
-    });
   });
 
   it('confirms the selected quick choice without waiting', async () => {

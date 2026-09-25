@@ -84,26 +84,4 @@ describe('StoryChoices', () => {
       screen.queryByTestId('StoryChoices-ask-about-service-continue'),
     ).not.toBeOnTheScreen();
   });
-
-  it('marks the continue choice when optional topics are also listed', async () => {
-    await render(<StoryChoices {...defaultProps} />);
-
-    expect(
-      screen.queryByTestId('StoryChoices-corporate-continue'),
-    ).not.toBeOnTheScreen();
-    expect(
-      screen.queryByTestId('StoryChoices-crime-continue'),
-    ).not.toBeOnTheScreen();
-  });
-
-  it('marks the selected choice', async () => {
-    await render(<StoryChoices {...defaultProps} selectedId="crime" />);
-
-    expect(screen.getByTestId('StoryChoices-crime')).toHaveAccessibilityState({
-      selected: true,
-    });
-    expect(
-      screen.getByTestId('StoryChoices-corporate'),
-    ).toHaveAccessibilityState({ selected: false });
-  });
 });

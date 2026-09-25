@@ -25,6 +25,7 @@ const StatBar: React.FC<IStatBar> = ({
 
       <View style={styles.controls}>
         <ImageButton
+          testID={`StatBar-${shortLabel}-decrease`}
           source={require('@assets/buttons/button_minus.png')}
           style={styles.stepButtonImage}
           onPress={onDecrease}
@@ -47,6 +48,7 @@ const StatBar: React.FC<IStatBar> = ({
         </View>
 
         <ImageButton
+          testID={`StatBar-${shortLabel}-increase`}
           source={require('@assets/buttons/button_plus.png')}
           style={styles.stepButtonImage}
           onPress={onIncrease}

@@ -7,6 +7,8 @@
     "src/**/*.tsx",
     "test/**/*.ts",
     "test/**/*.tsx",
+    "jest/**/*.ts",
+    "jest/**/*.tsx",
     "global.d.ts"
   ],
   "compilerOptions": {
@@ -23,14 +25,16 @@
       "@hooks/*": ["./src/hooks/*"],
       "@jest": ["./jest"],
       "@jest/*": ["./jest/*"],
-      "@navigators": ["./src/navigators"],
-      "@navigators/*": ["./src/navigators/*"],
+      "@navigators": ["./src/routes"],
+      "@navigators/*": ["./src/routes/*"],
       "@redux": ["./src/redux"],
       "@redux/*": ["./src/redux/*"],
       "@screens": ["./src/screens"],
       "@screens/*": ["./src/screens/*"],
       "@styles": ["./src/styles/index.ts"],
       "@styles/*": ["./src/styles/*"],
+      "@test": ["./jest/utils"],
+      "@test/*": ["./jest/utils/*"],
       "@utils": ["./src/utils"],
       "@utils/*": ["./src/utils/*"]
     },

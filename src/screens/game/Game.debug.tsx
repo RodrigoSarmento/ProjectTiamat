@@ -12,8 +12,6 @@ const GameDebugJump: React.FC<IGameDebugJump> = ({ nodeIds, onJump }) => {
     <>
       <Pressable
         testID="GameDebugJump"
-        accessibilityRole="button"
-        accessibilityLabel="Jump to story node"
         onPress={() => setIsOpen(true)}
         style={styles.debugButton}
       >
