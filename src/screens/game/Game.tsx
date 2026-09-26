@@ -7,6 +7,7 @@ import { ChoiceSelectModal } from '@components/choice-select-modal';
 import { Dialogue } from '@components/dialogue';
 import { DiceRollD20 } from '@components/dice-roll-d20';
 import { NarratorText } from '@components/narrator-text';
+import { StoryLog } from '@components/story-log';
 import {
   getCharacter,
   getStoryBackgroundImage,
@@ -23,6 +24,7 @@ import { styles } from './Game.styles';
 const Game = () => {
   const {
     page,
+    storyLog,
     choices,
     isChoicesOpen,
     pendingDiceChoice,
@@ -94,6 +96,7 @@ const Game = () => {
         </View>
       ) : null}
       {__DEV__ ? <GameDebugJump nodeIds={nodeIds} onJump={goToNode} /> : null}
+      <StoryLog entries={storyLog} />
     </SafeAreaView>
   );
 

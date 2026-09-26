@@ -11,6 +11,7 @@ export const INITIAL_ATTRIBUTES: IStatus = {
 };
 
 export const TOTAL_POINTS = 10;
+export const CHAR_NAME_MAX_LENGTH = 20;
 
 export const ATTRIBUTE_META: AttributeMeta[] = [
   {

@@ -161,6 +161,7 @@ export const prologueChapter = {
       next: 'riding-bus',
     },
     'riding-bus': {
+      //TODO: Maybe we could add an animation showing this board instead of having the text
       type: 'passage',
       lines: [
         {

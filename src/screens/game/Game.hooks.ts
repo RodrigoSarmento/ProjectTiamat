@@ -1,13 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import type {
-  IStoryBackground,
-  IStoryChapter,
-  StoryFlag,
-  StoryNodeId,
+import {
+  type IStoryBackground,
+  type IStoryChapter,
+  type IStoryNode,
+  type StoryFlag,
+  type StoryNodeId,
 } from '@data/story';
 import {
+  type IStoryLogEntry,
+  appendStoryLog,
+  toStoryLogEntry,
+} from '@helper/storyLog';
+import {
   type IPresentedStoryChoice,
+  type IStoryPage,
   applyBackground,
   getPassagePages,
   nodeBackground,
@@ -31,6 +38,22 @@ import {
   NARRATOR_MAX_LINES,
 } from './Game.constants';
 
+const getNodePages = (node: IStoryNode | undefined) =>
+  node?.type === 'passage'
+    ? getPassagePages(
+        node,
+        NARRATOR_MAX_LINES,
+        NARRATOR_CHARS_PER_LINE,
+        DIALOGUE_MAX_LINES,
+        DIALOGUE_CHARS_PER_LINE,
+      )
+    : [];
+
+const initialStoryLog = (chapter: IStoryChapter): IStoryLogEntry[] => {
+  const firstPage = getNodePages(chapter.nodes[chapter.entry])[0];
+  return firstPage ? [toStoryLogEntry(firstPage, chapter.entry, 0)] : [];
+};
+
 export const useStoryGame = (chapter: IStoryChapter) => {
   const dispatch = useDispatch();
   const savedBackground = useSelector(
@@ -53,6 +76,9 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   const [pendingDiceChoice, setPendingDiceChoice] = useState<
     IPresentedStoryChoice | undefined
   >(undefined);
+  const [storyLog, setStoryLog] = useState<IStoryLogEntry[]>(() =>
+    initialStoryLog(chapter),
+  );
   const [currentBackground, setBackground] = useState<IStoryBackground>(() =>
     applyBackground(
       savedBackground ?? {},
@@ -67,24 +93,29 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   const node = chapter.nodes[nodeId];
   const passage = node?.type === 'passage' ? node : undefined;
 
-  const pages = useMemo(
-    () =>
-      passage
-        ? getPassagePages(
-            passage,
-            NARRATOR_MAX_LINES,
-            NARRATOR_CHARS_PER_LINE,
-            DIALOGUE_MAX_LINES,
-            DIALOGUE_CHARS_PER_LINE,
-          )
-        : [],
-    [passage],
-  );
+  const pages = useMemo(() => getNodePages(node), [node]);
 
   const availableChoices = useMemo(
     () => visibleChoices(passage?.choices, flags, usedChoiceIds),
     [passage, flags, usedChoiceIds],
   );
+  const page = pages[pageIndex];
+
+  const recordPage = (
+    nextPage: IStoryPage | undefined,
+    nextNodeId: StoryNodeId,
+    nextPageIndex: number,
+  ) => {
+    if (!nextPage) {
+      return;
+    }
+    setStoryLog((current) =>
+      appendStoryLog(
+        current,
+        toStoryLogEntry(nextPage, nextNodeId, nextPageIndex),
+      ),
+    );
+  };
 
   const goToNode = (nextId: StoryNodeId) => {
     const nextNode = chapter.nodes[nextId];
@@ -95,6 +126,7 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     setBackground((current) =>
       applyBackground(current, nodeBackground(nextNode)),
     );
+    recordPage(getNodePages(nextNode)[0], nextId, 0);
   };
 
   const applyOutcome = (
@@ -124,7 +156,9 @@ export const useStoryGame = (chapter: IStoryChapter) => {
       return false;
     }
     if (pageIndex < pages.length - 1) {
-      setPageIndex((current) => current + 1);
+      const nextIndex = pageIndex + 1;
+      setPageIndex(nextIndex);
+      recordPage(pages[nextIndex], nodeId, nextIndex);
       return false;
     }
     if (availableChoices.length > 0) {
@@ -193,7 +227,8 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   };
 
   return {
-    page: pages[pageIndex],
+    page,
+    storyLog,
     choices: availableChoices,
     isChoicesOpen,
     pendingDiceChoice,

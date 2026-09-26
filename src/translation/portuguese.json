@@ -13,9 +13,10 @@
     "you": "Você"
   },
   "characterCreation": {
-    "charName": "Nome",
+    "charName": "Dê um nome para seu personagem",
     "pointsRemaining": "Pontos restantes:   {{remaining}}",
     "initialize": "Inicializar",
+    "save": "Salvar",
     "attributes": {
       "strength": {
         "label": "Força",
@@ -94,13 +95,13 @@
     "accepted-drink": {
       "lines": [
         "A bebida desce pela sua garganta como uma bota, mas alguns segundos depois de chegar ao seu estômago, você sente um pico de energia instantânea que faz até a sua torcicolo repensarem a existência. Vocês começam a se organizar para sair do ônibus.",
-        "[Sistema do Ônibus]\n\n Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Blá blá blá.\n\n As portas se abrem."
+        "[Sistema do Ônibus]\n\n Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Capelinha.\n\n As portas se abrem."
       ]
     },
     "refused-drink": {
       "lines": [
         "Jô termina a bebida, amassa e joga fora. Em seguida vocês se organizam para sair do ônibus.\n\nUma voz robótica invade o ônibus:",
-        "[Sistema do Ônibus]\n\n Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Blá blá blá.\n\n As portas se abrem."
+        "[Sistema do Ônibus]\n\n Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Capelinha.\n\n As portas se abrem."
       ]
     },
     "riding-bus": {
@@ -140,7 +141,7 @@
       "text": "Porra, eu sei lá, cara! Vai ver ele tem alguma treta com o maluco. Tu quer que o cara te pague ou te dê uma entrevista?"
     },
     "jo-client-history-answer": {
-      "text": "Projetos que trabalhou, setores que trabalhou, endereço de residência, nome dos pais, data de nascimento blá blá blá... pelo que eu entendi, ele quer a ficha completa dele na New Human. Basicamente é só hackear qualquer computador do cuzão do teu chefe. Posso contar contigo?",
+      "text": "Projetos que trabalhou, setores que trabalhou, endereço de residência, nome dos pais, data de nascimento essas porra... pelo que eu entendi, ele quer a ficha completa dele na New Human. Basicamente é só hackear qualquer computador do cuzão do teu chefe. Posso contar contigo?",
       "choices": {
         "i-ll-think": "Vou pensar no teu caso",
         "not-sure": "Não sei se quero me meter nisso"

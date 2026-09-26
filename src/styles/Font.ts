@@ -35,6 +35,10 @@ export const oxaniumExtraLight: TextStyle = {
   ...base,
   fontFamily: 'Oxanium-ExtraLight',
 };
+export const newRocker: TextStyle = {
+  ...base,
+  fontFamily: 'NewRocker-Regular',
+};
 
 export const Fonts = StyleSheet.create({
   // Screen header title — once per screen

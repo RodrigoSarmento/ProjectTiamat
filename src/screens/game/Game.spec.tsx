@@ -108,4 +108,13 @@ describe('Game', () => {
     expect(screen.getByText(/Você acorda repentinamente/)).toBeOnTheScreen();
     expect(screen.queryByText('TELA PRETA - Sonhando')).not.toBeOnTheScreen();
   });
+
+  it('keeps the latest pages in the story log', async () => {
+    await renderGame();
+    await fireEvent.press(screen.getByTestId('NarratorText-continue'));
+    await fireEvent.press(screen.getByTestId('StoryLog-open'));
+
+    expect(screen.getByTestId('StoryLog-dreaming:0')).toBeOnTheScreen();
+    expect(screen.getByTestId('StoryLog-dreaming:1')).toBeOnTheScreen();
+  });
 });

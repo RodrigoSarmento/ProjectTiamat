@@ -1,6 +1,7 @@
 import savesReducer, {
   EMPTY_STATUS,
   applyTemporaryStatus,
+  saveCharName,
   saveStatus,
   setCurrentBackground,
   startGame,
@@ -14,6 +15,7 @@ describe('SavesSlice', () => {
       hasStarted: false,
       hasCreatedCharacter: false,
       save: {
+        charName: '',
         status: EMPTY_STATUS,
         temporaryStatus: EMPTY_STATUS,
         currentBackground: {},
@@ -76,6 +78,12 @@ describe('SavesSlice', () => {
     expect(upgraded.save.currentBackground).toEqual({
       backgroundColor: 'black',
     });
+  });
+
+  it('stores the character name', () => {
+    const state = savesReducer(init(), saveCharName('  Nyx  '));
+
+    expect(state.save.charName).toBe('Nyx');
   });
 
   it('stores the current background', () => {

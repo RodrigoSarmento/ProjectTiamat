@@ -1,20 +1,28 @@
 import { useMemo, useState } from 'react';
 
-import { ImageBackground, ScrollView, Text, View } from 'react-native';
+import {
+  ImageBackground,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { ImageButton } from '@components/image-button';
+import { Modal } from '@components/modal';
 import { MAX_STAT, StatBar } from '@components/stat-bar';
 import { storyText } from '@helper/storyText';
-import { saveStatus } from '@redux/slices/SavesSlice';
-import { CommonStyles } from '@styles';
+import { saveCharName, saveStatus } from '@redux/slices/SavesSlice';
+import { Colors, CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import {
   ATTRIBUTE_META,
+  CHAR_NAME_MAX_LENGTH,
   INITIAL_ATTRIBUTES,
   TOTAL_POINTS,
 } from './CharacterCreation.constants';
@@ -22,6 +30,8 @@ import { styles } from './CharacterCreation.styles';
 
 const CharacterCreation = () => {
   const [attributes, setAttributes] = useState<IStatus>(INITIAL_ATTRIBUTES);
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [charName, setCharName] = useState('');
   const dispatch = useDispatch();
   const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
 
@@ -31,6 +41,7 @@ const CharacterCreation = () => {
   );
   const remainingPoints = TOTAL_POINTS - spentPoints;
   const canConfirm = remainingPoints === 0;
+  const trimmedName = charName.trim();
 
   const increase = (id: AttributeId) => {
     setAttributes((current) => {
@@ -54,6 +65,20 @@ const CharacterCreation = () => {
     });
   };
 
+  const handleInitialize = () => {
+    dispatch(saveStatus(attributes));
+    setIsNameModalOpen(true);
+  };
+
+  const handleSaveName = () => {
+    if (!trimmedName) {
+      return;
+    }
+    dispatch(saveCharName(trimmedName));
+    setIsNameModalOpen(false);
+    navigation.goBack();
+  };
+
   return (
     <ImageBackground
       source={require('@assets/backgrounds/character_creation.png')}
@@ -67,9 +92,6 @@ const CharacterCreation = () => {
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
-            <Text style={styles.title}>
-              {storyText('characterCreation.charName')}
-            </Text>
             <View style={styles.pointsBlock}>
               <Text style={styles.pointsValue}>
                 {storyText('characterCreation.pointsRemaining', {
@@ -100,15 +122,37 @@ const CharacterCreation = () => {
               source={require('@assets/buttons/button_confirm.png')}
               style={styles.button}
               text={storyText('characterCreation.initialize')}
-              onPress={() => {
-                dispatch(saveStatus(attributes));
-                navigation.goBack();
-              }}
+              onPress={handleInitialize}
               textStyle={styles.saveButtonText}
             />
           </ScrollView>
         </View>
       </SafeAreaView>
+      <Modal
+        testID="CharacterCreation-nameModal"
+        isVisible={isNameModalOpen}
+        title={storyText('characterCreation.charName')}
+      >
+        <TextInput
+          testID="CharacterCreation-nameInput"
+          value={charName}
+          onChangeText={setCharName}
+          maxLength={CHAR_NAME_MAX_LENGTH}
+          autoCapitalize="words"
+          autoCorrect={false}
+          placeholderTextColor={Colors.placeholderTextColor}
+          style={styles.nameInput}
+        />
+        <ImageButton
+          testID="CharacterCreation-saveName"
+          disabled={!trimmedName}
+          source={require('@assets/buttons/button_confirm.png')}
+          style={styles.nameSaveButton}
+          text={storyText('characterCreation.save')}
+          onPress={handleSaveName}
+          textStyle={styles.saveButtonText}
+        />
+      </Modal>
     </ImageBackground>
   );
 };

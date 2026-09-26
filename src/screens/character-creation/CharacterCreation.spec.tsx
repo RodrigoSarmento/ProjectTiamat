@@ -18,23 +18,26 @@ const increase = async (shortLabel: string, times: number) => {
   }
 };
 
+const spendAllPoints = async () => {
+  await increase('STR', 4);
+  await increase('DEX', 3);
+  await increase('CON', 3);
+};
+
 describe('CharacterCreation', () => {
   beforeEach(() => {
     mockGoBack.mockClear();
     (useNavigation as jest.Mock).mockReturnValue({ goBack: mockGoBack });
   });
 
-  it('saves spent points across stats and returns to Game', async () => {
+  it('asks for a name after initialize, then saves and returns to Game', async () => {
     const { store } = await renderWithProviders(<CharacterCreation />);
 
     await fireEvent.press(screen.getByText('Inicializar'));
     expect(mockGoBack).not.toHaveBeenCalled();
     expect(store.getState().saves.hasCreatedCharacter).toBe(false);
 
-    await increase('STR', 4);
-    await increase('DEX', 3);
-    await increase('CON', 3);
-
+    await spendAllPoints();
     expect(screen.getByText('Pontos restantes:   0')).toBeOnTheScreen();
 
     await fireEvent.press(screen.getByText('Inicializar'));
@@ -46,6 +49,23 @@ describe('CharacterCreation', () => {
       constitution: 3,
     });
     expect(store.getState().saves.hasCreatedCharacter).toBe(true);
+    expect(mockGoBack).not.toHaveBeenCalled();
+    expect(screen.getByTestId('CharacterCreation-nameModal')).toBeOnTheScreen();
+    expect(
+      screen.getByText('Dê um nome para seu personagem'),
+    ).toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByTestId('CharacterCreation-saveName'));
+    expect(mockGoBack).not.toHaveBeenCalled();
+    expect(store.getState().saves.save.charName).toBe('');
+
+    await fireEvent.changeText(
+      screen.getByTestId('CharacterCreation-nameInput'),
+      '  Nyx  ',
+    );
+    await fireEvent.press(screen.getByTestId('CharacterCreation-saveName'));
+
+    expect(store.getState().saves.save.charName).toBe('Nyx');
     expect(mockGoBack).toHaveBeenCalled();
   });
 });

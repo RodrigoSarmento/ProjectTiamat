@@ -1,6 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
 import type { IStoryBackground } from '@data/story';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const EMPTY_STATUS: IStatus = {
   energy: 0,
@@ -13,6 +12,7 @@ export const EMPTY_STATUS: IStatus = {
 };
 
 export interface ISave {
+  charName: string;
   status: IStatus;
   temporaryStatus: IStatus;
   currentBackground: IStoryBackground;
@@ -28,6 +28,7 @@ const initialState: ISaves = {
   hasStarted: false,
   hasCreatedCharacter: false,
   save: {
+    charName: '',
     status: { ...EMPTY_STATUS },
     temporaryStatus: { ...EMPTY_STATUS },
     currentBackground: {},
@@ -60,6 +61,9 @@ const savesSlice = createSlice({
       state.save.status = action.payload;
       state.hasCreatedCharacter = true;
     },
+    saveCharName: (state, action: PayloadAction<string>) => {
+      state.save.charName = action.payload.trim();
+    },
     applyTemporaryStatus: (state, action: PayloadAction<Partial<IStatus>>) => {
       state.save.temporaryStatus = addTemporaryStatus(
         state.save.temporaryStatus,
@@ -75,6 +79,7 @@ const savesSlice = createSlice({
 export const {
   startGame,
   saveStatus,
+  saveCharName,
   applyTemporaryStatus,
   setCurrentBackground,
 } = savesSlice.actions;
