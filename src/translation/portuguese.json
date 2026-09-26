@@ -1,4 +1,48 @@
 {
+  "chrome": {
+    "start": "Iniciar",
+    "confirm": "Confirmar",
+    "diceSuccess": "Sucesso",
+    "diceFailure": "Falha"
+  },
+  "characters": {
+    "securityGuard": "Segurança",
+    "maleVoice": "Voz masculina",
+    "jo": "Jô",
+    "gus": "Gus",
+    "you": "Você"
+  },
+  "characterCreation": {
+    "charName": "Nome",
+    "pointsRemaining": "Pontos restantes:   {{remaining}}",
+    "initialize": "Inicializar",
+    "attributes": {
+      "strength": {
+        "label": "Força",
+        "description": "Bônus de força, levantamento e quebra de barreiras."
+      },
+      "dexterity": {
+        "label": "Destreza",
+        "description": "Bônus de agilidade, salto e movimento silencioso."
+      },
+      "constitution": {
+        "label": "Constituição",
+        "description": "Bônus de resistência e de aguentar adversidade."
+      },
+      "intelligence": {
+        "label": "Inteligência",
+        "description": "Bônus de investigação e de lembrar conhecimento."
+      },
+      "wisdom": {
+        "label": "Sabedoria",
+        "description": "Bônus de percepção, intuição e insight."
+      },
+      "charisma": {
+        "label": "Carisma",
+        "description": "Bônus de persuasão, presença e liderança."
+      }
+    }
+  },
   "prologue": {
     "dreaming": {
       "title": "TELA PRETA - Sonhando",
@@ -139,48 +183,100 @@
       ]
     },
     "gus-approaching": {
-      "text": "Você percebe que não tem para onde fugir. Vai ser preciso fazer a coisa mais chata qu um humano pode fazer: interagir com seus semelhantes. O que fazer agora?"
-    }
-  },
-  "chrome": {
-    "start": "Iniciar",
-    "confirm": "Confirmar"
-  },
-  "characters": {
-    "securityGuard": "Segurança",
-    "maleVoice": "Voz masculina",
-    "jo": "Jô",
-    "gus": "Gus"
-  },
-  "characterCreation": {
-    "charName": "Nome",
-    "pointsRemaining": "Pontos restantes:   {{remaining}}",
-    "initialize": "Inicializar",
-    "attributes": {
-      "strength": {
-        "label": "Força",
-        "description": "Bônus de força, levantamento e quebra de barreiras."
-      },
-      "dexterity": {
-        "label": "Destreza",
-        "description": "Bônus de agilidade, salto e movimento silencioso."
-      },
-      "constitution": {
-        "label": "Constituição",
-        "description": "Bônus de resistência e de aguentar adversidade."
-      },
-      "intelligence": {
-        "label": "Inteligência",
-        "description": "Bônus de investigação e de lembrar conhecimento."
-      },
-      "wisdom": {
-        "label": "Sabedoria",
-        "description": "Bônus de percepção, intuição e insight."
-      },
-      "charisma": {
-        "label": "Carisma",
-        "description": "Bônus de persuasão, presença e liderança."
+      "text": "Você percebe que não tem para onde fugir. Vai ser preciso fazer a coisa mais chata qu um humano pode fazer: interagir com seus semelhantes. O que fazer agora?",
+      "choices": {
+        "help-gus": "Ajudas Gus",
+        "explain-to-gus-you-are-not-from-the-maintenance": "Eu sou técnico de manutenção de bonecas, não de catracas"
       }
+    },
+    "explain-to-gus-you-are-not-from-the-maintenance": {
+      "text": "Máquina é máquina. Dá essa moral aqui, se eu não conseguir bater o ponto no horário, eu perco todo meu adicional da semana.",
+      "choices": {
+        "help-gus": "Ajudas Gus",
+        "say-no-to-gus": "Sinto muito, Gus, mas se eu mexer nisso aí sem ordem da manutenção e der merda, sobra pra mim."
+      }
+    },
+    "choose-to-not-help-gus": {
+      "lines": [
+        "Gus fica alguns segundos te encarando como se ainda esperasse que você fosse voltar atrás. Alguém na fila resmunga da demora. Ele vira novamente para o Terminal de Acesso, passa as mãos pelo rosto e começa a abrir um chamado de ajuda para o TI.",
+        "Vinte minutos...",
+        "Sua fila continua andando até que chega a sua vez. O leitor pede sua credencial e você repete o processo de leitura do chip e a catraca é liberada. Você e seu colega se dirigem para inicial o turno.",
+        "[Terminal de Acesso 2] POSICIONE-SE PARA O ESCANEAMENTO OCULAR.\n\nVocê posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
+        "[Terminal de Acesso 2] RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+      ]
+    },
+    "try-to-help-gus": {
+      "lines": [
+        "Você vai abrindo caminho entre os funcionários e suas mochilas até alcançar o início da fila de entrada do setor de montagem. O Terminal de Acesso ainda solicita o escaneamento do chip, mas a catraca está completamente travada. Uma luz vermelha pisca ao lado do leitor enquanto uma mensagem permanece congelada na tela:",
+        "[Terminal de Acesso] APRESENTE SUA CREDENCIAL.\n\nVocê olha para a máquina, depois pro Gus.",
+        "e aí?"
+      ],
+      "choices": {
+        "force-passage": "Forçar a catraca [Teste de FORÇA]",
+        "hack-terminal": "Hackear o terminal [Teste de Inteligência]",
+        "use-card": "Usar sua credencial da manutenção"
+      }
+    },
+    "use-card-response": {
+      "lines": [
+        "Você nota o pequeno símbolo de acesso técnico na lateral da máquina. Funcionários do setor de manutenção podem realizar uma abertura emergencial em caso de falhas de equipamento. Tecnicamente você consegue liberar aquela catraca usando o protocolo de emergência da manutenção, entretanto, a situação não cumpre os requisitos.\n\nVocê encosta o chip do seu pulso no leitor emergencial:",
+        "[Terminal de Acesso] CREDENCIAL DE MANUTENÇÃO IDENTIFICADA. Deseja prosseguir com o protocolo de emergência?"
+      ],
+      "choices": {
+        "use-card-confirm": "Confirmar",
+        "rethink": "Repensar"
+      }
+    },
+    "rethink-use-card": {
+      "lines": [
+        "Você fica alguns segundos olhando para o aviso. Depois afasta o pulso.",
+        "Não dá.",
+        "Não dá pra fazer nada mesmo?"
+      ]
+    },
+    "use-card-confirm": {
+      "lines": [
+        "Vai dar problema?",
+        "Você sabe que pode dar problema, mas a única chance disso acontecer é se, pela primeira vez, o pessoal da segurança decidir trabalhar.\n\nVocê confirma.",
+        "[Terminal de Acesso] PROTOCOLO DE EMERGÊNCIA ATIVADO\n\nAs travas se recolhem e a catraca se solta um estalo metálico. Gus desmonta ela para abrir passagem e os funcionários começam a atravessa rapidamente.",
+        "Valeu mesmo. Se alguém perguntar, a máquina abriu sozinha.",
+        "Bora, tá na nossa hora!",
+        "Jô estava segurando a fila para você passar. O leitor pede sua credencial e você repete o processo de leitura do chip e a catraca é liberada. Você e seu colega se dirigem para inicial o turno.",
+        "[Terminal de Acesso 2] POSICIONE-SE PARA O ESCANEAMENTO OCULAR.\n\nVocê posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
+        "[Terminal de Acesso 2] RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+      ]
+    },
+    "force-passage-success": {
+      "lines": [
+        "Por alguns segundos, nada acontece. Então, uma das travas cede com um estalo metálico. Em seguida mais três ritmadas. A catraca se solta e você consegue desmontá-la de uma maneira que preserva os fios internos responsáveis pela conexão com o terminal e o alarme.",
+        "Bem, essa foi por pouco, mas funcionou. De qualquer forma, valeu mesmo pela ajuda.",
+        "Bora, tá na nossa hora!",
+        "Jô estava segurando a fila para você passar. O leitor pede sua credencial e você repete o processo de leitura do chip e a catraca é liberada. Você e seu colega se dirigem para iniciar o turno.",
+        "[Terminal de Acesso 2] POSICIONE-SE PARA O ESCANEAMENTO OCULAR.\n\nVocê posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
+        "[Terminal de Acesso 2] RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+      ]
+    },
+    "force-passage-failure": {
+      "text": "Cara, se eu quisesse quebrar a catraca eu teria pedido pra alguém grande, não pro nerd das bonecas.",
+      "choices": {
+        "ignore-gus-and-force-it": "Ignorar Gus e continuar forçando [Teste de FORÇA]",
+        "rethink-the-issue": "Repensar o problema"
+      }
+    },
+    "rethink-the-forcing-passage": {
+      "text": "Você obedece ao seu senso de ridículo e larga a catraca para se voltar ao terminal, como deveria ter feito desde o início."
+    },
+    "force-passage-failure-twice": {
+      "lines": [
+        "Você se concentra. Entrelaça os dois ante-braços entre as barras da catraca. Mais um respiro...",
+        "Aarrgg....",
+        "Uma gota de suor começa a se formar na lateral da sua testa.",
+        "Aaaarrrrgggg....",
+        "Suas veias saltam pela pele!",
+        "AAAAAAAAAAAAHHHHHHH!!!",
+        "A sua mão escorrega distribuindo toda a tensão que você exercia nas barras direto para seus braços enquanto eles esbarram por entre a catraca. Com um leve estalo você sente seu cotovelo sair do lugar enquanto você cai para trás.",
+        "Caralho... fica deitado ai, tenta respirar e recuperar o que sobrou da tua dignidade. Eu vou chamar alguém. GUARDA, EI! TEMOS UM IMBECIL FERIDO!"
+      ]
     }
   }
 }

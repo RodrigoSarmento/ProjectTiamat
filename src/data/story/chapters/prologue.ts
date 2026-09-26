@@ -384,6 +384,289 @@ export const prologueChapter = {
     'gus-approaching': {
       type: 'passage',
       text: 'prologue.gus-approaching.text',
+      choices: [
+        {
+          id: 'help-gus',
+          label: 'prologue.gus-approaching.choices.help-gus',
+          consequences: [{ type: 'flag', value: StoryFlag.helpedGus }],
+          next: 'try-to-help-gus',
+        },
+        {
+          id: 'explain-to-gus-you-are-not-from-the-maintenance',
+          label:
+            'prologue.gus-approaching.choices.explain-to-gus-you-are-not-from-the-maintenance',
+          next: 'explain-to-gus-you-are-not-from-the-maintenance',
+        },
+      ],
+    },
+    'explain-to-gus-you-are-not-from-the-maintenance': {
+      type: 'passage',
+      text: 'prologue.explain-to-gus-you-are-not-from-the-maintenance.text',
+      characterId: CharacterId.gus,
+      choices: [
+        {
+          id: 'help-gus',
+          label:
+            'prologue.explain-to-gus-you-are-not-from-the-maintenance.choices.help-gus',
+          consequences: [{ type: 'flag', value: StoryFlag.helpedGus }],
+          next: 'try-to-help-gus',
+        },
+        {
+          id: 'say-no-to-gus',
+          label:
+            'prologue.explain-to-gus-you-are-not-from-the-maintenance.choices.say-no-to-gus',
+          consequences: [{ type: 'flag', value: StoryFlag.sayNoToGus }],
+          next: 'choose-to-not-help-gus',
+        },
+      ],
+    },
+    'choose-to-not-help-gus': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.choose-to-not-help-gus.lines.0',
+        },
+        {
+          characterId: CharacterId.gus,
+          text: 'prologue.choose-to-not-help-gus.lines.1',
+        },
+        {
+          text: 'prologue.choose-to-not-help-gus.lines.2',
+        },
+        {
+          text: 'prologue.choose-to-not-help-gus.lines.3',
+        },
+        {
+          text: 'prologue.choose-to-not-help-gus.lines.4',
+        },
+      ],
+      startCharCreation: true,
+    },
+    'try-to-help-gus': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.try-to-help-gus.lines.0',
+        },
+        {
+          text: 'prologue.try-to-help-gus.lines.1',
+        },
+        {
+          characterId: CharacterId.gus,
+          text: 'prologue.try-to-help-gus.lines.2',
+        },
+      ],
+      choices: [
+        {
+          once: true,
+          id: 'force-passage',
+          label: 'prologue.try-to-help-gus.choices.force-passage',
+          rollDice: {
+            attribute: 'strength',
+            minToPass: 10,
+            success: {
+              next: 'force-passage-success',
+              consequences: [
+                { type: 'flag', value: StoryFlag.helpedGusWithForcePassage },
+              ],
+            },
+            failure: { next: 'force-passage-failure' },
+          },
+        },
+        {
+          once: true,
+          id: 'hack-terminal',
+          label: 'prologue.try-to-help-gus.choices.hack-terminal',
+          rollDice: {
+            attribute: 'intelligence',
+            minToPass: 10,
+            success: {},
+            failure: {},
+          },
+        },
+        {
+          once: true,
+          id: 'use-card',
+          label: 'prologue.try-to-help-gus.choices.use-card',
+          next: 'use-card-response',
+        },
+      ],
+    },
+    'use-card-response': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.use-card-response.lines.0',
+        },
+        {
+          text: 'prologue.use-card-response.lines.1',
+        },
+      ],
+      choices: [
+        {
+          id: 'use-card-confirm',
+          label: 'prologue.use-card-response.choices.use-card-confirm',
+          consequences: [{ type: 'flag', value: StoryFlag.useCardToHelpGus }],
+        },
+        {
+          id: 'rethink',
+          label: 'prologue.use-card-response.choices.rethink',
+          next: 'rethink-use-card',
+          consequences: [{ type: 'flag', value: StoryFlag.sayNoToGus }],
+        },
+      ],
+    },
+    'rethink-use-card': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.rethink-use-card.lines.0',
+        },
+        {
+          text: 'prologue.rethink-use-card.lines.1',
+          characterId: CharacterId.you,
+        },
+        {
+          text: 'prologue.rethink-use-card.lines.2',
+          characterId: CharacterId.gus,
+        },
+      ],
+    },
+    'use-card-confirm': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.use-card-confirm.lines.0',
+          characterId: CharacterId.gus,
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.1',
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.2',
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.3',
+          characterId: CharacterId.gus,
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.4',
+          characterId: CharacterId.jo,
+          portraitPosition: 'left',
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.5',
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.6',
+        },
+        {
+          text: 'prologue.use-card-confirm.lines.7',
+        },
+      ],
+      startCharCreation: true,
+    },
+    'force-passage-success': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.force-passage-success.lines.0',
+        },
+        {
+          text: 'prologue.force-passage-success.lines.1',
+          characterId: CharacterId.gus,
+        },
+        {
+          text: 'prologue.force-passage-success.lines.2',
+          characterId: CharacterId.jo,
+          portraitPosition: 'left',
+        },
+        {
+          text: 'prologue.force-passage-success.lines.3',
+        },
+        {
+          text: 'prologue.force-passage-success.lines.4',
+        },
+        {
+          text: 'prologue.force-passage-success.lines.5',
+        },
+      ],
+      startCharCreation: true,
+    },
+    'force-passage-failure': {
+      type: 'passage',
+      characterId: CharacterId.gus,
+      text: 'prologue.force-passage-failure.text',
+      choices: [
+        {
+          id: 'ignore-gus-and-force-it',
+          label:
+            'prologue.force-passage-failure.choices.ignore-gus-and-force-it',
+          rollDice: {
+            attribute: 'strength',
+            minToPass: 15,
+            success: {
+              next: 'force-passage-success',
+              consequences: [
+                { type: 'flag', value: StoryFlag.helpedGusWithForcePassage },
+              ],
+            },
+            failure: {
+              next: 'force-passage-failure-twice',
+              consequences: [
+                { type: 'temporaryStatus', value: { energy: -2 } },
+                {
+                  type: 'flag',
+                  value: StoryFlag.tryToForcePassageFailureTwice,
+                },
+              ],
+            },
+          },
+        },
+        {
+          id: 'rethink-the-issue',
+          label: 'prologue.force-passage-failure.choices.rethink-the-issue',
+          next: 'rethink-the-forcing-passage',
+        },
+      ],
+    },
+    'rethink-the-forcing-passage': {
+      type: 'passage',
+      text: 'prologue.rethink-the-forcing-passage.text',
+      next: 'try-to-help-gus',
+    },
+    'force-passage-failure-twice': {
+      type: 'passage',
+      lines: [
+        {
+          text: 'prologue.force-passage-failure-twice.lines.0',
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.1',
+          characterId: CharacterId.you,
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.2',
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.3',
+          characterId: CharacterId.you,
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.4',
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.5',
+          characterId: CharacterId.you,
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.6',
+        },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.7',
+          characterId: CharacterId.gus,
+        },
+      ],
     },
   },
 } satisfies IStoryChapter;

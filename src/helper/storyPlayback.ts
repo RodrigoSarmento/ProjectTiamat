@@ -2,6 +2,7 @@ import type {
   IStoryBackground,
   IStoryChoice,
   IStoryConsequence,
+  IStoryDiceRoll,
   IStoryLine,
   IStoryNode,
   IStoryPassageNode,
@@ -198,4 +199,25 @@ export const withFlagConsequences = (
     return flags;
   }
   return [...new Set([...flags, ...extraFlags])];
+};
+
+export const resolveStoryDiceRoll = (
+  roll: IStoryDiceRoll,
+  face: number,
+  status?: IStatus,
+  temporaryStatus?: IStatus,
+) => {
+  const modifier =
+    (status?.[roll.attribute] ?? 0) +
+    (temporaryStatus?.[roll.attribute] ?? 0);
+  const total = face + modifier;
+  const passed = total >= roll.minToPass;
+
+  return {
+    face,
+    modifier,
+    total,
+    passed,
+    outcome: passed ? roll.success : roll.failure,
+  };
 };

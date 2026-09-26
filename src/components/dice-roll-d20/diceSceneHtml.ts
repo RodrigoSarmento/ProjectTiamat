@@ -51,8 +51,8 @@ export const buildDiceHtml = ({
 (function () {
   var COLOR = ${JSON.stringify(color)};
   var SIDES = 20;
-  var SETTLE_SECS = 0.6;
-  var SPIN_MS = 900;
+  var SETTLE_SECS = 1.2;
+  var SPIN_MS = 2400;
   var LABEL_SIZE = 0.62;
 
   function post(msg) {
@@ -343,9 +343,9 @@ export const buildDiceHtml = ({
     var t = time / 1000;
 
     if (state.phase === 'spinning') {
-      mesh.rotation.x += 10 * 0.016;
-      mesh.rotation.y += 8 * 0.016;
-      mesh.rotation.z += 3 * 0.016;
+      mesh.rotation.x += 14 * 0.016;
+      mesh.rotation.y += 11 * 0.016;
+      mesh.rotation.z += 5 * 0.016;
     } else if (state.phase === 'settling') {
       var elapsed = (time - state.settleStart) / 1000;
       var p = Math.min(elapsed / SETTLE_SECS, 1);
@@ -393,11 +393,6 @@ export const buildDiceHtml = ({
       mesh.material.color.setHex(parseColor(hex));
     }
   };
-
-  document.body.addEventListener('click', function () {
-    if (state.phase === 'spinning' || state.phase === 'settling') return;
-    window.startRoll(Math.floor(Math.random() * 20) + 1);
-  });
 
   post({ type: 'ready' });
 })();

@@ -29,6 +29,18 @@ export type IStoryTemporaryStatusConsequence = {
 export type IStoryConsequence =
   IStoryFlagConsequence | IStoryTemporaryStatusConsequence;
 
+export interface IStoryDiceOutcome {
+  next?: StoryNodeId;
+  consequences?: IStoryConsequence[];
+}
+
+export interface IStoryDiceRoll {
+  attribute: AttributeId;
+  minToPass: number;
+  success: IStoryDiceOutcome;
+  failure: IStoryDiceOutcome;
+}
+
 export interface IStoryChoice {
   id: string;
   label: string;
@@ -37,6 +49,7 @@ export interface IStoryChoice {
   consequences?: IStoryConsequence[];
   once?: boolean;
   isQuickChoice?: boolean;
+  rollDice?: IStoryDiceRoll;
 }
 
 export interface IStoryBackground {
@@ -51,6 +64,7 @@ export interface IStoryPassageNode {
   backgroundImage?: StoryBackgroundImageId;
   text?: string;
   characterId?: CharacterId;
+  startCharCreation?: boolean;
   portraitPosition?: PortraitPosition;
   lines?: IStoryLine[];
   next?: StoryNodeId;

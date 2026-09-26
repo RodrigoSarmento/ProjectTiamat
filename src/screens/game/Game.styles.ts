@@ -19,6 +19,26 @@ export const styles = StyleSheet.create({
     bottom: 16,
     zIndex: 1,
   },
+  diceOverlay: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
+  },
+  diceDebugRow: {
+    position: 'absolute',
+    bottom: 56,
+    flexDirection: 'row',
+    gap: 12,
+    zIndex: 21,
+  },
+  diceDebugButton: {
+    backgroundColor: Colors.neonMagenta,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 4,
+  },
   debugButton: {
     position: 'absolute',
     top: 48,

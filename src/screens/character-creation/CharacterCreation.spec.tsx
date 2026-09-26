@@ -10,7 +10,7 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
 }));
 
-const mockReplace = jest.fn();
+const mockGoBack = jest.fn();
 
 const increase = async (shortLabel: string, times: number) => {
   for (let index = 0; index < times; index += 1) {
@@ -20,16 +20,16 @@ const increase = async (shortLabel: string, times: number) => {
 
 describe('CharacterCreation', () => {
   beforeEach(() => {
-    mockReplace.mockClear();
-    (useNavigation as jest.Mock).mockReturnValue({ replace: mockReplace });
+    mockGoBack.mockClear();
+    (useNavigation as jest.Mock).mockReturnValue({ goBack: mockGoBack });
   });
 
-  it('saves spent points across stats and replaces to Game', async () => {
+  it('saves spent points across stats and returns to Game', async () => {
     const { store } = await renderWithProviders(<CharacterCreation />);
 
     await fireEvent.press(screen.getByText('Inicializar'));
-    expect(mockReplace).not.toHaveBeenCalled();
-    expect(store.getState().saves.save).toBeUndefined();
+    expect(mockGoBack).not.toHaveBeenCalled();
+    expect(store.getState().saves.hasCreatedCharacter).toBe(false);
 
     await increase('STR', 4);
     await increase('DEX', 3);
@@ -39,12 +39,13 @@ describe('CharacterCreation', () => {
 
     await fireEvent.press(screen.getByText('Inicializar'));
 
-    expect(store.getState().saves.save?.status).toEqual({
+    expect(store.getState().saves.save.status).toEqual({
       ...INITIAL_ATTRIBUTES,
       strength: 4,
       dexterity: 3,
       constitution: 3,
     });
-    expect(mockReplace).toHaveBeenCalledWith('Game');
+    expect(store.getState().saves.hasCreatedCharacter).toBe(true);
+    expect(mockGoBack).toHaveBeenCalled();
   });
 });

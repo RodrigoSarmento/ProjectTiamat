@@ -18,10 +18,11 @@ describe('Start', () => {
   });
 
   it('replaces to Game when Start is pressed', async () => {
-    await renderWithProviders(<Start />);
+    const { store } = await renderWithProviders(<Start />);
 
     await fireEvent.press(screen.getByText('Iniciar'));
 
     expect(mockReplace).toHaveBeenCalledWith('Game');
+    expect(store.getState().saves.hasStarted).toBe(true);
   });
 });

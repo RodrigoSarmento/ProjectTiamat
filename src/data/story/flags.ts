@@ -9,4 +9,9 @@ export enum StoryFlag {
   dontLookAtGus = 'dont_look_at_gus',
   dontReactToGus = 'dont_react_to_gus',
   focusOnGus = 'focus_on_gus',
+  helpedGus = 'helped_gus',
+  sayNoToGus = 'say_no_to_gus',
+  useCardToHelpGus = 'use_card_to_help_gus',
+  helpedGusWithForcePassage = 'helped_gus_with_force_passage',
+  tryToForcePassageFailureTwice = 'try_to_force_passage_failure_twice',
 }

@@ -1,14 +1,16 @@
 import React, {
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from 'react';
 
-import { Text, View } from 'react-native';
+import { Animated, Pressable, View } from 'react-native';
 
+import { storyText } from '@helper/storyText';
 import WebView, { type WebViewMessageEvent } from 'react-native-webview';
 
 import { styles } from './DiceRollD20.styles';
@@ -32,8 +34,11 @@ const DiceWebView = WebView as unknown as React.ComponentType<
  * https://github.com/ChefJulio/react-3d-dice
  */
 const DiceRollD20 = forwardRef<DiceRollD20Ref, DiceRollD20Props>(
-  ({ size = 220, color = '#C24122', onComplete }, ref) => {
+  ({ size = 220, color = '#C24122', isSuccess, onComplete }, ref) => {
     const webRef = useRef<WebView>(null);
+    const dismissedRef = useRef(false);
+    const queuedRollRef = useRef(false);
+    const outcomeScale = useRef(new Animated.Value(0)).current;
     const [isRolling, setIsRolling] = useState(false);
     const [isReady, setIsReady] = useState(false);
     const [lastResult, setLastResult] = useState<number | null>(null);
@@ -41,39 +46,77 @@ const DiceRollD20 = forwardRef<DiceRollD20Ref, DiceRollD20Props>(
     const html = useMemo(() => buildDiceHtml({ color }), [color]);
 
     const roll = useCallback(() => {
-      if (isRolling || !isReady) {
+      if (isRolling || !isReady || lastResult != null) {
         return;
       }
       const result = Math.floor(Math.random() * 20) + 1;
       setIsRolling(true);
-      webRef.current?.injectJavaScript(`window.startRoll(${result}); true;`);
-    }, [isReady, isRolling]);
+      webRef.current?.injectJavaScript?.(`window.startRoll(${result}); true;`);
+    }, [isReady, isRolling, lastResult]);
 
     useImperativeHandle(ref, () => ({ roll }), [roll]);
 
-    const onMessage = useCallback(
-      (event: WebViewMessageEvent) => {
-        try {
-          const data = JSON.parse(event.nativeEvent.data) as DiceMessage;
-          if (data.type === 'ready') {
-            setIsReady(true);
-            return;
-          }
-          if (data.type === 'rolling') {
-            setIsRolling(true);
-            return;
-          }
-          if (data.type === 'settled') {
-            setIsRolling(false);
-            setLastResult(data.result);
-            onComplete?.(data.result);
-          }
-        } catch {
-          // ignore malformed messages
+    useEffect(() => {
+      if (!isReady || !queuedRollRef.current) {
+        return;
+      }
+      queuedRollRef.current = false;
+      roll();
+    }, [isReady, roll]);
+
+    useEffect(() => {
+      if (lastResult == null) {
+        outcomeScale.setValue(0);
+        return;
+      }
+      outcomeScale.setValue(0.35);
+      Animated.spring(outcomeScale, {
+        toValue: 1,
+        friction: 4,
+        tension: 140,
+        useNativeDriver: true,
+      }).start();
+    }, [lastResult, outcomeScale]);
+
+    const handlePress = () => {
+      if (isRolling || dismissedRef.current) {
+        return;
+      }
+      if (lastResult != null) {
+        dismissedRef.current = true;
+        onComplete?.(lastResult);
+        return;
+      }
+      if (!isReady) {
+        queuedRollRef.current = true;
+        return;
+      }
+      roll();
+    };
+
+    const onMessage = useCallback((event: WebViewMessageEvent) => {
+      try {
+        const data = JSON.parse(event.nativeEvent.data) as DiceMessage;
+        if (data.type === 'ready') {
+          setIsReady(true);
+          return;
         }
-      },
-      [onComplete],
-    );
+        if (data.type === 'rolling') {
+          setIsRolling(true);
+          return;
+        }
+        if (data.type === 'settled') {
+          setIsRolling(false);
+          setLastResult(data.result);
+        }
+      } catch {
+        // ignore malformed messages
+      }
+    }, []);
+
+    const showOutcome = lastResult != null && isSuccess != null;
+    const passed =
+      lastResult != null && isSuccess != null ? isSuccess(lastResult) : false;
 
     return (
       <View style={styles.wrapper}>
@@ -94,15 +137,24 @@ const DiceRollD20 = forwardRef<DiceRollD20Ref, DiceRollD20Props>(
             androidLayerType="hardware"
           />
         </View>
-        <Text style={styles.hint}>
-          {!isReady
-            ? 'Loading 3D die…'
-            : isRolling
-              ? 'Rolling…'
-              : lastResult != null
-                ? `Rolled ${lastResult} — tap to roll again`
-                : 'Tap the die to roll'}
-        </Text>
+        <View style={styles.outcomeSlot} pointerEvents="none">
+          {showOutcome ? (
+            <Animated.Text
+              style={[
+                styles.outcome,
+                passed ? styles.outcomeSuccess : styles.outcomeFailure,
+                { transform: [{ scale: outcomeScale }] },
+              ]}
+            >
+              {storyText(passed ? 'chrome.diceSuccess' : 'chrome.diceFailure')}
+            </Animated.Text>
+          ) : null}
+        </View>
+        <Pressable
+          testID="dice-roll-d20"
+          onPress={handlePress}
+          style={styles.hitArea}
+        />
       </View>
     );
   },

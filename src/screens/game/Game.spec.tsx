@@ -11,6 +11,10 @@ import {
   NARRATOR_MAX_LINES,
 } from './Game.constants';
 
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({ navigate: jest.fn() }),
+}));
+
 const dreamingNode = prologueChapter.nodes.dreaming;
 
 const dreamingPages =

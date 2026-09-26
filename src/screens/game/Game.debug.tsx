@@ -2,8 +2,30 @@ import React, { useState } from 'react';
 
 import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
 
-import type { IGameDebugJump } from './Game.debug.types';
+import type { IGameDebugDice, IGameDebugJump } from './Game.debug.types';
 import { styles } from './Game.styles';
+
+export const GameDebugDice: React.FC<IGameDebugDice> = ({
+  onForceSuccess,
+  onForceFailure,
+}) => (
+  <View style={styles.diceDebugRow}>
+    <Pressable
+      testID="GameDebugDice-success"
+      onPress={onForceSuccess}
+      style={styles.diceDebugButton}
+    >
+      <Text style={styles.debugButtonLabel}>SUCCESS</Text>
+    </Pressable>
+    <Pressable
+      testID="GameDebugDice-failure"
+      onPress={onForceFailure}
+      style={styles.diceDebugButton}
+    >
+      <Text style={styles.debugButtonLabel}>FAIL</Text>
+    </Pressable>
+  </View>
+);
 
 const GameDebugJump: React.FC<IGameDebugJump> = ({ nodeIds, onJump }) => {
   const [isOpen, setIsOpen] = useState(false);

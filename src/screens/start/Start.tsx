@@ -5,16 +5,20 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { ImageButton } from '@components/image-button';
 import { storyText } from '@helper/storyText';
+import { startGame } from '@redux/slices/SavesSlice';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 import { styles } from './Start.styles';
 
 const Start = () => {
+  const dispatch = useDispatch();
   const navigation =
     useNavigation<StackNavigationProp<GameStackParamsList, 'Start'>>();
 
   const handleStart = () => {
+    dispatch(startGame());
     navigation.replace('Game');
   };
 

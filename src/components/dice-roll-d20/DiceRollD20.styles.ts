@@ -1,20 +1,38 @@
 import { StyleSheet } from 'react-native';
 
+import { Colors } from '@styles';
+
 export const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    gap: 12,
   },
   diceFrame: {
     borderRadius: 16,
     overflow: 'hidden',
   },
+  hitArea: {
+    ...StyleSheet.absoluteFill,
+  },
   webview: {
     flex: 1,
     backgroundColor: 'transparent',
   },
-  hint: {
-    color: '#5D5F61',
-    fontSize: 13,
+  outcomeSlot: {
+    minHeight: 44,
+    marginTop: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  outcome: {
+    includeFontPadding: false,
+    fontFamily: 'Oxanium-ExtraBold',
+    fontSize: 28,
+    letterSpacing: 2,
+  },
+  outcomeSuccess: {
+    color: Colors.feedbackSuccess,
+  },
+  outcomeFailure: {
+    color: Colors.warningRed,
   },
 });

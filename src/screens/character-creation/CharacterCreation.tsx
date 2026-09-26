@@ -102,7 +102,7 @@ const CharacterCreation = () => {
               text={storyText('characterCreation.initialize')}
               onPress={() => {
                 dispatch(saveStatus(attributes));
-                navigation.replace('Game');
+                navigation.goBack();
               }}
               textStyle={styles.saveButtonText}
             />

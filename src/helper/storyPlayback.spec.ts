@@ -11,10 +11,21 @@ import {
   isChoiceAvailable,
   isQuickChoicePrompt,
   passageOpensWithChoices,
+  resolveStoryDiceRoll,
   splitConsequences,
   visibleChoices,
   withFlagConsequences,
 } from './storyPlayback';
+
+const emptyStatus: IStatus = {
+  energy: 0,
+  strength: 0,
+  dexterity: 0,
+  constitution: 0,
+  intelligence: 0,
+  wisdom: 0,
+  charisma: 0,
+};
 
 const narratorNode: IStoryPassageNode = {
   type: 'passage',
@@ -311,5 +322,44 @@ describe('storyPlayback', () => {
         title: 'TELA PRETA - Sonhando',
       },
     ]);
+  });
+
+  it('passes a dice roll when face plus attribute meets minToPass', () => {
+    const roll = {
+      attribute: 'strength' as const,
+      minToPass: 10,
+      success: { next: 'force-ok' },
+      failure: { next: 'force-fail' },
+    };
+
+    expect(
+      resolveStoryDiceRoll(
+        roll,
+        7,
+        { ...emptyStatus, strength: 3 },
+        emptyStatus,
+      ),
+    ).toMatchObject({
+      total: 10,
+      passed: true,
+      outcome: { next: 'force-ok' },
+    });
+    expect(
+      resolveStoryDiceRoll(
+        roll,
+        5,
+        { ...emptyStatus, strength: 3 },
+        { ...emptyStatus, strength: 2 },
+      ),
+    ).toMatchObject({
+      modifier: 5,
+      total: 10,
+      passed: true,
+    });
+    expect(resolveStoryDiceRoll(roll, 9)).toMatchObject({
+      total: 9,
+      passed: false,
+      outcome: { next: 'force-fail' },
+    });
   });
 });

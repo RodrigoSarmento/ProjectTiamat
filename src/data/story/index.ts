@@ -14,6 +14,8 @@ export type {
   IStoryChapterRef,
   IStoryChoice,
   IStoryConsequence,
+  IStoryDiceOutcome,
+  IStoryDiceRoll,
   IStoryEndTrechoNode,
   IStoryFlagConsequence,
   IStoryIndex,

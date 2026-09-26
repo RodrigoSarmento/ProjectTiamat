@@ -17,12 +17,21 @@ export interface ISave {
   temporaryStatus: IStatus;
   currentBackground: IStoryBackground;
 }
+
 export interface ISaves {
-  save: ISave | undefined;
+  hasStarted: boolean;
+  hasCreatedCharacter: boolean;
+  save: ISave;
 }
 
 const initialState: ISaves = {
-  save: undefined,
+  hasStarted: false,
+  hasCreatedCharacter: false,
+  save: {
+    status: { ...EMPTY_STATUS },
+    temporaryStatus: { ...EMPTY_STATUS },
+    currentBackground: {},
+  },
 };
 
 const addTemporaryStatus = (
@@ -44,32 +53,30 @@ const savesSlice = createSlice({
   name: 'saves',
   initialState,
   reducers: {
+    startGame: (state) => {
+      state.hasStarted = true;
+    },
     saveStatus: (state, action: PayloadAction<IStatus>) => {
-      state.save = {
-        status: action.payload,
-        temporaryStatus: { ...action.payload },
-        currentBackground: state.save?.currentBackground ?? {},
-      };
+      state.save.status = action.payload;
+      state.hasCreatedCharacter = true;
     },
     applyTemporaryStatus: (state, action: PayloadAction<Partial<IStatus>>) => {
-      if (!state.save) {
-        return;
-      }
       state.save.temporaryStatus = addTemporaryStatus(
         state.save.temporaryStatus,
         action.payload,
       );
     },
     setCurrentBackground: (state, action: PayloadAction<IStoryBackground>) => {
-      if (!state.save) {
-        return;
-      }
       state.save.currentBackground = action.payload;
     },
   },
 });
 
-export const { saveStatus, applyTemporaryStatus, setCurrentBackground } =
-  savesSlice.actions;
+export const {
+  startGame,
+  saveStatus,
+  applyTemporaryStatus,
+  setCurrentBackground,
+} = savesSlice.actions;
 
 export default savesSlice.reducer;

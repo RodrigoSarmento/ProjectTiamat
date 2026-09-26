@@ -21,6 +21,7 @@ declare global {
   type GameStackParamsList = {
     Start: undefined;
     Game: undefined;
+    CharacterCreation: undefined;
   };
 }
 

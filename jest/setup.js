@@ -18,6 +18,11 @@ jest.mock('react-native-sound', () => {
   return MockSound;
 });
 
+jest.mock('react-native-webview', () => {
+  const { View } = require('react-native');
+  return { __esModule: true, default: View };
+});
+
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(() => Promise.resolve()),
   getItem: jest.fn(() => Promise.resolve(null)),
