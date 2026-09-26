@@ -507,6 +507,7 @@ export const prologueChapter = {
         {
           id: 'use-card-confirm',
           label: 'prologue.use-card-response.choices.use-card-confirm',
+          next: 'use-card-confirm',
           consequences: [{ type: 'flag', value: StoryFlag.useCardToHelpGus }],
         },
         {
