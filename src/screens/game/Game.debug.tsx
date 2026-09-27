@@ -27,7 +27,11 @@ export const GameDebugDice: React.FC<IGameDebugDice> = ({
   </View>
 );
 
-const GameDebugJump: React.FC<IGameDebugJump> = ({ nodeIds, onJump }) => {
+const GameDebugJump: React.FC<IGameDebugJump> = ({
+  nodeIds,
+  currentNodeId,
+  onJump,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,19 +56,32 @@ const GameDebugJump: React.FC<IGameDebugJump> = ({ nodeIds, onJump }) => {
             onPress={() => setIsOpen(false)}
           />
           <ScrollView style={styles.debugList}>
-            {[...nodeIds].map((nodeId) => (
-              <Pressable
-                key={nodeId}
-                testID={`GameDebugJump-${nodeId}`}
-                onPress={() => {
-                  onJump(nodeId);
-                  setIsOpen(false);
-                }}
-                style={styles.debugRow}
-              >
-                <Text style={styles.debugRowLabel}>{nodeId}</Text>
-              </Pressable>
-            ))}
+            {[...nodeIds].map((nodeId) => {
+              const isCurrent = nodeId === currentNodeId;
+              return (
+                <Pressable
+                  key={nodeId}
+                  testID={`GameDebugJump-${nodeId}`}
+                  onPress={() => {
+                    onJump(nodeId);
+                    setIsOpen(false);
+                  }}
+                  style={[styles.debugRow, isCurrent && styles.debugRowCurrent]}
+                >
+                  <Text
+                    testID={
+                      isCurrent ? `GameDebugJump-${nodeId}-current` : undefined
+                    }
+                    style={[
+                      styles.debugRowLabel,
+                      isCurrent && styles.debugRowLabelCurrent,
+                    ]}
+                  >
+                    {nodeId}
+                  </Text>
+                </Pressable>
+              );
+            })}
           </ScrollView>
         </View>
       </Modal>

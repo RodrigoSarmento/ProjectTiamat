@@ -76,8 +76,17 @@ export const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.gray800,
   },
+  debugRowCurrent: {
+    backgroundColor: 'rgba(255, 46, 196, 0.28)',
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.neonMagenta,
+  },
   debugRowLabel: {
     color: Colors.white,
     fontSize: 14,
+  },
+  debugRowLabelCurrent: {
+    color: Colors.neonCyan,
+    fontWeight: '700',
   },
 });

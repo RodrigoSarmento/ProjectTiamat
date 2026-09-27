@@ -30,8 +30,8 @@ const Game = () => {
     pendingDiceChoice,
     currentBackground,
     nodeIds,
+    currentNodeId,
     advance,
-    closeChoices,
     selectChoice,
     completeDiceRoll,
     isDiceSuccess,
@@ -78,7 +78,6 @@ const Game = () => {
         isVisible={isChoicesOpen}
         choices={choices}
         onSelect={selectChoice}
-        onClose={closeChoices}
       />
       {pendingDiceChoice ? (
         <View style={styles.diceOverlay}>
@@ -95,7 +94,13 @@ const Game = () => {
           ) : null}
         </View>
       ) : null}
-      {__DEV__ ? <GameDebugJump nodeIds={nodeIds} onJump={goToNode} /> : null}
+      {__DEV__ ? (
+        <GameDebugJump
+          nodeIds={nodeIds}
+          currentNodeId={currentNodeId}
+          onJump={goToNode}
+        />
+      ) : null}
       <StoryLog entries={storyLog} />
     </SafeAreaView>
   );

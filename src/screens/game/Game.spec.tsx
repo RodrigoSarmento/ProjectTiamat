@@ -1,7 +1,7 @@
 import { prologueChapter } from '@data/story';
 import { getPassagePages } from '@helper/storyPlayback';
 import { renderWithProviders } from '@test/renderWithProviders';
-import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen } from '@testing-library/react-native';
 
 import Game from './Game';
 import {
@@ -73,20 +73,6 @@ describe('Game', () => {
     expect(
       screen.getByText('Finalmente em paz fora do caos de Nova São Paulo'),
     ).toBeOnTheScreen();
-  });
-
-  it('closes the choices modal from the backdrop and reopens from continue', async () => {
-    await renderGame();
-    await advanceToChoices();
-
-    await fireEvent.press(screen.getByTestId('ChoiceSelectModal-backdrop'));
-    await waitFor(() => {
-      expect(screen.queryByTestId('ChoiceSelectModal')).not.toBeOnTheScreen();
-    });
-    expect(screen.getByText('TELA PRETA - Sonhando')).toBeOnTheScreen();
-
-    await fireEvent.press(screen.getByTestId('NarratorText-continue'));
-    expect(screen.getByTestId('ChoiceSelectModal')).toBeOnTheScreen();
   });
 
   it('follows a choice to the next passage', async () => {

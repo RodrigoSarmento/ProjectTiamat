@@ -48,6 +48,7 @@ export interface IStoryChoice {
   requires?: StoryFlag[];
   consequences?: IStoryConsequence[];
   once?: boolean;
+  optional?: boolean;
   isQuickChoice?: boolean;
   rollDice?: IStoryDiceRoll;
 }
@@ -68,6 +69,7 @@ export interface IStoryPassageNode {
   portraitPosition?: PortraitPosition;
   lines?: IStoryLine[];
   next?: StoryNodeId;
+  skipNextText?: boolean;
   choices?: IStoryChoice[];
 }
 

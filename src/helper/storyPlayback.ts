@@ -1,4 +1,5 @@
 import type {
+  CharacterId,
   IStoryBackground,
   IStoryChoice,
   IStoryConsequence,
@@ -6,7 +7,6 @@ import type {
   IStoryLine,
   IStoryNode,
   IStoryPassageNode,
-  CharacterId,
   PortraitPosition,
   StoryFlag,
 } from '@data/story';
@@ -121,6 +121,14 @@ export const passageOpensWithChoices = (node: IStoryNode | undefined) =>
     (node.choices?.length ?? 0) > 0,
   );
 
+export const shouldSkipPassageText = (
+  node: IStoryNode | undefined,
+  skipText: boolean,
+) =>
+  Boolean(
+    skipText && node?.type === 'passage' && (node.choices?.length ?? 0) > 0,
+  );
+
 export const isChoiceAvailable = (choice: IStoryChoice, flags: StoryFlag[]) =>
   (choice.requires ?? []).every((flag) => flags.includes(flag));
 
@@ -139,14 +147,14 @@ export const visibleChoices = (
       return [];
     }
     const used = usedChoiceIds.includes(choice.id);
-    if (used && !choice.once) {
+    if (used && !choice.once && !choice.optional) {
       return [];
     }
     return [
       {
         ...choice,
         label: storyText(choice.label),
-        disabled: used && Boolean(choice.once),
+        disabled: used,
       },
     ];
   });
@@ -208,8 +216,7 @@ export const resolveStoryDiceRoll = (
   temporaryStatus?: IStatus,
 ) => {
   const modifier =
-    (status?.[roll.attribute] ?? 0) +
-    (temporaryStatus?.[roll.attribute] ?? 0);
+    (status?.[roll.attribute] ?? 0) + (temporaryStatus?.[roll.attribute] ?? 0);
   const total = face + modifier;
   const passed = total >= roll.minToPass;
 

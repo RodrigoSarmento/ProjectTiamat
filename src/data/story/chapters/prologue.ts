@@ -117,6 +117,7 @@ export const prologueChapter = {
       text: 'prologue.drink-offer.text',
       choices: [
         {
+          //TODO: drinking sound
           id: 'accept-drink',
           label: 'prologue.drink-offer.choices.accept-drink',
           next: 'accepted-drink',
@@ -138,26 +139,18 @@ export const prologueChapter = {
     },
     'accepted-drink': {
       type: 'passage',
-      lines: [
-        {
-          text: 'prologue.accepted-drink.lines.0',
-        },
-        {
-          text: 'prologue.accepted-drink.lines.1',
-        },
-      ],
-      next: 'riding-bus',
+      text: 'prologue.accepted-drink.text',
+      next: 'bus-system-message',
     },
     'refused-drink': {
       type: 'passage',
-      lines: [
-        {
-          text: 'prologue.refused-drink.lines.0',
-        },
-        {
-          text: 'prologue.refused-drink.lines.1',
-        },
-      ],
+      text: 'prologue.refused-drink.text',
+      next: 'bus-system-message',
+    },
+    'bus-system-message': {
+      type: 'passage',
+      text: 'prologue.bus-system-message.text',
+      characterId: CharacterId.busSystem,
       next: 'riding-bus',
     },
     'riding-bus': {
@@ -191,7 +184,7 @@ export const prologueChapter = {
           id: 'ask-about-service',
           label: 'prologue.jo-offer-service.choices.ask-about-service',
           next: 'jo-job-first-answer',
-          once: true,
+          optional: true,
           consequences: [
             {
               type: 'flag',
@@ -229,13 +222,13 @@ export const prologueChapter = {
         {
           id: 'who-is-the-client',
           label: 'prologue.jo-job-talk.choices.who-is-the-client',
-          once: true,
+          optional: true,
           next: 'jo-client-answer',
         },
         {
           id: 'why-client-wants',
           label: 'prologue.jo-job-talk.choices.why-client-wants',
-          once: true,
+          optional: true,
           next: 'jo-client-why-wants-answer',
         },
       ],
@@ -486,10 +479,10 @@ export const prologueChapter = {
           },
         },
         {
-          once: true,
           id: 'use-card',
           label: 'prologue.try-to-help-gus.choices.use-card',
           next: 'use-card-response',
+          optional: true,
         },
       ],
     },
@@ -533,6 +526,8 @@ export const prologueChapter = {
           characterId: CharacterId.gus,
         },
       ],
+      next: 'try-to-help-gus',
+      skipNextText: true,
     },
     'use-card-confirm': {
       type: 'passage',
@@ -636,6 +631,7 @@ export const prologueChapter = {
       type: 'passage',
       text: 'prologue.rethink-the-forcing-passage.text',
       next: 'try-to-help-gus',
+      skipNextText: true,
     },
     'force-passage-failure-twice': {
       type: 'passage',

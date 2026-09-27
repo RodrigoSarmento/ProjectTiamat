@@ -6,6 +6,7 @@ export enum CharacterId {
   jo = 3,
   gus = 4,
   you = 5,
+  busSystem = 6,
 }
 
 export interface IStoryCharacter {
@@ -38,6 +39,10 @@ export const CHARACTERS: Record<CharacterId, IStoryCharacter> = {
     name: 'characters.you',
     id: CharacterId.you,
     portrait: require('@assets/characters/character_gus.png'), //TODO: Add your portrait
+  },
+  [CharacterId.busSystem]: {
+    name: 'characters.busSystem',
+    id: CharacterId.busSystem,
   },
 };
 

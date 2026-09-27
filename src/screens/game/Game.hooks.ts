@@ -20,6 +20,7 @@ import {
   nodeBackground,
   passageOpensWithChoices,
   resolveStoryDiceRoll,
+  shouldSkipPassageText,
   splitConsequences,
   visibleChoices,
   withFlagConsequences,
@@ -117,16 +118,26 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     );
   };
 
-  const goToNode = (nextId: StoryNodeId) => {
+  const goToNode = (nextId: StoryNodeId, skipText = false) => {
     const nextNode = chapter.nodes[nextId];
+    const nextPages = getNodePages(nextNode);
+    const skipToChoices = shouldSkipPassageText(nextNode, skipText);
+
     setPendingDiceChoice(undefined);
     setNodeId(nextId);
-    setPageIndex(0);
-    setIsChoicesOpen(passageOpensWithChoices(nextNode));
     setBackground((current) =>
       applyBackground(current, nodeBackground(nextNode)),
     );
-    recordPage(getNodePages(nextNode)[0], nextId, 0);
+
+    if (skipToChoices) {
+      setPageIndex(Math.max(0, nextPages.length - 1));
+      setIsChoicesOpen(true);
+      return;
+    }
+
+    setPageIndex(0);
+    setIsChoicesOpen(passageOpensWithChoices(nextNode));
+    recordPage(nextPages[0], nextId, 0);
   };
 
   const applyOutcome = (
@@ -169,13 +180,9 @@ export const useStoryGame = (chapter: IStoryChapter) => {
       return true;
     }
     if (passage?.next) {
-      goToNode(passage.next);
+      goToNode(passage.next, Boolean(passage.skipNextText));
     }
     return false;
-  };
-
-  const closeChoices = () => {
-    setIsChoicesOpen(false);
   };
 
   const selectChoice = (choice: IPresentedStoryChoice) => {
@@ -191,7 +198,7 @@ export const useStoryGame = (chapter: IStoryChapter) => {
       choice.id,
       choice.consequences,
       choice.next,
-      Boolean(choice.once || !choice.next),
+      Boolean(choice.once || choice.optional || !choice.next),
     );
   };
 
@@ -234,8 +241,8 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     pendingDiceChoice,
     currentBackground,
     nodeIds: Object.keys(chapter.nodes),
+    currentNodeId: nodeId,
     advance,
-    closeChoices,
     selectChoice,
     completeDiceRoll,
     isDiceSuccess,

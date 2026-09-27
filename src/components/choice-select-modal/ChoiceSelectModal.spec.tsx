@@ -5,7 +5,6 @@ import { QUICK_CHOICE_MS_PER_OPTION } from './ChoiceSelectModal.constants';
 import type { IChoiceSelectModal } from './ChoiceSelectModal.types';
 
 const mockOnSelect = jest.fn();
-const mockOnClose = jest.fn();
 
 const defaultProps: IChoiceSelectModal = {
   isVisible: true,
@@ -18,7 +17,6 @@ const defaultProps: IChoiceSelectModal = {
     { id: 'crime', label: 'Como uma lenda do crime', disabled: false },
   ],
   onSelect: mockOnSelect,
-  onClose: mockOnClose,
 };
 
 const quickChoices = [
@@ -67,11 +65,11 @@ describe('ChoiceSelectModal', () => {
     expect(screen.queryByTestId('ChoiceSelectModal')).not.toBeOnTheScreen();
   });
 
-  it('closes from the backdrop', async () => {
+  it('stays open when the backdrop is pressed', async () => {
     await render(<ChoiceSelectModal {...defaultProps} />);
 
     await fireEvent.press(screen.getByTestId('ChoiceSelectModal-backdrop'));
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('ChoiceSelectModal')).toBeOnTheScreen();
   });
 
   it('selects a choice', async () => {

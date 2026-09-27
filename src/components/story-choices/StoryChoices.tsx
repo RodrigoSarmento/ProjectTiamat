@@ -11,15 +11,17 @@ const StoryChoices: React.FC<IStoryChoices> = ({
   selectedId,
   testID = 'StoryChoices',
 }) => {
+  const isMainContinue = (choice: (typeof choices)[number]) =>
+    !choice.optional && !choice.once;
   const markContinue =
     choices.length > 1 &&
-    choices.some((choice) => choice.once) &&
-    choices.some((choice) => !choice.once);
+    choices.some((choice) => choice.optional) &&
+    choices.some(isMainContinue);
 
   return (
     <View testID={testID} style={styles.container}>
       {choices.map((choice) => {
-        const continues = markContinue && !choice.once;
+        const continues = markContinue && isMainContinue(choice);
 
         return (
           <TouchableOpacity

@@ -10,7 +10,8 @@
     "maleVoice": "Voz masculina",
     "jo": "Jô",
     "gus": "Gus",
-    "you": "Você"
+    "you": "Você",
+    "busSystem": "Sistema do ônibus"
   },
   "characterCreation": {
     "charName": "Dê um nome para seu personagem",
@@ -93,16 +94,13 @@
       }
     },
     "accepted-drink": {
-      "lines": [
-        "A bebida desce pela sua garganta como uma bota, mas alguns segundos depois de chegar ao seu estômago, você sente um pico de energia instantâneo que faz até a sua torcicolo repensarem a existência. Vocês começam a se organizar para sair do ônibus.",
-        "[Sistema do Ônibus]\n\n Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Capelinha.\n\n As portas se abrem."
-      ]
+      "text": "A bebida desce pela sua garganta como uma bota, mas alguns segundos depois de chegar ao seu estômago, você sente um pico de energia instantâneo que faz até a sua torcicolo repensarem a existência. Vocês começam a se organizar para sair do ônibus."
     },
     "refused-drink": {
-      "lines": [
-        "Jô termina a bebida, amassa e joga fora. Em seguida vocês se organizam para sair do ônibus.\n\nUma voz robótica invade o ônibus:",
-        "[Sistema do Ônibus]\n\n Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Capelinha.\n\n As portas se abrem."
-      ]
+      "text": "Jô termina a bebida, amassa e joga fora. Em seguida vocês se organizam para sair do ônibus.\n\nUma voz robótica invade o ônibus:"
+    },
+    "bus-system-message": {
+      "text": "Terminal de Funcionários New Human, preparem suas credenciais. Próxima estação: Terminal Capelinha.\n\n"
     },
     "riding-bus": {
       "lines": [

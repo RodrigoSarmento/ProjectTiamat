@@ -96,7 +96,6 @@ export const Fonts = StyleSheet.create({
     letterSpacing: 0.4,
     color: Colors.blackPrimary,
   },
-
   // Body copy
   contentBase: {
     ...regular,

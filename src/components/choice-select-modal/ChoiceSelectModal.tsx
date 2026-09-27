@@ -31,7 +31,6 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
   isVisible,
   choices,
   onSelect,
-  onClose,
   testID = 'ChoiceSelectModal',
 }) => {
   const [slideAnim] = useState(() => new Animated.Value(SLIDE_DISTANCE));
@@ -147,22 +146,10 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
       visible={isVisible}
       transparent
       animationType="fade"
-      onRequestClose={() => {
-        if (!isQuick) {
-          onClose();
-        }
-      }}
+      onRequestClose={() => {}}
     >
       <View style={styles.root} pointerEvents="box-none">
-        {isQuick ? (
-          <View style={styles.backdrop} />
-        ) : (
-          <Pressable
-            testID={`${testID}-backdrop`}
-            onPress={onClose}
-            style={styles.backdrop}
-          />
-        )}
+        <View testID={`${testID}-backdrop`} style={styles.backdrop} />
         <Animated.View
           style={[styles.sheet, { transform: [{ translateY: slideAnim }] }]}
         >

@@ -12,6 +12,7 @@ import {
   isQuickChoicePrompt,
   passageOpensWithChoices,
   resolveStoryDiceRoll,
+  shouldSkipPassageText,
   splitConsequences,
   visibleChoices,
   withFlagConsequences,
@@ -180,6 +181,34 @@ describe('storyPlayback', () => {
     ]);
   });
 
+  it('keeps optional choices visible and disabled after use', () => {
+    const optionalChoices: IStoryChoice[] = [
+      { id: 'continue', label: 'Continue', next: 'jo-answer' },
+      {
+        id: 'use-card',
+        label: 'Use the card',
+        next: 'use-card-response',
+        optional: true,
+      },
+    ];
+
+    expect(visibleChoices(optionalChoices, [], ['use-card'])).toEqual([
+      {
+        id: 'continue',
+        label: 'Continue',
+        next: 'jo-answer',
+        disabled: false,
+      },
+      {
+        id: 'use-card',
+        label: 'Use the card',
+        next: 'use-card-response',
+        optional: true,
+        disabled: true,
+      },
+    ]);
+  });
+
   it('splits flag and temporaryStatus consequences', () => {
     expect(
       splitConsequences([
@@ -240,6 +269,23 @@ describe('storyPlayback', () => {
     ).toBe(true);
     expect(
       passageOpensWithChoices({ type: 'endTrecho', nextChapter: 'chapter-01' }),
+    ).toBe(false);
+  });
+
+  it('skips destination text only when returning to a passage that has choices', () => {
+    const withChoices: IStoryPassageNode = {
+      type: 'passage',
+      text: 'You look at the gate.',
+      choices: [{ id: 'force', label: 'Force it' }],
+    };
+
+    expect(shouldSkipPassageText(withChoices, true)).toBe(true);
+    expect(shouldSkipPassageText(withChoices, false)).toBe(false);
+    expect(
+      shouldSkipPassageText(
+        { type: 'passage', text: 'Keep walking.' },
+        true,
+      ),
     ).toBe(false);
   });
 
