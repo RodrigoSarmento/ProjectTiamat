@@ -24,6 +24,21 @@ describe('GameDebugDice', () => {
 });
 
 describe('GameDebugJump', () => {
+  it('opens the combat poc from the debug control', async () => {
+    const onOpenCombat = jest.fn();
+    await render(
+      <GameDebugJump
+        nodeIds={['dreaming']}
+        currentNodeId="dreaming"
+        onJump={jest.fn()}
+        onOpenCombat={onOpenCombat}
+      />,
+    );
+
+    await fireEvent.press(screen.getByTestId('GameDebugCombat'));
+    expect(onOpenCombat).toHaveBeenCalledTimes(1);
+  });
+
   it('highlights the current node in the list', async () => {
     await render(
       <GameDebugJump

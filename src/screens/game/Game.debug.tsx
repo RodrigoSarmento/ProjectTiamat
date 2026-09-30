@@ -31,11 +31,21 @@ const GameDebugJump: React.FC<IGameDebugJump> = ({
   nodeIds,
   currentNodeId,
   onJump,
+  onOpenCombat,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
+      {onOpenCombat ? (
+        <Pressable
+          testID="GameDebugCombat"
+          onPress={onOpenCombat}
+          style={styles.debugCombatButton}
+        >
+          <Text style={styles.debugCombatButtonLabel}>COMBAT</Text>
+        </Pressable>
+      ) : null}
       <Pressable
         testID="GameDebugJump"
         onPress={() => setIsOpen(true)}

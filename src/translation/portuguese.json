@@ -5,6 +5,24 @@
     "diceSuccess": "Sucesso",
     "diceFailure": "Falha"
   },
+  "combat": {
+    "title": "Combate",
+    "back": "Voltar",
+    "trayHint": "Segure e arraste três dados para o centro",
+    "fieldHint": "Segure de novo para devolver à bandeja",
+    "needThree": "Escolha 3 dados",
+    "ready": "Três dados prontos",
+    "runAction": "Rodar ação",
+    "newRound": "Nova rodada",
+    "attack": "Ataque",
+    "defense": "Defesa",
+    "attackShort": "Atq",
+    "defenseShort": "Def",
+    "total": "Total",
+    "miss": "Erro",
+    "hits": "{{count}} acertos",
+    "misses": "{{count}} erros"
+  },
   "characters": {
     "securityGuard": "Segurança",
     "maleVoice": "Voz masculina",

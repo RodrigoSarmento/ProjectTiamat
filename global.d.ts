@@ -22,6 +22,7 @@ declare global {
     Start: undefined;
     Game: undefined;
     CharacterCreation: undefined;
+    Combat: undefined;
   };
 }
 

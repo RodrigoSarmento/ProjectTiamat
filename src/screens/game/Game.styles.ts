@@ -49,8 +49,23 @@ export const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 4,
   },
+  debugCombatButton: {
+    position: 'absolute',
+    top: 84,
+    right: 8,
+    zIndex: 20,
+    backgroundColor: Colors.neonCyan,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 4,
+  },
   debugButtonLabel: {
     color: Colors.white,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  debugCombatButtonLabel: {
+    color: Colors.blackPrimary,
     fontSize: 12,
     fontWeight: '700',
   },

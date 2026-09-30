@@ -1,9 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
+import type { RootState } from '@redux/store';
 import { CharacterCreation } from '@screens/character-creation';
+import { Combat } from '@screens/combat';
 import { Game } from '@screens/game';
 import { Start } from '@screens/start';
-import type { RootState } from '@redux/store';
 import { useSelector } from 'react-redux';
 
 import { bookPageTransition } from './bookPageTransition';
@@ -19,12 +20,13 @@ const GameStackNavigator = () => {
       screenOptions={bookPageTransition}
     >
       <Stack.Screen name="Start" component={Start} />
+      <Stack.Screen name="Game" component={Game} />
+      <Stack.Screen name="CharacterCreation" component={CharacterCreation} />
       <Stack.Screen
-        name="Game"
-        component={Game}
+        name="Combat"
+        component={Combat}
         options={{ gestureEnabled: false }}
       />
-      <Stack.Screen name="CharacterCreation" component={CharacterCreation} />
     </Stack.Navigator>
   );
 };

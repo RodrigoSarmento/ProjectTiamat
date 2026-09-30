@@ -99,6 +99,7 @@ const Game = () => {
           nodeIds={nodeIds}
           currentNodeId={currentNodeId}
           onJump={goToNode}
+          onOpenCombat={() => navigation.navigate('Combat')}
         />
       ) : null}
       <StoryLog entries={storyLog} />
