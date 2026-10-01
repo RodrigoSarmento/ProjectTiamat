@@ -1,3 +1,4 @@
+import { CombatDieId } from '@data/combat';
 import type { IStoryBackground } from '@data/story';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
@@ -22,7 +23,22 @@ export interface ISaves {
   hasStarted: boolean;
   hasCreatedCharacter: boolean;
   save: ISave;
+  dices: CombatDieId[];
+  numOfDices: number;
 }
+
+export const STARTER_DICES: CombatDieId[] = [
+  'attack-d4-a',
+  'attack-d4-b',
+  'attack-d6-a',
+  'attack-d8-a',
+  'defense-d4-a',
+  'defense-d4-b',
+  'defense-d6-a',
+  'defense-d8-a',
+];
+
+export const STARTER_NUM_OF_DICES = 2;
 
 const initialState: ISaves = {
   hasStarted: false,
@@ -33,6 +49,8 @@ const initialState: ISaves = {
     temporaryStatus: { ...EMPTY_STATUS },
     currentBackground: {},
   },
+  dices: [...STARTER_DICES],
+  numOfDices: STARTER_NUM_OF_DICES,
 };
 
 const addTemporaryStatus = (

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { ImageButton } from '@components/image-button';
-import { storyText } from '@helper/storyText';
+import { translate } from '@helper/translate';
 import { startGame } from '@redux/slices/SavesSlice';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,7 +32,7 @@ const Start = () => {
         <View style={styles.content}>
           <ImageButton
             source={require('@assets/buttons/button_start.png')}
-            text={storyText('chrome.start')}
+            text={translate('chrome.start')}
             textStyle={styles.startButtonText}
             style={styles.startButton}
             onPress={handleStart}

@@ -1,7 +1,7 @@
 import { getCharacter } from '@data/story';
 
 import type { IStoryPage } from './storyPlayback';
-import { storyText } from './storyText';
+import { translate } from './translate';
 
 export const STORY_LOG_LIMIT = 20;
 
@@ -20,7 +20,7 @@ export const toStoryLogEntry = (
   key: `${nodeId}:${pageIndex}`,
   speaker:
     page.kind === 'dialogue'
-      ? storyText(getCharacter(page.characterId).name)
+      ? translate(getCharacter(page.characterId).name)
       : undefined,
   title: page.kind === 'narrator' ? page.title : undefined,
   text: page.text,

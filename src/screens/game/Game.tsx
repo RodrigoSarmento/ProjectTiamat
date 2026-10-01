@@ -9,11 +9,12 @@ import { DiceRollD20 } from '@components/dice-roll-d20';
 import { NarratorText } from '@components/narrator-text';
 import { StoryLog } from '@components/story-log';
 import {
+  EnemiesId,
   getCharacter,
   getStoryBackgroundImage,
   prologueChapter,
 } from '@data/story';
-import { storyText } from '@helper/storyText';
+import { translate } from '@helper/translate';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -54,7 +55,7 @@ const Game = () => {
     page?.kind === 'dialogue' ? (
       <View style={styles.dialogueContainer}>
         <Dialogue
-          name={speaker ? storyText(speaker.name) : undefined}
+          name={speaker ? translate(speaker.name) : undefined}
           text={page.text}
           portrait={speaker?.portrait}
           portraitPosition={page.portraitPosition}
@@ -99,7 +100,9 @@ const Game = () => {
           nodeIds={nodeIds}
           currentNodeId={currentNodeId}
           onJump={goToNode}
-          onOpenCombat={() => navigation.navigate('Combat')}
+          onOpenCombat={() =>
+            navigation.navigate('Combat', { enemyId: EnemiesId.enemy1 })
+          }
         />
       ) : null}
       <StoryLog entries={storyLog} />

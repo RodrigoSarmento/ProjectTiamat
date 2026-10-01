@@ -14,7 +14,7 @@ import {
   type IPresentedStoryChoice,
   isQuickChoicePrompt,
 } from '@helper/storyPlayback';
-import { storyText } from '@helper/storyText';
+import { translate } from '@helper/translate';
 
 import {
   ANIMATION_MS,
@@ -183,7 +183,7 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
               style={styles.confirm}
             >
               <Text style={styles.confirmLabel}>
-                {storyText('chrome.confirm')}
+                {translate('chrome.confirm')}
               </Text>
             </Pressable>
           ) : null}

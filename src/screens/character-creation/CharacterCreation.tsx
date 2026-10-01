@@ -14,7 +14,7 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import { ImageButton } from '@components/image-button';
 import { Modal } from '@components/modal';
 import { MAX_STAT, StatBar } from '@components/stat-bar';
-import { storyText } from '@helper/storyText';
+import { translate } from '@helper/translate';
 import { saveCharName, saveStatus } from '@redux/slices/SavesSlice';
 import { Colors, CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -94,7 +94,7 @@ const CharacterCreation = () => {
           >
             <View style={styles.pointsBlock}>
               <Text style={styles.pointsValue}>
-                {storyText('characterCreation.pointsRemaining', {
+                {translate('characterCreation.pointsRemaining', {
                   remaining: remainingPoints,
                 })}
               </Text>
@@ -104,9 +104,9 @@ const CharacterCreation = () => {
               {ATTRIBUTE_META.map((attribute) => (
                 <StatBar
                   key={attribute.id}
-                  label={storyText(attribute.label)}
+                  label={translate(attribute.label)}
                   shortLabel={attribute.shortLabel}
-                  description={storyText(attribute.description)}
+                  description={translate(attribute.description)}
                   value={attributes[attribute.id]}
                   canIncrease={
                     remainingPoints > 0 && attributes[attribute.id] < MAX_STAT
@@ -121,7 +121,7 @@ const CharacterCreation = () => {
               disabled={!canConfirm}
               source={require('@assets/buttons/button_confirm.png')}
               style={styles.button}
-              text={storyText('characterCreation.initialize')}
+              text={translate('characterCreation.initialize')}
               onPress={handleInitialize}
               textStyle={styles.saveButtonText}
             />
@@ -131,7 +131,7 @@ const CharacterCreation = () => {
       <Modal
         testID="CharacterCreation-nameModal"
         isVisible={isNameModalOpen}
-        title={storyText('characterCreation.charName')}
+        title={translate('characterCreation.charName')}
       >
         <TextInput
           testID="CharacterCreation-nameInput"
@@ -148,7 +148,7 @@ const CharacterCreation = () => {
           disabled={!trimmedName}
           source={require('@assets/buttons/button_confirm.png')}
           style={styles.nameSaveButton}
-          text={storyText('characterCreation.save')}
+          text={translate('characterCreation.save')}
           onPress={handleSaveName}
           textStyle={styles.saveButtonText}
         />

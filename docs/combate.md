@@ -1,4 +1,4 @@
-# Combate por deck de dados
+es# Combate por deck de dados
 
 Nota da conversa sobre o primeiro desenho de combate do ProjectTiamat.
 
@@ -18,12 +18,12 @@ Os dados escolhidos vão para o morto. No turno seguinte, o mesmo número de dad
 
 Quatro dados escolhidos:
 
-| Dado | Tipo | Faces |
-| --- | --- | --- |
-| 1d6 | ataque | +1 +1 +2 +2 0 0 |
-| 1d4 | ataque | +1 +1 +1 +2 |
-| 1d4 | defesa | 0 +1 +1 +1 |
-| 1d8 | ataque | 0 0 +1 +1 +2 +2 +3 +4 |
+| Dado | Tipo   | Faces                 |
+| ---- | ------ | --------------------- |
+| 1d6  | ataque | +1 +1 +2 +2 0 0       |
+| 1d4  | ataque | +1 +1 +1 +2           |
+| 1d4  | defesa | 0 +1 +1 +1            |
+| 1d8  | ataque | 0 0 +1 +1 +2 +2 +3 +4 |
 
 Ataque do jogador: +2, +1 e +3, total 6. Defesa do inimigo: +3. Saldo: 3 de dano no inimigo.
 

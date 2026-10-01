@@ -6,11 +6,13 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
+  type PersistConfig,
   REGISTER,
   REHYDRATE,
   persistReducer,
   persistStore,
 } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createEnhancers = (getDefaultEnhancers: any) => {
@@ -28,10 +30,11 @@ const rootReducer = combineReducers({
   saves: SavesSlice,
 });
 
-const rootPersistConfig = {
+const rootPersistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: ['saves'],
+  stateReconciler: autoMergeLevel2,
 };
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

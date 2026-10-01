@@ -12,7 +12,7 @@ import type {
 } from '@data/story';
 
 import { paginateText } from './paginateText';
-import { storyText } from './storyText';
+import { translate } from './translate';
 
 export type IStoryNarratorPage = {
   kind: 'narrator';
@@ -41,7 +41,7 @@ export const getPassagePages = (
   return beats.flatMap((beat) => {
     const isDialogue = Boolean(beat.characterId);
     const pages = paginateText(
-      storyText(beat.text),
+      translate(beat.text),
       isDialogue ? dialogueMaxLines : narratorMaxLines,
       isDialogue ? dialogueCharsPerLine : narratorCharsPerLine,
     );
@@ -58,7 +58,7 @@ export const getPassagePages = (
         : {
             kind: 'narrator' as const,
             text,
-            title: node.title ? storyText(node.title) : undefined,
+            title: node.title ? translate(node.title) : undefined,
           },
     );
   });
@@ -153,7 +153,7 @@ export const visibleChoices = (
     return [
       {
         ...choice,
-        label: storyText(choice.label),
+        label: translate(choice.label),
         disabled: used,
       },
     ];

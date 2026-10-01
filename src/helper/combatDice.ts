@@ -1,7 +1,6 @@
 export type CombatDieKind = 'attack' | 'defense';
 export type CombatDieSides = 4 | 6 | 8;
-export type CombatSlotIndex = 0 | 1 | 2;
-export type CombatSlots = [string | null, string | null, string | null];
+export type CombatSlots = Array<string | null>;
 
 export type ICombatDie = {
   id: string;
@@ -10,10 +9,26 @@ export type ICombatDie = {
   faces: number[];
 };
 
+export type ICombatDieDefinition = Omit<ICombatDie, 'id'>;
+
 export type ICombatDieRoll = {
   faceIndex: number;
   value: number;
 };
+
+export type ICombatInitiative = {
+  player: number;
+  enemy: number;
+  playerFirst: boolean;
+};
+
+export type ICombatExchangeResult = {
+  attack: number;
+  defense: number;
+  damage: number;
+};
+
+const INITIATIVE_MAX_REROLLS = 20;
 
 export type IWindowRect = {
   x: number;
@@ -22,7 +37,8 @@ export type IWindowRect = {
   height: number;
 };
 
-export const emptyCombatSlots = (): CombatSlots => [null, null, null];
+export const emptyCombatSlots = (count: number): CombatSlots =>
+  Array.from({ length: count }, () => null);
 
 export const formatFace = (value: number) => (value === 0 ? '0' : `+${value}`);
 
@@ -56,7 +72,7 @@ export const placeDieOnSlot = (
   dieId: string,
   slotIndex: number,
 ): CombatSlots => {
-  if (slotIndex < 0 || slotIndex > 2) {
+  if (slotIndex < 0 || slotIndex >= slots.length) {
     return slots;
   }
 
@@ -91,26 +107,73 @@ export const removeDieFromSlots = (
   return next;
 };
 
-export const summarizeCombatRoll = (
-  dice: ICombatDie[],
-  rolls: Record<string, number>,
-) => {
-  const values = dice.map((die) => rolls[die.id] ?? 0);
-  const attack = dice
-    .filter((die) => die.kind === 'attack')
-    .reduce((total, die) => total + (rolls[die.id] ?? 0), 0);
-  const defense = dice
-    .filter((die) => die.kind === 'defense')
-    .reduce((total, die) => total + (rolls[die.id] ?? 0), 0);
+export const handSize = (deckSize: number, numOfDices: number) =>
+  Math.max(0, Math.min(deckSize, numOfDices));
 
-  return {
-    values,
-    attack,
-    defense,
-    total: attack + defense,
-    hits: values.filter((value) => value > 0).length,
-    misses: values.filter((value) => value === 0).length,
-  };
+export const discardUsedDice = (
+  deckIds: string[],
+  deadIds: string[],
+  usedIds: string[],
+  handSize: number,
+): string[] => {
+  const nextDead = [
+    ...deadIds,
+    ...usedIds.filter((id) => !deadIds.includes(id)),
+  ];
+  const remaining = deckIds.filter((id) => !nextDead.includes(id));
+  return remaining.length < handSize ? [] : nextDead;
+};
+
+export const rollD20 = (random: () => number = Math.random) =>
+  Math.min(20, Math.floor(random() * 20) + 1);
+
+export const rollInitiative = (
+  random: () => number = Math.random,
+): ICombatInitiative => {
+  for (let attempt = 0; attempt < INITIATIVE_MAX_REROLLS; attempt += 1) {
+    const player = rollD20(random);
+    const enemy = rollD20(random);
+    if (player !== enemy) {
+      return { player, enemy, playerFirst: player > enemy };
+    }
+  }
+  return { player: 20, enemy: 1, playerFirst: true };
+};
+
+export const drawDice = (
+  deck: ICombatDie[],
+  count: number,
+  random: () => number = Math.random,
+): ICombatDie[] => {
+  const pool = deck.map((die, index) => ({ ...die, id: `${die.id}#${index}` }));
+  const drawn: ICombatDie[] = [];
+  while (drawn.length < count && pool.length > 0) {
+    const index = Math.min(pool.length - 1, Math.floor(random() * pool.length));
+    drawn.push(...pool.splice(index, 1));
+  }
+  return drawn;
+};
+
+export const diceOfKind = (dice: ICombatDie[], kind: CombatDieKind) =>
+  dice.filter((die) => die.kind === kind);
+
+export const rollDice = (
+  dice: ICombatDie[],
+  random: () => number = Math.random,
+): Record<string, number> =>
+  Object.fromEntries(dice.map((die) => [die.id, rollDie(die, random).value]));
+
+const sumRolls = (dice: ICombatDie[], rolls: Record<string, number>) =>
+  dice.reduce((total, die) => total + (rolls[die.id] ?? 0), 0);
+
+export const resolveExchange = (
+  attackDice: ICombatDie[],
+  defenseDice: ICombatDie[],
+  rolls: Record<string, number>,
+): ICombatExchangeResult => {
+  const attack = sumRolls(attackDice, rolls);
+  const defense = sumRolls(defenseDice, rolls);
+  return { attack, defense, damage: Math.max(0, attack - defense) };
 };
 
 export const containsPoint = (

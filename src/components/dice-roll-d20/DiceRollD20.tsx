@@ -10,7 +10,7 @@ import React, {
 
 import { Animated, Pressable, View } from 'react-native';
 
-import { storyText } from '@helper/storyText';
+import { translate } from '@helper/translate';
 import WebView, { type WebViewMessageEvent } from 'react-native-webview';
 
 import { styles } from './DiceRollD20.styles';
@@ -146,7 +146,7 @@ const DiceRollD20 = forwardRef<DiceRollD20Ref, DiceRollD20Props>(
                 { transform: [{ scale: outcomeScale }] },
               ]}
             >
-              {storyText(passed ? 'chrome.diceSuccess' : 'chrome.diceFailure')}
+              {translate(passed ? 'chrome.diceSuccess' : 'chrome.diceFailure')}
             </Animated.Text>
           ) : null}
         </View>

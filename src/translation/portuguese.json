@@ -5,23 +5,36 @@
     "diceSuccess": "Sucesso",
     "diceFailure": "Falha"
   },
-  "combat": {
-    "title": "Combate",
-    "back": "Voltar",
-    "trayHint": "Segure e arraste três dados para o centro",
-    "fieldHint": "Segure de novo para devolver à bandeja",
-    "needThree": "Escolha 3 dados",
-    "ready": "Três dados prontos",
-    "runAction": "Rodar ação",
-    "newRound": "Nova rodada",
+  "words": {
     "attack": "Ataque",
-    "defense": "Defesa",
+    "defense": "Defesa"
+  },
+  "combat": {
+    "prepare": "Preparação",
+    "hp": "PV",
+    "rollsDice": "Rola {{count}} dados",
+    "setReady": "Pronto",
+    "initiative": "Iniciativa",
+    "youFirst": "Você ataca primeiro",
+    "enemyFirst": "{{name}} ataca primeiro",
+    "youAttack": "Você ataca",
+    "youDefend": "Você defende",
+    "enemyAttack": "Ataque inimigo",
+    "enemyDefense": "Defesa inimiga",
+    "yourAttack": "Seu ataque",
+    "yourDefense": "Sua defesa",
+    "versus": "VS",
+    "damageLine": "Ataque {{attack}} − Defesa {{defense}} = {{damage}} de dano",
+    "noDice": "Sem dados",
+    "tapToRoll": "Toque para rolar",
+    "tapToContinue": "Toque para continuar",
+    "dead": "Morto: {{count}}",
+    "trayHint": "Segure e arraste {{count}} dados para o centro",
+    "fieldHint": "Segure de novo para devolver à bandeja",
+    "needDice": "Escolha {{count}} dados",
+    "ready": "{{count}} dados prontos",
     "attackShort": "Atq",
-    "defenseShort": "Def",
-    "total": "Total",
-    "miss": "Erro",
-    "hits": "{{count}} acertos",
-    "misses": "{{count}} erros"
+    "defenseShort": "Def"
   },
   "characters": {
     "securityGuard": "Segurança",
@@ -30,6 +43,9 @@
     "gus": "Gus",
     "you": "Você",
     "busSystem": "Sistema do ônibus"
+  },
+  "enemies": {
+    "enemy1": "Inimigo 1"
   },
   "characterCreation": {
     "charName": "Dê um nome para seu personagem",

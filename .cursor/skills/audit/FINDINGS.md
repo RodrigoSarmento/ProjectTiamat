@@ -64,7 +64,7 @@ Fix **one item at a time**. Do not bundle.
 
 **What’s wrong:** The rest of `src/` is TypeScript modules. This is the odd one out.
 
-**Fix:** `src/i18n/index.ts` + `src/i18n/portuguese.json` (or `locales/`). Update `App` (`import './src/i18n'`) and `storyText`. Delete the JS file, the `.d.ts` shim, and `src/translation/`.
+**Fix:** `src/i18n/index.ts` + `src/i18n/portuguese.json` (or `locales/`). Update `App` (`import './src/i18n'`) and `translate` (`src/helper/translate.ts`). Delete the JS file, the `.d.ts` shim, and `src/translation/`.
 
 **Do not:** move prologue strings again. They are already keys.
 

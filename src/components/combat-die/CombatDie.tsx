@@ -10,20 +10,21 @@ import {
   rollDurationMs,
   rollTurnCount,
 } from '@helper/combatDice';
-import { storyText } from '@helper/storyText';
 import { Colors } from '@styles';
 import { GestureDetector, usePanGesture } from 'react-native-gesture-handler';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
-  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { FACE_STRIP_MAX_WIDTH, LONG_PRESS_MS } from './CombatDie.constants';
+import { resetRoll, startRoll } from './CombatDie.animations';
+import {
+  FACE_STRIP_MAX_WIDTH,
+  FLICKER_MS,
+  LONG_PRESS_MS,
+} from './CombatDie.constants';
 import { styles } from './CombatDie.styles';
 import type { ICombatDieView } from './CombatDie.types';
 import CombatDieShape from './CombatDieShape';
@@ -33,13 +34,11 @@ const PALETTE = {
     fill: '#3A1018',
     stroke: Colors.warningRed,
     face: '#FFC4C4',
-    label: Colors.redSalmon,
   },
   defense: {
     fill: '#082028',
     stroke: Colors.neonCyan,
     face: '#C9FBFF',
-    label: Colors.neonCyan,
   },
 };
 
@@ -49,7 +48,6 @@ const CombatDie: React.FC<ICombatDieView> = ({
   shownFace,
   isRolling = false,
   rollIndex = 0,
-  rollGeneration = 0,
   resultValue,
   isGhost = false,
   disabled = false,
@@ -66,6 +64,7 @@ const CombatDie: React.FC<ICombatDieView> = ({
   const spin = useSharedValue(0);
   const hop = useSharedValue(0);
   const scale = useSharedValue(1);
+  const squash = useSharedValue(0);
   const lift = useSharedValue(1);
   const didDrag = useSharedValue(false);
   const settledRef = useRef(onRollSettled);
@@ -75,50 +74,25 @@ const CombatDie: React.FC<ICombatDieView> = ({
   }, [onRollSettled]);
 
   useEffect(() => {
+    const values = { spin, hop, scale, squash };
+
     if (!isRolling || resultValue == null) {
-      spin.value = 0;
-      hop.value = 0;
-      scale.value = 1;
+      resetRoll(values);
       return;
     }
 
     const duration = rollDurationMs(die);
     const delay = rollDelayMs(rollIndex);
-    const turns = rollTurnCount(die);
-    const direction = die.kind === 'attack' ? 1 : -1;
+    const flickerEvery = FLICKER_MS[die.sides];
 
-    scale.value = withDelay(
+    startRoll(values, {
       delay,
-      withSequence(
-        withTiming(0.82, { duration: 90 }),
-        withTiming(1.12, {
-          duration: duration * 0.28,
-          easing: Easing.out(Easing.quad),
-        }),
-        withTiming(1, { duration: 220, easing: Easing.out(Easing.cubic) }),
-      ),
-    );
+      duration,
+      turns: rollTurnCount(die),
+      direction: die.kind === 'attack' ? 1 : -1,
+      size,
+    });
 
-    hop.value = withDelay(
-      delay,
-      withSequence(
-        withTiming(-12, { duration: 140 }),
-        withTiming(7, { duration: duration * 0.35 }),
-        withTiming(-4, { duration: 160 }),
-        withTiming(0, { duration: 180 }),
-      ),
-    );
-
-    spin.value = 0;
-    spin.value = withDelay(
-      delay,
-      withTiming(direction * (360 * turns + 14), {
-        duration,
-        easing: Easing.bezier(0.12, 0.68, 0.18, 1),
-      }),
-    );
-
-    const flickerEvery = die.sides === 4 ? 46 : die.sides === 6 ? 56 : 64;
     let flicker: ReturnType<typeof setInterval> | undefined;
     const startAt = Date.now() + delay;
 
@@ -150,19 +124,14 @@ const CombatDie: React.FC<ICombatDieView> = ({
         clearInterval(flicker);
       }
     };
-  }, [
-    die,
-    hop,
-    isRolling,
-    resultValue,
-    rollGeneration,
-    rollIndex,
-    scale,
-    spin,
-  ]);
+  }, [die, hop, isRolling, resultValue, rollIndex, scale, size, spin, squash]);
 
   const canDrag = Boolean(onDragEnd) && !disabled && !isRolling;
-  const face = isRolling ? rollingFace : (shownFace ?? restFace(die));
+  const face = isRolling
+    ? formatFace(rollingFace)
+    : shownFace != null
+      ? formatFace(shownFace)
+      : `d${die.sides}`;
 
   const gesture = usePanGesture({
     activateAfterLongPress: LONG_PRESS_MS,
@@ -194,18 +163,17 @@ const CombatDie: React.FC<ICombatDieView> = ({
     },
   });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateY: hop.value },
-      { scale: scale.value * lift.value },
-      { rotateZ: `${spin.value}deg` },
-    ],
-  }));
-
-  const kindLabel =
-    die.kind === 'attack'
-      ? storyText('combat.attackShort')
-      : storyText('combat.defenseShort');
+  const animatedStyle = useAnimatedStyle(() => {
+    const base = scale.value * lift.value;
+    return {
+      transform: [
+        { translateY: hop.value },
+        { scaleX: base * (1 + squash.value) },
+        { scaleY: base * (1 - squash.value) },
+        { rotateZ: `${spin.value}deg` },
+      ],
+    };
+  });
 
   return (
     <View style={styles.wrap}>
@@ -237,30 +205,10 @@ const CombatDie: React.FC<ICombatDieView> = ({
                     fontSize: size * 0.32,
                   },
                   die.sides === 4 && styles.faceD4,
-                  face === 0 && styles.missFace,
                 ]}
               >
-                {formatFace(face)}
+                {face}
               </Text>
-              {!isRolling && (
-                <>
-                  <View style={styles.badge}>
-                    <Text style={styles.badgeLabel}>d{die.sides}</Text>
-                  </View>
-                  <Text
-                    style={[
-                      styles.kind,
-                      size > 100 && styles.kindLarge,
-                      {
-                        color: palette.label,
-                        fontSize: Math.max(8, size * 0.11),
-                      },
-                    ]}
-                  >
-                    {kindLabel}
-                  </Text>
-                </>
-              )}
             </View>
           </Animated.View>
         </Animated.View>

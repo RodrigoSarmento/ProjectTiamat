@@ -1,5 +1,7 @@
 import savesReducer, {
   EMPTY_STATUS,
+  STARTER_DICES,
+  STARTER_NUM_OF_DICES,
   applyTemporaryStatus,
   saveCharName,
   saveStatus,
@@ -20,6 +22,8 @@ describe('SavesSlice', () => {
         temporaryStatus: EMPTY_STATUS,
         currentBackground: {},
       },
+      dices: STARTER_DICES,
+      numOfDices: STARTER_NUM_OF_DICES,
     });
   });
 

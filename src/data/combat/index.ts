@@ -1,1 +1,1 @@
-export { POC_COMBAT_DICE } from './pocDice';
+export { COMBAT_DICE, type CombatDieId, getDice, getDie } from './dice';

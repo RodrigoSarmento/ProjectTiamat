@@ -2,6 +2,8 @@ export { prologueChapter } from './chapters/prologue';
 
 export { CHARACTERS, CharacterId, getCharacter } from './characters';
 export type { IStoryCharacter } from './characters';
+export { ENEMIES, EnemiesId, getEnemy } from './enemies';
+export type { IStoryEnemy } from './enemies';
 export { StoryFlag } from './flags';
 export {
   STORY_BACKGROUND_IMAGES,

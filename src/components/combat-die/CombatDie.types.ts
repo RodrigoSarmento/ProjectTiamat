@@ -11,7 +11,6 @@ export interface ICombatDieView {
   shownFace?: number;
   isRolling?: boolean;
   rollIndex?: number;
-  rollGeneration?: number;
   resultValue?: number;
   isGhost?: boolean;
   disabled?: boolean;
