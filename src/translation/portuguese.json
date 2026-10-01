@@ -17,6 +17,9 @@
     "initiative": "Iniciativa",
     "youFirst": "Você ataca primeiro",
     "enemyFirst": "{{name}} ataca primeiro",
+    "onlyYouAttack": "Só você tem dados de ataque",
+    "onlyEnemyAttacks": "Só {{name}} tem dados de ataque",
+    "noAttackers": "Ninguém tem dados de ataque",
     "youAttack": "Você ataca",
     "youDefend": "Você defende",
     "enemyAttack": "Ataque inimigo",
@@ -34,7 +37,12 @@
     "needDice": "Escolha {{count}} dados",
     "ready": "{{count}} dados prontos",
     "attackShort": "Atq",
-    "defenseShort": "Def"
+    "defenseShort": "Def",
+    "victory": "Vitória",
+    "defeat": "Derrota",
+    "healthShort": "PV {{health}}/{{max}}",
+    "continue": "Continuar",
+    "retry": "Tentar novamente"
   },
   "characters": {
     "securityGuard": "Segurança",

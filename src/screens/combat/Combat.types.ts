@@ -4,6 +4,7 @@ import type { CombatantSide, ICombatantHit } from '@components/combatant-card';
 import type { ICombatDie } from '@helper/combatDice';
 
 export type CombatStep = 'prepare' | 'running' | 'finalResult';
+export type CombatOutcome = 'victory' | 'defeat';
 
 export type CombatHealth = Record<CombatantSide, number>;
 export type CombatHits = Partial<Record<CombatantSide, ICombatantHit>>;
@@ -13,6 +14,8 @@ export interface ICombatRef {
   goTo: (step: CombatStep) => void;
   selectDice: (dice: ICombatDie[]) => void;
   applyDamage: (target: CombatantSide, amount: number) => void;
+  restart: () => void;
+  finish: () => void;
 }
 
 export interface ICombatStep {

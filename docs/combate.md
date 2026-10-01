@@ -1,18 +1,26 @@
-es# Combate por deck de dados
+# Combate por deck de dados
 
 Nota da conversa sobre o primeiro desenho de combate do ProjectTiamat.
 
 ## Ideia
 
-O personagem começa com dados no inventário. O combate funciona como um deckbuilder de dados.
+O personagem começa com dados no inventário (`saves.dices`). O combate funciona como um deckbuilder de dados.
 
-Cada turno mostra alguns dados do inventário. Exemplo: 15 no deck e 6 disponíveis. Dentre esses 6, o jogador escolhe quais entram na rodada e separa ataque de defesa. Pode selecionar 3 de ataque e 1 de defesa.
+Cada dado já nasce de ataque ou de defesa. Na preparação, a bandeja mostra todos os dados do deck que não estão no morto. O jogador arrasta exatamente `numOfDices` dados para o centro (hoje 2, nunca mais do que o tamanho do deck). Exemplo: 15 no deck e 4 espaços. Ele pode levar 3 de ataque e 1 de defesa.
 
-No ataque, o jogador rola os dados de ataque e o inimigo rola os de defesa. Na defesa, o jogador rola o que sobrou e o inimigo rola os de ataque.
+No ataque, o jogador rola os dados de ataque escolhidos e o inimigo rola os de defesa. Na defesa, o jogador rola os de defesa escolhidos e o inimigo rola os de ataque.
 
 As faces trazem um número, que é o valor da rolagem, ou nada (`0`), que é um erro.
 
-Os dados escolhidos vão para o morto. No turno seguinte, o mesmo número de dados é sorteado do deck para repor a mão. Os que não foram escolhidos continuam disponíveis.
+Os dados escolhidos vão para o morto. Os que não foram escolhidos continuam na bandeja. Quando sobram menos dados fora do morto do que espaços, o morto inteiro volta para o deck.
+
+### Inimigo
+
+O inimigo tem o próprio deck (`diceDeck`) e sorteia `numOfDices` dados dele a cada rodada, sem morto. Os dados `enemy-*` do catálogo são, em geral, versões mais fracas dos dados do jogador, com mais faces `0`.
+
+### Ordem da rodada
+
+Cada lado rola um d20 de iniciativa (empate rola de novo). Quem tirar mais ataca primeiro. Um lado sem dados de ataque pula a própria troca, e a tela avisa isso no lugar da iniciativa. Se nenhum lado tem dados de ataque, a rodada acaba e volta para a preparação. A luta termina quando um lado chega a 0 PV.
 
 ### Exemplo de turno
 
@@ -29,7 +37,7 @@ Ataque do jogador: +2, +1 e +3, total 6. Defesa do inimigo: +3. Saldo: 3 de dano
 
 Defesa do jogador: +1. Ataque do inimigo: +3. Saldo: 2 de dano no jogador.
 
-Esses 4 dados vão para o morto e 4 novos saem do deck.
+Esses 4 dados vão para o morto. Na próxima preparação, a bandeja mostra o resto do deck.
 
 ## Dá para fazer em React Native
 
@@ -41,37 +49,38 @@ O d20 que já existe em `src/components/dice-roll-d20` mostra um caminho possív
 
 O d20 atual vive numa string HTML com Three.js (`diceSceneHtml.ts`): geometria, textura, spin e mensagem de volta para o React Native. Por isso mudar cor, tamanho ou número já é trabalhoso. Colocar vários dados 3D girando juntos nessa mesma string multiplica essa dificuldade.
 
-O deck em si é pequeno. São três pilhas e uma lista de objetos:
+O deck em si é pequeno. São duas listas de ids e o catálogo de dados (`src/data/combat/dice.ts`):
 
 ```ts
-type Die = {
+type ICombatDie = {
   id: string;
+  sides: 4 | 6 | 8;
   kind: 'attack' | 'defense';
-  faces: number[]; // [1, 1, 2, 2, 0, 0]
+  faces: number[]; // [0, 0, 1, 1, 2, 2]
 };
 
-type Combat = {
-  deck: Die[];
-  hand: Die[];
-  discard: Die[];
+type CombatState = {
+  deck: string[]; // saves.dices
+  deadIds: string[]; // o morto
 };
 ```
 
-Um turno é uma função pura, no mesmo estilo de `storyPlayback`:
+As regras são funções puras em `src/helper/combatDice.ts`, no mesmo estilo de `storyPlayback`. Uma rodada:
 
-1. Comprar até a mão ter 6.
-2. O jogador marca quais dados vão para ataque e quais para defesa.
-3. Somar uma face aleatória de cada dado escolhido.
-4. Saldo do ataque = soma do jogador − defesa do inimigo.
-5. Saldo da defesa = ataque do inimigo − soma do jogador.
-6. Os escolhidos saem da mão e entram no `discard`.
-7. Se o `deck` acabar, o `discard` embaralha e volta a ser o deck.
+1. A bandeja mostra o deck sem o morto.
+2. O jogador arrasta `numOfDices` dados para o centro. O tipo vem do próprio dado.
+3. O inimigo sorteia `numOfDices` dados do próprio deck.
+4. O d20 de iniciativa decide quem ataca primeiro. Um lado sem dados de ataque pula a própria troca.
+5. Em cada troca, soma uma face aleatória de cada dado. Dano = ataque − defesa, nunca abaixo de 0.
+6. Os escolhidos vão para o morto.
+7. Se sobrarem menos dados fora do morto do que `numOfDices`, o morto inteiro volta para o deck.
+8. Se alguém chegou a 0 PV, vai para o resultado final. Se não, volta para a preparação.
 
 Isso não precisa de engine, física nem canvas. Dá para testar no Jest com um turno inteiro e um resultado fixo, sem abrir o app.
 
 ## Como apresentar
 
-Cada dado é um componente React Native: um retângulo com as faces escritas (`+1 +1 +2 0`). Um toque marca ataque, outro marca defesa. Na rolagem, o Reanimated gira o número e para na face que a regra já sorteou. O valor nasce no TypeScript. A animação só mostra esse valor.
+Cada dado é um componente React Native: um retângulo com as faces escritas (`+1 +1 +2 0`). O jogador segura e arrasta o dado da bandeja para um espaço no centro. Segurar de novo devolve para a bandeja. Na rolagem, o Reanimated gira o número e para na face que a regra já sorteou. O valor nasce no TypeScript. A animação só mostra esse valor.
 
 O d20 3D continua para o teste da história, onde existe um dado só. O combate usa dados 2D nativos, estilizados com `StyleSheet` como o resto do livro. Um dado 3D de combate só vale a pena depois que esse loop estiver divertido de jogar.
 

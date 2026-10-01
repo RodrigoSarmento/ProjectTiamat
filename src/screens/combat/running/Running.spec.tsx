@@ -28,6 +28,8 @@ const createCombatRef = () =>
       goTo: jest.fn(),
       selectDice: jest.fn(),
       applyDamage: jest.fn(),
+      restart: jest.fn(),
+      finish: jest.fn(),
     },
   }) as RefObject<ICombatRef> & { current: jest.Mocked<ICombatRef> };
 
@@ -159,6 +161,84 @@ describe('Running', () => {
       );
       expect(combatRef.current.goTo).toHaveBeenCalledWith('finalResult');
       expect(combatRef.current.applyDamage).toHaveBeenCalledTimes(1);
+    });
+
+    it('skips the exchange of a side with no attack dice', async () => {
+      const combatRef = createCombatRef();
+      await renderRunning({
+        combatRef,
+        playerDice: ['attack-d8-b'],
+        enemy: { ...testEnemy, diceDeck: ['defense-d4-a', 'defense-d4-b'] },
+        health: { player: PLAYER_MAX_HEALTH, enemy: 99 },
+      });
+
+      expect(screen.queryByTestId('InitiativeToast')).toBeNull();
+      expect(
+        screen.getByTestId('CombatRunning-attackersNotice'),
+      ).toHaveTextContent('Só você tem dados de ataque');
+
+      await tap();
+      await settleRolls();
+      await tap();
+
+      expect(combatRef.current.goTo).toHaveBeenCalledWith('prepare');
+      expect(combatRef.current.applyDamage).toHaveBeenCalledTimes(1);
+      expect(combatRef.current.applyDamage).toHaveBeenCalledWith(
+        'enemy',
+        expect.any(Number),
+      );
+    });
+
+    it('returns to prepare after initiative when nobody can attack', async () => {
+      const combatRef = createCombatRef();
+      await renderRunning({
+        combatRef,
+        playerDice: ['defense-d4-a'],
+        enemy: { ...testEnemy, diceDeck: ['defense-d4-a', 'defense-d4-b'] },
+      });
+
+      expect(screen.queryByTestId('InitiativeToast')).toBeNull();
+      expect(
+        screen.getByTestId('CombatRunning-attackersNotice'),
+      ).toHaveTextContent('Ninguém tem dados de ataque');
+      expect(screen.getByTestId('CombatRunning-tapHint')).toHaveTextContent(
+        'Toque para continuar',
+      );
+
+      await tap();
+
+      expect(combatRef.current.goTo).toHaveBeenCalledWith('prepare');
+      expect(screen.queryByTestId('CombatRunning-playerDice')).toBeNull();
+    });
+
+    it('lets only the enemy attack when the player holds only defense dice', async () => {
+      const combatRef = createCombatRef();
+      const strongEnemyAttack = highestFace('attack-d8-b');
+      const playerDefense = highestFace('defense-d4-a');
+      await renderRunning({
+        combatRef,
+        playerDice: ['defense-d4-a'],
+        enemy: { ...testEnemy, diceDeck: ['attack-d8-b', 'defense-d4-a'] },
+      });
+
+      expect(screen.queryByTestId('InitiativeToast')).toBeNull();
+      expect(
+        screen.getByTestId('CombatRunning-attackersNotice'),
+      ).toHaveTextContent('Só Inimigo 1 tem dados de ataque');
+
+      await tap();
+      expect(screen.getByTestId('CombatRunning-turn')).toHaveTextContent(
+        'Você defende',
+      );
+      await settleRolls();
+      await tap();
+
+      expect(combatRef.current.applyDamage).toHaveBeenCalledTimes(1);
+      expect(combatRef.current.applyDamage).toHaveBeenCalledWith(
+        'player',
+        strongEnemyAttack - playerDefense,
+      );
+      expect(combatRef.current.goTo).toHaveBeenCalledWith('prepare');
     });
   });
 });

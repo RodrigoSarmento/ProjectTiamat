@@ -4,4 +4,4 @@ export {
   FLOAT_DIE_SIZE,
   TRAY_DIE_SIZE,
 } from './CombatDie.constants';
-export type { ICombatDieView } from './CombatDie.types';
+export type { CombatTossDirection, ICombatDieView } from './CombatDie.types';

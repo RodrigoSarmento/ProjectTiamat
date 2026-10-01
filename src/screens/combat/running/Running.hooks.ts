@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import type { CombatantSide } from '@components/combatant-card';
 import { getDice } from '@data/combat';
@@ -10,7 +10,6 @@ import {
   rollInitiative,
 } from '@helper/combatDice';
 
-import { EMPTY_EXCHANGE_MS } from './Running.constants';
 import type { IRunning, RunningPhase } from './Running.types';
 
 export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
@@ -18,10 +17,15 @@ export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
   const [enemyDice] = useState(() =>
     drawDice(getDice(enemy.diceDeck), enemy.numOfDices),
   );
-  const order = useMemo<CombatantSide[]>(
-    () => (initiative.playerFirst ? ['player', 'enemy'] : ['enemy', 'player']),
-    [initiative.playerFirst],
-  );
+  const order = useMemo<CombatantSide[]>(() => {
+    const sides: CombatantSide[] = initiative.playerFirst
+      ? ['player', 'enemy']
+      : ['enemy', 'player'];
+    return sides.filter(
+      (side) =>
+        diceOfKind(side === 'player' ? dice : enemyDice, 'attack').length > 0,
+    );
+  }, [dice, enemyDice, initiative.playerFirst]);
 
   const [phase, setPhase] = useState<RunningPhase>('initiative');
   const [exchange, setExchange] = useState(0);
@@ -43,7 +47,7 @@ export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
     [dice, enemyDice],
   );
 
-  const attacker = order[exchange];
+  const attacker = order[exchange] ?? 'player';
   const defender: CombatantSide = attacker === 'player' ? 'enemy' : 'player';
   const playerAttacks = attacker === 'player';
   const { playerDice, enemySideDice } = sidesFor(attacker);
@@ -80,7 +84,11 @@ export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
 
   const advance = () => {
     if (phase === 'initiative') {
-      beginExchange(0);
+      if (order.length > 0) {
+        beginExchange(0);
+      } else {
+        combatRef.current?.goTo('prepare');
+      }
     } else if (phase === 'result') {
       if (isOverRef.current) {
         combatRef.current?.goTo('finalResult');
@@ -91,22 +99,9 @@ export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
       }
     }
   };
-
-  const finishRef = useRef(finishExchange);
-  useEffect(() => {
-    finishRef.current = finishExchange;
-  });
-
-  useEffect(() => {
-    if (phase !== 'rolling' || rollingCount > 0) {
-      return;
-    }
-    const timer = setTimeout(() => finishRef.current(), EMPTY_EXCHANGE_MS);
-    return () => clearTimeout(timer);
-  }, [phase, rollingCount]);
-
   return {
     initiative,
+    attackers: order,
     phase,
     exchange,
     rolls,

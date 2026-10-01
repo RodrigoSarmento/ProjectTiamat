@@ -7,6 +7,8 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
+import type { CombatTossDirection } from './CombatDie.types';
+
 type RollValues = {
   spin: SharedValue<number>;
   hop: SharedValue<number>;
@@ -20,6 +22,7 @@ type RollTiming = {
   turns: number;
   direction: 1 | -1;
   size: number;
+  toss: CombatTossDirection;
 };
 
 export const resetRoll = (values: RollValues) => {
@@ -46,11 +49,12 @@ export const startRoll = (v: RollValues, t: RollTiming) => {
 
   const up = t.duration * 0.4;
   const down = t.duration * 0.45;
+  const peak = t.size * 1.35 * (t.toss === 'up' ? -1 : 1);
 
   v.hop.value = withDelay(
     t.delay,
     withSequence(
-      withTiming(-t.size * 1.35, {
+      withTiming(peak, {
         duration: up,
         easing: Easing.out(Easing.quad),
       }),

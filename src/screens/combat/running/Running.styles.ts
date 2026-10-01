@@ -49,6 +49,12 @@ export const styles = StyleSheet.create({
   exchange: {
     gap: 14,
   },
+  notice: {
+    ...Fonts.contentSmall,
+    color: Colors.white,
+    textAlign: 'center',
+    paddingHorizontal: 24,
+  },
   divider: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -22,7 +22,12 @@ declare global {
     Start: undefined;
     Game: undefined;
     CharacterCreation: undefined;
-    Combat: { enemyId: import('@data/story').EnemiesId };
+    Combat: {
+      enemyId: import('@data/story').EnemiesId;
+      victoryText?: string[];
+      defeatText?: string[];
+      background?: import('@data/story').StoryBackgroundImageId;
+    };
   };
 }
 

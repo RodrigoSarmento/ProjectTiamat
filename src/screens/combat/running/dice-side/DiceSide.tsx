@@ -15,6 +15,7 @@ const DiceSide: React.FC<IDiceSide> = ({
   dice,
   rolls,
   isRolling,
+  tossDirection,
   total,
   onRollSettled,
   testID,
@@ -30,6 +31,7 @@ const DiceSide: React.FC<IDiceSide> = ({
             size={SIDE_DIE_SIZE}
             shownFace={rolls[die.id]}
             isRolling={isRolling}
+            tossDirection={tossDirection}
             rollIndex={index}
             resultValue={rolls[die.id]}
             disabled

@@ -2,18 +2,28 @@ import { useImperativeHandle, useRef, useState } from 'react';
 
 import { View } from 'react-native';
 
-import { type RouteProp, useRoute } from '@react-navigation/native';
+import {
+  type RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
 
-import { getEnemy } from '@data/story';
+import { STORY_BACKGROUND_IMAGES, getEnemy } from '@data/story';
 import { type ICombatDie, discardUsedDice, handSize } from '@helper/combatDice';
 import type { RootState } from '@redux/store';
 import { useSelector } from 'react-redux';
 
-import { COMBAT_STEPS, PLAYER_MAX_HEALTH } from './Combat.constants';
+import {
+  COMBAT_STEPS,
+  DEFAULT_RESULT_BACKGROUND,
+  PLAYER_MAX_HEALTH,
+} from './Combat.constants';
 import { styles } from './Combat.styles';
 import type {
   CombatHealth,
   CombatHits,
+  CombatOutcome,
   CombatStep,
   ICombatRef,
 } from './Combat.types';
@@ -23,6 +33,7 @@ import { Running } from './running';
 
 const Combat = () => {
   const { params } = useRoute<RouteProp<GameStackParamsList, 'Combat'>>();
+  const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
   const enemy = getEnemy(params.enemyId);
   const deckIds = useSelector((state: RootState) => state.saves.dices);
   const numOfDices = useSelector((state: RootState) => state.saves.numOfDices);
@@ -36,6 +47,7 @@ const Combat = () => {
     enemy: enemy.health,
   });
   const [hits, setHits] = useState<CombatHits>({});
+  const outcome: CombatOutcome = health.enemy <= 0 ? 'victory' : 'defeat';
 
   useImperativeHandle(
     combatRef,
@@ -69,8 +81,16 @@ const Combat = () => {
           [target]: { amount, key: (current[target]?.key ?? 0) + 1 },
         }));
       },
+      restart: () => {
+        setHealth({ player: PLAYER_MAX_HEALTH, enemy: enemy.health });
+        setHits({});
+        setDeadIds([]);
+        setSelectedDice([]);
+        setStep('prepare');
+      },
+      finish: () => navigation.goBack(),
     }),
-    [deckIds, numOfDices],
+    [deckIds, enemy.health, navigation, numOfDices],
   );
 
   return (
@@ -92,7 +112,23 @@ const Combat = () => {
           hits={hits}
         />
       ) : null}
-      {step === 'finalResult' ? <FinalResult combatRef={combatRef} /> : null}
+      {step === 'finalResult' ? (
+        <FinalResult
+          combatRef={combatRef}
+          outcome={outcome}
+          enemy={enemy}
+          health={health}
+          narrative={
+            (outcome === 'victory' ? params.victoryText : params.defeatText) ??
+            []
+          }
+          background={
+            STORY_BACKGROUND_IMAGES[
+              params.background ?? DEFAULT_RESULT_BACKGROUND
+            ]
+          }
+        />
+      ) : null}
     </View>
   );
 };

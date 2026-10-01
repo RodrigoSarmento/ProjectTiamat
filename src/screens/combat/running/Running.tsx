@@ -20,6 +20,7 @@ const Running = (props: IRunning) => {
   const { enemy, health, hits } = props;
   const {
     initiative,
+    attackers,
     phase,
     exchange,
     rolls,
@@ -38,9 +39,17 @@ const Running = (props: IRunning) => {
   const showResult = phase === 'result';
   const attackLabel = translate('combat.attackShort');
   const defenseLabel = translate('combat.defenseShort');
+  const attackersNotice =
+    attackers.length === 0
+      ? translate('combat.noAttackers')
+      : attackers[0] === 'player'
+        ? translate('combat.onlyYouAttack')
+        : translate('combat.onlyEnemyAttacks', { name: enemyName });
   const tapHint =
     phase === 'initiative'
-      ? translate('combat.tapToRoll')
+      ? translate(
+          attackers.length > 0 ? 'combat.tapToRoll' : 'combat.tapToContinue',
+        )
       : showResult
         ? translate('combat.tapToContinue')
         : '';
@@ -81,7 +90,17 @@ const Running = (props: IRunning) => {
 
         <View style={styles.stage}>
           {phase === 'initiative' ? (
-            <InitiativeToast initiative={initiative} enemyName={enemyName} />
+            attackers.length > 1 ? (
+              <InitiativeToast initiative={initiative} enemyName={enemyName} />
+            ) : (
+              <Animated.Text
+                testID="CombatRunning-attackersNotice"
+                entering={FadeIn.duration(220)}
+                style={styles.notice}
+              >
+                {attackersNotice}
+              </Animated.Text>
+            )
           ) : (
             <Animated.View
               key={`exchange-${exchange}`}
@@ -124,6 +143,7 @@ const Running = (props: IRunning) => {
                 dice={playerDice}
                 rolls={rolls}
                 isRolling={isRolling}
+                tossDirection="down"
                 total={
                   showResult
                     ? playerAttacks

@@ -47,6 +47,7 @@ const CombatDie: React.FC<ICombatDieView> = ({
   size,
   shownFace,
   isRolling = false,
+  tossDirection = 'up',
   rollIndex = 0,
   resultValue,
   isGhost = false,
@@ -91,6 +92,7 @@ const CombatDie: React.FC<ICombatDieView> = ({
       turns: rollTurnCount(die),
       direction: die.kind === 'attack' ? 1 : -1,
       size,
+      toss: tossDirection,
     });
 
     let flicker: ReturnType<typeof setInterval> | undefined;
@@ -124,7 +126,18 @@ const CombatDie: React.FC<ICombatDieView> = ({
         clearInterval(flicker);
       }
     };
-  }, [die, hop, isRolling, resultValue, rollIndex, scale, size, spin, squash]);
+  }, [
+    die,
+    hop,
+    isRolling,
+    resultValue,
+    rollIndex,
+    scale,
+    size,
+    spin,
+    squash,
+    tossDirection,
+  ]);
 
   const canDrag = Boolean(onDragEnd) && !disabled && !isRolling;
   const face = isRolling
