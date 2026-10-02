@@ -28,6 +28,12 @@ export type ICombatExchangeResult = {
   damage: number;
 };
 
+export type ICombatPiles = {
+  hand: ICombatDie[];
+  drawPile: ICombatDie[];
+  discard: ICombatDie[];
+};
+
 const INITIATIVE_MAX_REROLLS = 20;
 
 export type IWindowRect = {
@@ -107,21 +113,67 @@ export const removeDieFromSlots = (
   return next;
 };
 
-export const handSize = (deckSize: number, numOfDices: number) =>
-  Math.max(0, Math.min(deckSize, numOfDices));
+export const handSize = (cardsInHand: number, numOfDices: number) =>
+  Math.max(0, Math.min(cardsInHand, numOfDices));
 
-export const discardUsedDice = (
-  deckIds: string[],
-  deadIds: string[],
+export const toCards = (dice: ICombatDie[]): ICombatDie[] =>
+  dice.map((die, index) => ({ ...die, id: `${die.id}#${index}` }));
+
+export const shuffle = <T>(items: T[], random: () => number = Math.random) => {
+  const next = [...items];
+  for (let index = next.length - 1; index > 0; index -= 1) {
+    const swap = Math.min(index, Math.floor(random() * (index + 1)));
+    [next[index], next[swap]] = [next[swap], next[index]];
+  }
+  return next;
+};
+
+export const drawCards = (
+  piles: ICombatPiles,
+  count: number,
+  random: () => number = Math.random,
+): ICombatPiles => {
+  const hand = [...piles.hand];
+  let { drawPile, discard } = piles;
+  for (let drawn = 0; drawn < count; drawn += 1) {
+    if (drawPile.length === 0) {
+      if (discard.length === 0) {
+        break;
+      }
+      drawPile = shuffle(discard, random);
+      discard = [];
+    }
+    const [card, ...rest] = drawPile;
+    hand.push(card);
+    drawPile = rest;
+  }
+  return { hand, drawPile, discard };
+};
+
+export const dealHand = (
+  deck: ICombatDie[],
+  size: number,
+  random: () => number = Math.random,
+): ICombatPiles =>
+  drawCards(
+    { hand: [], drawPile: shuffle(deck, random), discard: [] },
+    size,
+    random,
+  );
+
+export const playCards = (
+  piles: ICombatPiles,
   usedIds: string[],
-  handSize: number,
-): string[] => {
-  const nextDead = [
-    ...deadIds,
-    ...usedIds.filter((id) => !deadIds.includes(id)),
-  ];
-  const remaining = deckIds.filter((id) => !nextDead.includes(id));
-  return remaining.length < handSize ? [] : nextDead;
+  size: number,
+  random: () => number = Math.random,
+): ICombatPiles => {
+  const used = piles.hand.filter((card) => usedIds.includes(card.id));
+  const hand = piles.hand.filter((card) => !usedIds.includes(card.id));
+  return drawCards(
+    { hand, drawPile: piles.drawPile, discard: [...piles.discard, ...used] },
+    Math.max(0, size - hand.length),
+    random,
+  );
 };
 
 export const rollD20 = (random: () => number = Math.random) =>
@@ -145,7 +197,7 @@ export const drawDice = (
   count: number,
   random: () => number = Math.random,
 ): ICombatDie[] => {
-  const pool = deck.map((die, index) => ({ ...die, id: `${die.id}#${index}` }));
+  const pool = toCards(deck);
   const drawn: ICombatDie[] = [];
   while (drawn.length < count && pool.length > 0) {
     const index = Math.min(pool.length - 1, Math.floor(random() * pool.length));

@@ -9,8 +9,14 @@ import {
 } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
+import { type CombatDieId, HAND_SIZE, getDice } from '@data/combat';
 import { STORY_BACKGROUND_IMAGES, getEnemy } from '@data/story';
-import { type ICombatDie, discardUsedDice, handSize } from '@helper/combatDice';
+import {
+  type ICombatDie,
+  dealHand,
+  playCards,
+  toCards,
+} from '@helper/combatDice';
 import type { RootState } from '@redux/store';
 import { useSelector } from 'react-redux';
 
@@ -31,17 +37,19 @@ import { FinalResult } from './final-result';
 import { Prepare } from './prepare';
 import { Running } from './running';
 
+const dealDeck = (deckIds: CombatDieId[]) =>
+  dealHand(toCards(getDice(deckIds)), HAND_SIZE);
+
 const Combat = () => {
   const { params } = useRoute<RouteProp<GameStackParamsList, 'Combat'>>();
   const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
   const enemy = getEnemy(params.enemyId);
   const deckIds = useSelector((state: RootState) => state.saves.dices);
-  const numOfDices = useSelector((state: RootState) => state.saves.numOfDices);
 
   const combatRef = useRef<ICombatRef>(null);
   const [step, setStep] = useState<CombatStep>('prepare');
   const [selectedDice, setSelectedDice] = useState<ICombatDie[]>([]);
-  const [deadIds, setDeadIds] = useState<string[]>([]);
+  const [piles, setPiles] = useState(() => dealDeck(deckIds));
   const [health, setHealth] = useState<CombatHealth>({
     player: PLAYER_MAX_HEALTH,
     enemy: enemy.health,
@@ -62,12 +70,11 @@ const Combat = () => {
       goTo: setStep,
       selectDice: (dice) => {
         setSelectedDice(dice);
-        setDeadIds((current) =>
-          discardUsedDice(
-            deckIds,
+        setPiles((current) =>
+          playCards(
             current,
             dice.map((die) => die.id),
-            handSize(deckIds.length, numOfDices),
+            HAND_SIZE,
           ),
         );
       },
@@ -84,13 +91,13 @@ const Combat = () => {
       restart: () => {
         setHealth({ player: PLAYER_MAX_HEALTH, enemy: enemy.health });
         setHits({});
-        setDeadIds([]);
+        setPiles(dealDeck(deckIds));
         setSelectedDice([]);
         setStep('prepare');
       },
       finish: () => navigation.goBack(),
     }),
-    [deckIds, enemy.health, navigation, numOfDices],
+    [deckIds, enemy.health, navigation],
   );
 
   return (
@@ -100,7 +107,8 @@ const Combat = () => {
           combatRef={combatRef}
           enemy={enemy}
           enemyHealth={health.enemy}
-          deadIds={deadIds}
+          hand={piles.hand}
+          deckCount={piles.drawPile.length}
         />
       ) : null}
       {step === 'running' ? (

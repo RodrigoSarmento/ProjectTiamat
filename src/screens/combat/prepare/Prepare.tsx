@@ -16,6 +16,7 @@ import {
   hitSlotIndex,
 } from '@helper/combatDice';
 import { translate } from '@helper/translate';
+import { useBlink } from '@hooks/use-blink';
 import { ScrollView } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -23,6 +24,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { TRAY_SCROLL_THROTTLE_MS } from './Prepare.constants';
 import { usePrepare } from './Prepare.hooks';
 import { styles } from './Prepare.styles';
 import type { IPrepare } from './Prepare.types';
@@ -33,16 +35,26 @@ const measureView = (node: View | null, store: (rect: IWindowRect) => void) => {
   });
 };
 
-const Prepare = ({ combatRef, enemy, enemyHealth, deadIds }: IPrepare) => {
+const Prepare = ({
+  combatRef,
+  enemy,
+  enemyHealth,
+  hand,
+  deckCount,
+}: IPrepare) => {
   const {
     trayRows,
+    canScrollTray,
+    onTrayScroll,
+    onTrayLayout,
+    onTrayContentSizeChange,
     fieldDice,
     chosenDice,
     numOfDices,
     isReady,
     placeDie,
     returnDie,
-  } = usePrepare(deadIds);
+  } = usePrepare(hand);
 
   const dragX = useSharedValue(0);
   const dragY = useSharedValue(0);
@@ -57,6 +69,8 @@ const Prepare = ({ combatRef, enemy, enemyHealth, deadIds }: IPrepare) => {
   const slotRefs = useRef<Array<View | null>>([]);
   const trayRect = useRef<IWindowRect | null>(null);
   const slotRects = useRef<Array<IWindowRect | null>>([]);
+
+  const blinkStyle = useBlink();
 
   const measureDropTargets = () => {
     measureView(rootRef.current, (rect) => {
@@ -177,8 +191,8 @@ const Prepare = ({ combatRef, enemy, enemyHealth, deadIds }: IPrepare) => {
               ? translate('combat.fieldHint')
               : translate('combat.trayHint', { count: numOfDices })}
           </Text>
-          <Text testID="CombatPrepare-dead" style={styles.hint}>
-            {translate('combat.dead', { count: deadIds.length })}
+          <Text testID="CombatPrepare-deck" style={styles.hint}>
+            {translate('combat.deck', { count: deckCount })}
           </Text>
         </View>
         <View
@@ -188,9 +202,14 @@ const Prepare = ({ combatRef, enemy, enemyHealth, deadIds }: IPrepare) => {
           style={[styles.tray, hoverTray && styles.trayHot]}
         >
           <ScrollView
+            testID="CombatPrepare-tray"
             horizontal
             scrollEnabled={!draggingDie}
             showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={TRAY_SCROLL_THROTTLE_MS}
+            onScroll={onTrayScroll}
+            onLayout={onTrayLayout}
+            onContentSizeChange={onTrayContentSizeChange}
             contentContainerStyle={styles.trayContent}
           >
             {trayRows.map((row, rowIndex) => (
@@ -200,6 +219,7 @@ const Prepare = ({ combatRef, enemy, enemyHealth, deadIds }: IPrepare) => {
                     ? translate('words.attack')
                     : translate('words.defense')}
                 </Text>
+
                 {row.map((die) => (
                   <CombatDie
                     key={die.id}
@@ -215,6 +235,15 @@ const Prepare = ({ combatRef, enemy, enemyHealth, deadIds }: IPrepare) => {
               </View>
             ))}
           </ScrollView>
+          {canScrollTray ? (
+            <Animated.View
+              testID="CombatPrepare-scrollHint"
+              pointerEvents="none"
+              style={[styles.indicator, blinkStyle]}
+            >
+              <Text style={styles.indicatorLabel}>▶</Text>
+            </Animated.View>
+          ) : null}
         </View>
 
         <View style={styles.actions}>

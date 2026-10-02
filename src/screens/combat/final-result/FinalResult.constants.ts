@@ -16,4 +16,3 @@ export const BACKGROUND_BLUR = 8;
 export const ENEMY_PORTRAIT_SIZE = 96;
 export const PANEL_DELAY_MS = 250;
 export const ACTIONS_DELAY_MS = 600;
-export const INDICATOR_BLINK_MS = 650;

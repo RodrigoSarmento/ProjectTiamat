@@ -1,3 +1,5 @@
+import { DECK_MAX_SIZE, DECK_MIN_SIZE, HAND_SIZE } from '@data/combat';
+
 import savesReducer, {
   EMPTY_STATUS,
   STARTER_DICES,
@@ -25,6 +27,12 @@ describe('SavesSlice', () => {
       dices: STARTER_DICES,
       numOfDices: STARTER_NUM_OF_DICES,
     });
+  });
+
+  it('starts with a deck inside the deck size limits and bigger than a hand', () => {
+    expect(STARTER_DICES.length).toBeGreaterThanOrEqual(DECK_MIN_SIZE);
+    expect(STARTER_DICES.length).toBeLessThanOrEqual(DECK_MAX_SIZE);
+    expect(STARTER_DICES.length).toBeGreaterThan(HAND_SIZE);
   });
 
   it('marks the game as started', () => {

@@ -1,8 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { getDice } from '@data/combat';
+import type {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
+
 import {
   type CombatSlots,
+  type ICombatDie,
   emptyCombatSlots,
   handSize,
   placeDieOnSlot,
@@ -12,17 +18,14 @@ import {
 import type { RootState } from '@redux/store';
 import { useSelector } from 'react-redux';
 
-export const usePrepare = (deadIds: string[]) => {
-  const deckIds = useSelector((state: RootState) => state.saves.dices);
+import { TRAY_END_TOLERANCE, TRAY_VISIBLE_DICE } from './Prepare.constants';
+
+export const usePrepare = (dice: ICombatDie[]) => {
   const savedNumOfDices = useSelector(
     (state: RootState) => state.saves.numOfDices,
   );
-  const numOfDices = handSize(deckIds.length, savedNumOfDices);
+  const numOfDices = handSize(dice.length, savedNumOfDices);
 
-  const dice = useMemo(
-    () => getDice(deckIds.filter((id) => !deadIds.includes(id))),
-    [deckIds, deadIds],
-  );
   const diceById = useMemo(
     () => Object.fromEntries(dice.map((die) => [die.id, die])),
     [dice],
@@ -31,6 +34,34 @@ export const usePrepare = (deadIds: string[]) => {
   const [slots, setSlots] = useState<CombatSlots>(() =>
     emptyCombatSlots(numOfDices),
   );
+  const [isTrayAtEnd, setIsTrayAtEnd] = useState(false);
+  const trayScroll = useRef({ offset: 0, visible: 0, content: 0 });
+
+  const updateTrayEnd = (next: Partial<typeof trayScroll.current>) => {
+    trayScroll.current = { ...trayScroll.current, ...next };
+    const { offset, visible, content } = trayScroll.current;
+    setIsTrayAtEnd(
+      visible > 0 && offset + visible >= content - TRAY_END_TOLERANCE,
+    );
+  };
+
+  const onTrayScroll = ({
+    nativeEvent,
+  }: NativeSyntheticEvent<NativeScrollEvent>) => {
+    updateTrayEnd({
+      offset: nativeEvent.contentOffset.x,
+      visible: nativeEvent.layoutMeasurement.width,
+      content: nativeEvent.contentSize.width,
+    });
+  };
+
+  const onTrayLayout = ({ nativeEvent }: LayoutChangeEvent) => {
+    updateTrayEnd({ visible: nativeEvent.layout.width });
+  };
+
+  const onTrayContentSizeChange = (width: number) => {
+    updateTrayEnd({ content: width });
+  };
 
   const trayDice = dice.filter((die) => !slots.includes(die.id));
   const trayRows = [
@@ -41,6 +72,8 @@ export const usePrepare = (deadIds: string[]) => {
       .filter((die) => die.kind === 'defense')
       .sort((a, b) => b.sides - a.sides),
   ];
+  const canScrollTray =
+    !isTrayAtEnd && trayRows.some((row) => row.length > TRAY_VISIBLE_DICE);
   const fieldDice = slots.map((id) => (id ? diceById[id] : undefined));
   const isReady = slots.length > 0 && slots.every(Boolean);
   const chosenDice = selectedDice(dice, slots);
@@ -55,6 +88,10 @@ export const usePrepare = (deadIds: string[]) => {
 
   return {
     trayRows,
+    canScrollTray,
+    onTrayScroll,
+    onTrayLayout,
+    onTrayContentSizeChange,
     fieldDice,
     chosenDice,
     numOfDices,

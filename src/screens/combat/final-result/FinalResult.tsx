@@ -1,6 +1,9 @@
+import { useState } from 'react';
+
 import { Image, ImageBackground, Pressable, Text, View } from 'react-native';
 
 import { translate } from '@helper/translate';
+import { useBlink } from '@hooks/use-blink';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -13,7 +16,6 @@ import {
   OUTCOME_TINT,
   PANEL_DELAY_MS,
 } from './FinalResult.constants';
-import { useBlink } from './FinalResult.hooks';
 import { styles } from './FinalResult.styles';
 import type { IFinalResult } from './FinalResult.types';
 
@@ -26,8 +28,10 @@ const FinalResult = ({
   background,
 }: IFinalResult) => {
   const blinkStyle = useBlink();
+  const [lineIndex, setLineIndex] = useState(0);
   const color = OUTCOME_COLOR[outcome];
   const isVictory = outcome === 'victory';
+  const isLastLine = lineIndex >= narrative.length - 1;
 
   return (
     <ImageBackground
@@ -66,19 +70,29 @@ const FinalResult = ({
 
         <View style={styles.body}>
           {narrative.length > 1 ? (
-            <Animated.View
-              testID="CombatFinalResult-narrative"
-              entering={FadeInDown.delay(PANEL_DELAY_MS)}
-              style={styles.panel}
-            >
-              {narrative.map((line, index) => (
-                <Text key={`${index}-${line}`} style={styles.narrative}>
-                  {translate(line)}
-                </Text>
-              ))}
-              <Animated.View style={[styles.indicator, blinkStyle]}>
-                <Text style={styles.indicatorLabel}>▼</Text>
-              </Animated.View>
+            <Animated.View entering={FadeInDown.delay(PANEL_DELAY_MS)}>
+              <Pressable
+                testID="CombatFinalResult-narrative"
+                disabled={isLastLine}
+                onPress={() => setLineIndex((current) => current + 1)}
+                style={styles.panel}
+              >
+                <Animated.Text
+                  key={`${lineIndex}-${narrative[lineIndex]}`}
+                  entering={FadeIn}
+                  style={styles.narrative}
+                >
+                  {translate(narrative[lineIndex])}
+                </Animated.Text>
+                {isLastLine ? null : (
+                  <Animated.View
+                    testID="CombatFinalResult-next"
+                    style={[styles.indicator, blinkStyle]}
+                  >
+                    <Text style={styles.indicatorLabel}>▼</Text>
+                  </Animated.View>
+                )}
+              </Pressable>
             </Animated.View>
           ) : null}
         </View>

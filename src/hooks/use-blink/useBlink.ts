@@ -7,14 +7,14 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-import { INDICATOR_BLINK_MS } from './FinalResult.constants';
+import { BLINK_MIN_OPACITY, BLINK_MS } from './useBlink.constants';
 
 export const useBlink = () => {
   const opacity = useSharedValue(1);
 
   useEffect(() => {
     opacity.value = withRepeat(
-      withTiming(0.2, { duration: INDICATOR_BLINK_MS }),
+      withTiming(BLINK_MIN_OPACITY, { duration: BLINK_MS }),
       -1,
       true,
     );

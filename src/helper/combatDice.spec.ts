@@ -1,15 +1,17 @@
 import { COMBAT_DICE, type CombatDieId, getDice, getDie } from '@data/combat';
 
 import {
+  type ICombatDie,
   containsPoint,
+  dealHand,
   diceOfKind,
-  discardUsedDice,
   drawDice,
   emptyCombatSlots,
   formatFace,
   handSize,
   hitSlotIndex,
   placeDieOnSlot,
+  playCards,
   removeDieFromSlots,
   resolveExchange,
   restFace,
@@ -17,6 +19,8 @@ import {
   rollDie,
   rollInitiative,
   selectedDice,
+  shuffle,
+  toCards,
 } from './combatDice';
 
 const deckIds: CombatDieId[] = [
@@ -25,6 +29,9 @@ const deckIds: CombatDieId[] = [
   'defense-d4-b',
   'defense-d6-a',
 ];
+
+const keepOrder = () => 0.99;
+const idsOf = (dice: ICombatDie[]) => dice.map((die) => die.id);
 
 describe('combatDice', () => {
   it('gives every catalog die one face per side', () => {
@@ -163,27 +170,60 @@ describe('combatDice', () => {
     expect(hitSlotIndex(slots, 12, 12)).toBe(-1);
   });
 
-  it('caps the hand at the deck size', () => {
+  it('caps the slots at the cards in hand', () => {
     expect(handSize(8, 2)).toBe(2);
     expect(handSize(1, 2)).toBe(1);
     expect(handSize(0, 2)).toBe(0);
   });
 
-  it('sends used dice to morto and recovers them once the hand cannot be filled', () => {
-    const afterFirst = discardUsedDice(
-      deckIds,
-      [],
-      ['attack-d4-b', 'defense-d6-a'],
-      2,
-    );
-    expect(afterFirst).toEqual(['attack-d4-b', 'defense-d6-a']);
+  describe('hand and deck', () => {
+    const cards = toCards(getDice([...deckIds, 'attack-d6-a', 'defense-d8-a']));
 
-    expect(
-      discardUsedDice(deckIds, afterFirst, ['attack-d8-a', 'defense-d4-b'], 2),
-    ).toEqual([]);
+    it('gives every deck entry its own card id, even repeated dice', () => {
+      expect(idsOf(toCards(getDice(['attack-d4-b', 'attack-d4-b'])))).toEqual([
+        'attack-d4-b#0',
+        'attack-d4-b#1',
+      ]);
+    });
 
-    expect(
-      discardUsedDice(deckIds, [], ['attack-d4-b', 'attack-d8-a'], 3),
-    ).toEqual([]);
+    it('shuffles without losing, duplicating or mutating cards', () => {
+      const items = [1, 2, 3, 4];
+
+      expect(shuffle(items, keepOrder)).toEqual(items);
+      expect(shuffle(items, () => 0)).toEqual([2, 3, 4, 1]);
+      expect(items).toEqual([1, 2, 3, 4]);
+    });
+
+    it('deals the hand from the shuffled deck and keeps the rest as the deck', () => {
+      const piles = dealHand(cards, 4, keepOrder);
+
+      expect(idsOf(piles.hand)).toEqual(idsOf(cards.slice(0, 4)));
+      expect(idsOf(piles.drawPile)).toEqual(idsOf(cards.slice(4)));
+      expect(piles.discard).toEqual([]);
+      expect(dealHand(cards.slice(0, 2), 4, keepOrder).hand).toHaveLength(2);
+    });
+
+    it('sends played cards to morto and refills the hand from the deck', () => {
+      const dealt = dealHand(cards, 4, keepOrder);
+      const played = playCards(dealt, [cards[0].id, cards[2].id], 4, keepOrder);
+
+      expect(idsOf(played.hand)).toEqual(
+        idsOf([cards[1], cards[3], cards[4], cards[5]]),
+      );
+      expect(played.drawPile).toEqual([]);
+      expect(idsOf(played.discard)).toEqual(idsOf([cards[0], cards[2]]));
+    });
+
+    it('reshuffles morto into a new deck once the deck runs out', () => {
+      const dealt = dealHand(cards, 4, keepOrder);
+      const first = playCards(dealt, idsOf(cards.slice(0, 2)), 4, keepOrder);
+      const second = playCards(first, idsOf(cards.slice(2, 4)), 4, keepOrder);
+
+      expect(idsOf(second.hand)).toEqual(
+        idsOf([cards[4], cards[5], cards[0], cards[1]]),
+      );
+      expect(idsOf(second.drawPile)).toEqual(idsOf(cards.slice(2, 4)));
+      expect(second.discard).toEqual([]);
+    });
   });
 });

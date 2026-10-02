@@ -31,10 +31,14 @@ export const STARTER_DICES: CombatDieId[] = [
   'attack-d4-a',
   'attack-d4-b',
   'attack-d6-a',
+  'attack-d6-b',
   'attack-d8-a',
+  'attack-d8-b',
   'defense-d4-a',
   'defense-d4-b',
   'defense-d6-a',
+  'defense-d6-b',
+  'defense-d8-a',
   'defense-d8-a',
 ];
 

@@ -35,9 +35,7 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
 }) => {
   const [slideAnim] = useState(() => new Animated.Value(SLIDE_DISTANCE));
   const [timerProgress] = useState(() => new Animated.Value(1));
-  const selectedChoiceRef = useRef<IPresentedStoryChoice | undefined>(
-    undefined,
-  );
+  const selectedChoiceRef = useRef<IPresentedStoryChoice>(undefined);
   const hasCommittedRef = useRef(false);
   const onSelectRef = useRef(onSelect);
   const isQuick = isQuickChoicePrompt(choices);

@@ -8,6 +8,7 @@ import { Start } from '@screens/start';
 import { useSelector } from 'react-redux';
 
 import { bookPageTransition } from './bookPageTransition';
+import { combatTransition } from './combatTransition';
 
 const Stack = createStackNavigator<GameStackParamsList>();
 
@@ -25,7 +26,7 @@ const GameStackNavigator = () => {
       <Stack.Screen
         name="Combat"
         component={Combat}
-        options={{ gestureEnabled: false }}
+        options={combatTransition}
       />
     </Stack.Navigator>
   );

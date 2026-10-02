@@ -31,7 +31,7 @@
     "noDice": "Sem dados",
     "tapToRoll": "Toque para rolar",
     "tapToContinue": "Toque para continuar",
-    "dead": "Morto: {{count}}",
+    "deck": "Deck: {{count}}",
     "trayHint": "Segure e arraste {{count}} dados para o centro",
     "fieldHint": "Segure de novo para devolver à bandeja",
     "needDice": "Escolha {{count}} dados",

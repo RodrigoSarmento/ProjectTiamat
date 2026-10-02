@@ -4,15 +4,19 @@ Nota da conversa sobre o primeiro desenho de combate do ProjectTiamat.
 
 ## Ideia
 
-O personagem começa com dados no inventário (`saves.dices`). O combate funciona como um deckbuilder de dados.
+O personagem começa com um deck de cartas no inventário (`saves.dices`). Hoje toda carta é um dado. No futuro, itens e outras cartas entram no mesmo deck. O combate funciona como um deckbuilder.
 
-Cada dado já nasce de ataque ou de defesa. Na preparação, a bandeja mostra todos os dados do deck que não estão no morto. O jogador arrasta exatamente `numOfDices` dados para o centro (hoje 2, nunca mais do que o tamanho do deck). Exemplo: 15 no deck e 4 espaços. Ele pode levar 3 de ataque e 1 de defesa.
+Os tamanhos ficam em `src/data/combat/deck.ts`: a mão tem 8 cartas (`HAND_SIZE`) e o deck tem de 12 a 20 (`DECK_MIN_SIZE`, `DECK_MAX_SIZE`). O mesmo dado pode aparecer mais de uma vez no deck. Cada cópia vira uma carta com id próprio (`defense-d8-a#10`).
+
+No começo da luta, o deck é embaralhado e 8 cartas vão para a mão. O resto fica no deck, virado para baixo.
+
+Cada dado já nasce de ataque ou de defesa. Na preparação, a bandeja mostra a mão. O jogador arrasta exatamente `numOfDices` dados para o centro (hoje 2, nunca mais do que a mão tem). Exemplo: 4 espaços. Ele pode levar 3 de ataque e 1 de defesa.
 
 No ataque, o jogador rola os dados de ataque escolhidos e o inimigo rola os de defesa. Na defesa, o jogador rola os de defesa escolhidos e o inimigo rola os de ataque.
 
 As faces trazem um número, que é o valor da rolagem, ou nada (`0`), que é um erro.
 
-Os dados escolhidos vão para o morto. Os que não foram escolhidos continuam na bandeja. Quando sobram menos dados fora do morto do que espaços, o morto inteiro volta para o deck.
+Os dados escolhidos saem da mão e vão para o morto. A mão compra do deck o mesmo número de cartas até voltar a ter 8. Quando o deck acaba, o morto inteiro é embaralhado e vira o novo deck. A preparação mostra quantas cartas ainda estão no deck.
 
 ### Inimigo
 
@@ -37,7 +41,7 @@ Ataque do jogador: +2, +1 e +3, total 6. Defesa do inimigo: +3. Saldo: 3 de dano
 
 Defesa do jogador: +1. Ataque do inimigo: +3. Saldo: 2 de dano no jogador.
 
-Esses 4 dados vão para o morto. Na próxima preparação, a bandeja mostra o resto do deck.
+Esses 4 dados vão para o morto e a mão compra 4 cartas do deck.
 
 ## Dá para fazer em React Native
 
@@ -49,32 +53,34 @@ O d20 que já existe em `src/components/dice-roll-d20` mostra um caminho possív
 
 O d20 atual vive numa string HTML com Three.js (`diceSceneHtml.ts`): geometria, textura, spin e mensagem de volta para o React Native. Por isso mudar cor, tamanho ou número já é trabalhoso. Colocar vários dados 3D girando juntos nessa mesma string multiplica essa dificuldade.
 
-O deck em si é pequeno. São duas listas de ids e o catálogo de dados (`src/data/combat/dice.ts`):
+O deck em si é pequeno. São três pilhas de cartas, montadas a partir do catálogo de dados (`src/data/combat/dice.ts`):
 
 ```ts
 type ICombatDie = {
-  id: string;
+  id: string; // 'attack-d4-a#0' — uma carta por entrada do deck
   sides: 4 | 6 | 8;
   kind: 'attack' | 'defense';
   faces: number[]; // [0, 0, 1, 1, 2, 2]
 };
 
-type CombatState = {
-  deck: string[]; // saves.dices
-  deadIds: string[]; // o morto
+type ICombatPiles = {
+  hand: ICombatDie[]; // a mão
+  drawPile: ICombatDie[]; // o deck
+  discard: ICombatDie[]; // o morto
 };
 ```
 
-As regras são funções puras em `src/helper/combatDice.ts`, no mesmo estilo de `storyPlayback`. Uma rodada:
+As regras são funções puras em `src/helper/combatDice.ts` (`dealHand`, `playCards`, `drawCards`, `shuffle`), no mesmo estilo de `storyPlayback`. Uma rodada:
 
-1. A bandeja mostra o deck sem o morto.
-2. O jogador arrasta `numOfDices` dados para o centro. O tipo vem do próprio dado.
-3. O inimigo sorteia `numOfDices` dados do próprio deck.
-4. O d20 de iniciativa decide quem ataca primeiro. Um lado sem dados de ataque pula a própria troca.
-5. Em cada troca, soma uma face aleatória de cada dado. Dano = ataque − defesa, nunca abaixo de 0.
-6. Os escolhidos vão para o morto.
-7. Se sobrarem menos dados fora do morto do que `numOfDices`, o morto inteiro volta para o deck.
-8. Se alguém chegou a 0 PV, vai para o resultado final. Se não, volta para a preparação.
+1. No começo da luta (e ao tentar de novo), o deck é embaralhado e a mão recebe 8 cartas.
+2. A bandeja mostra a mão.
+3. O jogador arrasta `numOfDices` dados para o centro. O tipo vem do próprio dado.
+4. O inimigo sorteia `numOfDices` dados do próprio deck.
+5. O d20 de iniciativa decide quem ataca primeiro. Um lado sem dados de ataque pula a própria troca.
+6. Em cada troca, soma uma face aleatória de cada dado. Dano = ataque − defesa, nunca abaixo de 0.
+7. Os escolhidos saem da mão e vão para o morto. A mão compra do deck até voltar a 8.
+8. Se o deck acabar durante a compra, o morto é embaralhado, vira o novo deck e a compra continua.
+9. Se alguém chegou a 0 PV, vai para o resultado final. Se não, volta para a preparação.
 
 Isso não precisa de engine, física nem canvas. Dá para testar no Jest com um turno inteiro e um resultado fixo, sem abrir o app.
 

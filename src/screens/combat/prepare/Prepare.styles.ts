@@ -132,4 +132,15 @@ export const styles = StyleSheet.create({
     top: 0,
     zIndex: 10,
   },
+  indicator: {
+    position: 'absolute',
+    top: 0,
+    right: 6,
+    bottom: 0,
+    justifyContent: 'center',
+  },
+  indicatorLabel: {
+    ...Fonts.caption,
+    color: Colors.grayLightText,
+  },
 });
