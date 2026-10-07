@@ -7,6 +7,10 @@ export enum CharacterId {
   gus = 4,
   you = 5,
   busSystem = 6,
+  terminal = 7,
+  terminal2 = 8,
+  scanner = 9,
+  securityAgents = 10,
 }
 
 export interface IStoryCharacter {
@@ -43,6 +47,22 @@ export const CHARACTERS: Record<CharacterId, IStoryCharacter> = {
   [CharacterId.busSystem]: {
     name: 'characters.busSystem',
     id: CharacterId.busSystem,
+  },
+  [CharacterId.terminal]: {
+    name: 'characters.terminal',
+    id: CharacterId.terminal,
+  },
+  [CharacterId.terminal2]: {
+    name: 'characters.terminal2',
+    id: CharacterId.terminal2,
+  },
+  [CharacterId.scanner]: {
+    name: 'characters.scanner',
+    id: CharacterId.scanner,
+  },
+  [CharacterId.securityAgents]: {
+    name: 'characters.securityAgent',
+    id: CharacterId.securityAgents,
   },
 };
 

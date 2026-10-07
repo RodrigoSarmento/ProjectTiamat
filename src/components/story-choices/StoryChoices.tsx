@@ -31,7 +31,8 @@ const StoryChoices: React.FC<IStoryChoices> = ({
             onPress={() => onSelect(choice)}
             style={[
               styles.choice,
-              choice.disabled && styles.used,
+              choice.used && !choice.disabled && styles.used,
+              choice.disabled && styles.disabled,
               selectedId === choice.id && styles.selected,
             ]}
           >

@@ -132,7 +132,10 @@ export const shouldSkipPassageText = (
 export const isChoiceAvailable = (choice: IStoryChoice, flags: StoryFlag[]) =>
   (choice.requires ?? []).every((flag) => flags.includes(flag));
 
-export type IPresentedStoryChoice = IStoryChoice & { disabled: boolean };
+export type IPresentedStoryChoice = IStoryChoice & {
+  disabled: boolean;
+  used: boolean;
+};
 
 export const isQuickChoicePrompt = (choices: IPresentedStoryChoice[]) =>
   choices.length > 0 && choices.every((choice) => choice.isQuickChoice);
@@ -154,7 +157,8 @@ export const visibleChoices = (
       {
         ...choice,
         label: translate(choice.label),
-        disabled: used,
+        disabled: used && !choice.optional,
+        used: used,
       },
     ];
   });

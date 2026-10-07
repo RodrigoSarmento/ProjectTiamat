@@ -4,6 +4,7 @@ export const STORY_BACKGROUND_IMAGES = {
   gameplay_page: require('@assets/backgrounds/gameplay_page.png'),
   metro_crowded: require('@assets/backgrounds/metro_crowded.png'),
   building_turnstiles: require('@assets/backgrounds/building_turnstiles.png'),
+  background_hacking: require('@assets/backgrounds/background_hacking.png'),
 } as const;
 
 export type StoryBackgroundImageId = keyof typeof STORY_BACKGROUND_IMAGES;

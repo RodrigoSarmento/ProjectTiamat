@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.neonCyan,
   },
   used: {
-    opacity: 0.5,
+    opacity: 0.75,
   },
   selected: {
     borderColor: Colors.neonCyan,
@@ -35,5 +35,8 @@ export const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 16,
     lineHeight: 22,
+  },
+  disabled: {
+    opacity: 0.1,
   },
 });

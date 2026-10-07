@@ -11,8 +11,14 @@ const defaultProps: IStoryChoices = {
       id: 'corporate',
       label: 'Como um grande figurão corporativo',
       disabled: false,
+      used: false,
     },
-    { id: 'crime', label: 'Como uma lenda do crime', disabled: false },
+    {
+      id: 'crime',
+      label: 'Como uma lenda do crime',
+      disabled: false,
+      used: false,
+    },
   ],
   onSelect: mockOnSelect,
 };
@@ -48,6 +54,7 @@ describe('StoryChoices', () => {
             label: 'Ask about the job',
             once: true,
             disabled: true,
+            used: true,
           },
         ]}
       />,
@@ -57,23 +64,18 @@ describe('StoryChoices', () => {
     expect(mockOnSelect).not.toHaveBeenCalled();
   });
 
-  it('does not call onSelect for a used optional choice', async () => {
-    await render(
-      <StoryChoices
-        {...defaultProps}
-        choices={[
-          {
-            id: 'use-card',
-            label: 'Use the card',
-            optional: true,
-            disabled: true,
-          },
-        ]}
-      />,
-    );
+  it('still calls onSelect for a used optional choice', async () => {
+    const useCard = {
+      id: 'use-card',
+      label: 'Use the card',
+      optional: true,
+      disabled: false,
+      used: true,
+    };
+    await render(<StoryChoices {...defaultProps} choices={[useCard]} />);
 
     await fireEvent.press(screen.getByTestId('StoryChoices-use-card'));
-    expect(mockOnSelect).not.toHaveBeenCalled();
+    expect(mockOnSelect).toHaveBeenCalledWith(useCard);
   });
 
   it('marks the continue choice when optional topics are also listed', async () => {
@@ -85,12 +87,14 @@ describe('StoryChoices', () => {
             id: 'continue-dialog-with-jo',
             label: 'Continue talking',
             disabled: false,
+            used: false,
           },
           {
             id: 'ask-about-service',
             label: 'Ask about the job',
             optional: true,
             disabled: false,
+            used: false,
           },
         ]}
       />,
@@ -113,12 +117,14 @@ describe('StoryChoices', () => {
             id: 'continue-dialog-with-jo',
             label: 'Continue talking',
             disabled: false,
+            used: false,
           },
           {
             id: 'ask-about-service',
             label: 'Ask about the job',
             once: true,
             disabled: false,
+            used: false,
           },
         ]}
       />,
@@ -139,18 +145,21 @@ describe('StoryChoices', () => {
             label: 'Force the passage',
             once: true,
             disabled: false,
+            used: false,
           },
           {
             id: 'hack-terminal',
             label: 'Hack the terminal',
             once: true,
             disabled: false,
+            used: false,
           },
           {
             id: 'use-card',
             label: 'Use the card',
             optional: true,
             disabled: false,
+            used: false,
           },
         ]}
       />,

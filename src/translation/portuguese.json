@@ -50,7 +50,11 @@
     "jo": "Jô",
     "gus": "Gus",
     "you": "Você",
-    "busSystem": "Sistema do ônibus"
+    "busSystem": "Sistema do ônibus",
+    "terminal": "Terminal de Acesso",
+    "terminal2": "Terminal de Acesso 2",
+    "scanner": "Scanner de Atendimento",
+    "securityAgent": "Agente de Segurança"
   },
   "enemies": {
     "enemy1": "Inimigo 1"
@@ -87,7 +91,11 @@
       }
     }
   },
+
   "prologue": {
+    "choices": {
+      "rethink-the-issue": "Repensar o problema"
+    },
     "dreaming": {
       "title": "TELA PRETA - Sonhando",
       "text": "De olhos fechados, você já não consegue mais distinguir exatamente o que é o seu corpo e o que é o movimento da rua. Cada curva te inclina devagar para um lado, cada freada te empurra um pouco para a frente, é como se você fosse o próprio movimento do ônibus.\n\nO ronco grave do motor vibra em suas costas. Vozes distantes se misturam ao chiado dos freios e ao balanço repetitivo da viagem como uma canção de ninar.\n\nEntão surge uma luz no fim do túnel, ela cresce lentamente em sua direção, convidando você a mergulhar nela. Dentro dela, você se vê:",
@@ -193,10 +201,13 @@
     "approaching-line-gus-blocked": {
       "lines": [
         "Por entre as diversas cabeças da fila você consegue identificar o problema: um funcionário está discutindo com o terminal de acesso e dando murros na máquina.\n\n\"Gus\", um dos operadores da linhagem de montagem que você conhece de vista, aproxima novamente o pulso do leitor.",
-        "[Terminal de Acesso]\n\nCREDENCIAL NÃO IDENTIFICADA.\n\nA máquina recebe mais um murro.",
-        "Porra! Não é possível cara! Eu entrei com essa merda ontem! ",
-        "Ele tenta outra vez:\n\n[Terminal de Acesso]\n\nCREDENCIAL NÃO IDENTIFICADA.",
-        "Você possui mais uma tentativa antes do bloqueio da credencial.\n\nAtrás dele, a fila começa a se aborrecer. Um relógio acima das catracas marca: \n\n05:47\n\n Gus olha para um dos seguranças que parece ignorar o problema:",
+        "CREDENCIAL NÃO IDENTIFICADA",
+        "A máquina recebe mais um murro.",
+        "Porra! Não é possível cara! Eu entrei com essa merda ontem!",
+        "Ele tenta outra vez.",
+        "CREDENCIAL NÃO IDENTIFICADA",
+        "Você possui mais uma tentativa antes do bloqueio da credencial.",
+        "Atrás dele, a fila começa a se aborrecer. Um relógio acima das catracas marca:\n\n05:47\n\nGus olha para um dos seguranças que parece ignorar o problema:",
         "Meu chip tá funcionando, é essa máquina que tá com problema. Libera pra mim. ",
         "Não posso, você precisa abrir um chamado com o TI.",
         "Cara, seis horas começa o turno, tu sabe que um chamado dura pelo menos 20min pra fazer...",
@@ -239,29 +250,34 @@
     },
     "choose-to-not-help-gus": {
       "lines": [
-        "Gus fica alguns segundos te encarando como se ainda esperasse que você fosse voltar atrás. Alguém na fila resmunga da demora. Ele vira novamente para o Terminal de Acesso, passa as mãos pelo rosto e começa a abrir um chamado de ajuda para o TI.",
+        "Gus fica alguns segundos te encarando como se ainda esperasse que você fosse voltar atrás. Alguém na fila resmunga da demora. Ele vira novamente para o Terminal de Acesso, passa as mãos pelo rosto e começa a abrir um chamado de ajuda para o TI",
         "Vinte minutos...",
         "Sua fila continua andando até que chega a sua vez. O leitor pede sua credencial e você repete o processo de leitura do chip e a catraca é liberada. Você e seu colega se dirigem para inicial o turno.",
-        "[Terminal de Acesso 2] POSICIONE-SE PARA O ESCANEAMENTO OCULAR.\n\nVocê posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
-        "[Terminal de Acesso 2] RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+        "POSICIONE-SE PARA O ESCANEAMENTO OCULAR.",
+        "Você posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
+        "RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
       ]
     },
     "try-to-help-gus": {
       "lines": [
         "Você vai abrindo caminho entre os funcionários e suas mochilas até alcançar o início da fila de entrada do setor de montagem. O Terminal de Acesso ainda solicita o escaneamento do chip, mas a catraca está completamente travada. Uma luz vermelha pisca ao lado do leitor enquanto uma mensagem permanece congelada na tela:",
-        "[Terminal de Acesso] APRESENTE SUA CREDENCIAL.\n\nVocê olha para a máquina, depois pro Gus.",
-        "e aí?"
+        "APRESENTE SUA CREDENCIAL.",
+        "Você olha para a máquina, depois pro Gus.",
+        "E aí?"
       ],
       "choices": {
-        "force-passage": "Forçar a catraca [Teste de FORÇA]",
-        "hack-terminal": "Hackear o terminal [Teste de Inteligência]",
+        "force-passage": "Forçar a catraca",
+        "hack-terminal": "Hackear o terminal",
         "use-card": "Usar sua credencial da manutenção"
       }
+    },
+    "rethink-hacking": {
+      "text": "Você fica alguns segundos olhando para o aparelho, já faz muitos anos que você não atualiza o seu chrome para se conectar ao ciberespaço, retornar invadindo o sistema de segurança de uma megacorporação talvez não seja o mais sábio a se fazer."
     },
     "use-card-response": {
       "lines": [
         "Você nota o pequeno símbolo de acesso técnico na lateral da máquina. Funcionários do setor de manutenção podem realizar uma abertura emergencial em caso de falhas de equipamento. Tecnicamente você consegue liberar aquela catraca usando o protocolo de emergência da manutenção, entretanto, a situação não cumpre os requisitos.\n\nVocê encosta o chip do seu pulso no leitor emergencial:",
-        "[Terminal de Acesso] CREDENCIAL DE MANUTENÇÃO IDENTIFICADA. Deseja prosseguir com o protocolo de emergência?"
+        "CREDENCIAL DE MANUTENÇÃO IDENTIFICADA. Deseja prosseguir com o protocolo de emergência?"
       ],
       "choices": {
         "use-card-confirm": "Confirmar",
@@ -279,33 +295,46 @@
       "lines": [
         "Vai dar problema?",
         "Você sabe que pode dar problema, mas a única chance disso acontecer é se, pela primeira vez, o pessoal da segurança decidir trabalhar.\n\nVocê confirma.",
-        "[Terminal de Acesso] PROTOCOLO DE EMERGÊNCIA ATIVADO\n\nAs travas se recolhem e a catraca se solta um estalo metálico. Gus desmonta ela para abrir passagem e os funcionários começam a atravessa rapidamente.",
+        "PROTOCOLO DE EMERGÊNCIA ATIVADO",
+        "As travas se recolhem e a catraca se solta com um estalo metálico. Gus desmonta ela para abrir passagem e os funcionários começam a atravessar rapidamente.",
         "Valeu mesmo. Se alguém perguntar, a máquina abriu sozinha.",
         "Bora, tá na nossa hora!",
         "Jô estava segurando a fila para você passar. O leitor pede sua credencial e você repete o processo de leitura do chip e a catraca é liberada. Você e seu colega se dirigem para inicial o turno.",
-        "[Terminal de Acesso 2] POSICIONE-SE PARA O ESCANEAMENTO OCULAR.\n\nVocê posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
-        "[Terminal de Acesso 2] RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+        "POSICIONE-SE PARA O ESCANEAMENTO OCULAR.",
+        "Você posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
+        "RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
       ]
     },
     "force-passage-success": {
       "lines": [
         "Por alguns segundos, nada acontece. Então, uma das travas cede com um estalo metálico. Em seguida mais três ritmadas. A catraca se solta e você consegue desmontá-la de uma maneira que preserva os fios internos responsáveis pela conexão com o terminal e o alarme.",
-        "Bem, essa foi por pouco, mas funcionou. De qualquer forma, valeu mesmo pela ajuda.",
+        "Bem, essa foi por pouco, mas funcionou. De qualquer forma, valeu mesmo pela ajuda",
         "Bora, tá na nossa hora!",
         "Jô estava segurando a fila para você passar. O leitor pede sua credencial e você repete o processo de leitura do chip e a catraca é liberada. Você e seu colega se dirigem para iniciar o turno.",
-        "[Terminal de Acesso 2] POSICIONE-SE PARA O ESCANEAMENTO OCULAR.\n\nVocê posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
-        "[Terminal de Acesso 2] RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+        "POSICIONE-SE PARA O ESCANEAMENTO OCULAR.",
+        "Você posiciona seu rosto na direção do terminal. Uma luz azul que sai da máquina passa na região dos seus olhos escaneando sua íris.",
+        "RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
       ]
     },
     "force-passage-failure": {
       "text": "Cara, se eu quisesse quebrar a catraca eu teria pedido pra alguém grande, não pro nerd das bonecas.",
       "choices": {
-        "ignore-gus-and-force-it": "Ignorar Gus e continuar forçando [Teste de FORÇA]",
-        "rethink-the-issue": "Repensar o problema"
+        "ignore-gus-and-force-it": "Ignorar Gus e continuar forçando"
       }
     },
     "rethink-the-forcing-passage": {
       "text": "Você obedece ao seu senso de ridículo e larga a catraca para se voltar ao terminal, como deveria ter feito desde o início."
+    },
+    "force-passage-success-2": {
+      "lines": [
+        "Você ignora Gus e reposiciona as mãos. Sob a carcaça, seus dedos encontram uma folga entre a estrutura e a base. Você firma os pés e força outra vez. O primeiro estalo se perde no barulho da fila. O segundo faz Gus recuar.",
+        "Uma das fixações salta do piso. A catraca inclina na sua direção, pesada o suficiente para fazer seus braços tremerem. Por baixo dela, um feixe de cabos se estica. Você interrompe o movimento antes que os conectores se soltem e apoia a estrutura de lado. A luz do terminal continua acesa. Você solta a catraca devagar. Gus atravessa a abertura e olha para o relógio. Ainda dá tempo.",
+        "Valeu mesmo. Quando precisar de alguma coisa lá na montagem, fala comigo.",
+        "Os funcionários passam atrás dele, alguns tomando cuidado para não pisar nos cabos, outros preocupados apenas com o horário. Acima da fila, uma câmera gira. A lente encontra seu rosto e permanece ali enquanto você limpa as mãos no uniforme.",
+        "Bora, herói. Antes que resolvam descontar essa merda do teu salário.",
+        "Jô segura seu lugar na fila. Quando chega sua vez, você aproxima o pulso do leitor e atravessa a catraca do seu setor. No segundo controle, uma faixa azul percorre seus olhos.",
+        "RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+      ]
     },
     "force-passage-failure-twice": {
       "lines": [
@@ -316,7 +345,67 @@
         "Suas veias saltam pela pele!",
         "AAAAAAAAAAAAHHHHHHH!!!",
         "A sua mão escorrega distribuindo toda a tensão que você exercia nas barras direto para seus braços enquanto eles esbarram por entre a catraca. Com um leve estalo você sente seu cotovelo sair do lugar enquanto você cai para trás.",
-        "Caralho... fica deitado ai, tenta respirar e recuperar o que sobrou da tua dignidade. Eu vou chamar alguém. GUARDA, EI! TEMOS UM IMBECIL FERIDO!"
+        "Caralho... fica deitado ai, tenta respirar e recuperar o que sobrou da tua dignidade. Eu vou chamar alguém. GUARDA, EI! TEMOS UM IMBECIL FERIDO!",
+        "O segurança olha para o Gus, depois para a catraca e em seguida com desprezo para você. Leva dois dedos ao comunicador e aperta um botão na parede. Um alarme curto atravessa o terminal. As portas de serviço se abrem com uma pancada. Quatro agentes entram correndo, protegidos por placas de blindagem cinza. Dois mantêm as armas erguidas na direção da multidão. Outros dois carregam maletas.",
+        "AFASTA! MÃOS VISÍVEIS!",
+        "Um trabalhador demora a sair do caminho. O agente o empurra contra a divisória com o antebraço. A fila se comprime para abrir passagem. Você tenta se sentar. Uma luva prende seu ombro ao chão.",
+        "Não se mexe.",
+        "Um agente da maleta corta a manga do seu uniforme e passa um aparelho sobre o cotovelo, observa a tela e prende duas peças de uma tala ao redor do braço. Você ouve o motor ajustando a pressão antes de sentir a primeira picada.",
+        "Remoção para a enfermagem. Corredor livre.",
+        "Um dos agentes faz um movimento rápido com a maleta e ela se torna uma maca. Eles colocam você nela sem esperar uma resposta. Uma cinta aperta seu peito; outra prende suas pernas. Jô tenta se aproximar, mas um dos agentes estende a arma diante dele.",
+        "Eu trabalho com ele, porra.",
+        "Então vá trabalhar.",
+        "As luzes do terminal passam sobre seu rosto enquanto empurram a maca. A dor começa a ficar distante, embora seu braço continue parecendo estar na posição errada. Na entrada da enfermagem, a maca para diante de uma porta fechada. Um agente aproxima um scanner dos seus olhos.",
+        "Olha pra luz.",
+        "Uma faixa azul atravessa sua visão. No visor preso ao antebraço dele, surge uma ficha de identificação.",
+        "RECONHECIMENTO CONFIRMADO! Funcionário encaminhado à enfermagem"
+      ]
+    },
+    "prev-hack-terminal": {
+      "text": "Você se agacha na frente do terminal de acesso. O brilho azulado da tela ilumina seu rosto. De uma abertura metálica na sua região temporal você puxa um cabo com a mão direita enquanto os dedos da sua outra mão tateiam a borda do aparelho em busca de uma porta.. Há alguns anos você e Jô precisaram resolver um B.O. pro Orelha no ciberespaço. Até hoje o maldito foge da conversa dizendo que o serviço foi pago com a cirurgia do equipamento que ele implantou na sua têmpora. \"Equipamento top de linha\" ele diz, e de fato era, há uns 10 anos.",
+      "choices": {
+        "connect-to-terminal": "Conectar o cabo no terminal"
+      }
+    },
+    "connect-to-terminal-success": {
+      "lines": [
+        "O cabo, feito de uma fibra escura, se alonga em direção da porta com um zumbido agudo.\n\nVocê se conecta e em um piscar de olhos tudo desaparece. Você entrou no ciberespaço. Um vazio iluminado apenas pelas linhas de lógica que se cruzam diante de seus olhos.",
+        "As linhas se organizam conforme você concentra a atenção nelas. Surgem blocos de acesso, registros de passagem, solicitações de credenciais. Cada tentativa recusada deixa um ponto vermelho suspenso diante do terminal de Montagem. Há dezenas deles. Você abre uma sessão de diagnóstico usando a assinatura do próprio terminal. Seu equipamento demora a responder. Um aviso de incompatibilidade surge na margem da visão; você o afasta e espera. Depois de alguns segundos analisando, você consegue interromper o processo de erro no sistema. Os pontos vermelhos começam a desaparecer."
+      ]
+    },
+    "connect-to-terminal-success-2": {
+      "lines": [
+        "O barulho do terminal de funcionários volta de uma vez. Você está agachado diante da máquina, com Gus quase em cima do seu ombro.",
+        "APRESENTE SUA CREDENCIAL.",
+        "Tenta agora.",
+        "Gus aproxima o pulso. Com um estalo, a trava se recolhe. Ele atravessa, olha para você e abre um sorriso.",
+        "Valeu, irmão. Te devo uma.",
+        "Você desconecta o cabo. Ele se recolhe na sua têmpora com um puxão curto, deixando uma coceira atrás do olho.",
+        "Bora.",
+        "Você volta à sua fila. Pouco depois, já está diante do segundo controle, tentando manter os olhos abertos para a leitura.",
+        "RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
+      ]
+    },
+    "connect-to-terminal-failure": {
+      "lines": [
+        "O cabo, feito de uma fibra escura, se alonga em direção da porta com um zumbido agudo e encaixa.\n\nVocê sente uma pressão atrás dos olhos, seguida por um ruído agudo que não vem do terminal. A fila desaparece. Você entrou no ciberespaço. Um vazio iluminado apenas pelas linhas de lógica que se cruzam diante de seus olhos.",
+        "Blocos de informação surgem no escuro, mas se desfazem antes que você consiga lê-los. Seu equipamento tenta organizar os dados em um formato antigo. O terminal rejeita a conversão.",
+        "Uma mensagem atravessa seu campo de visão.\n\nPROTOCOLO INCOMPATÍVEL\n\nVocê fecha o aviso. Ele reaparece. Por entre as falhas, consegue encontrar o controlador da catraca. As autorizações estão acumuladas diante de um processo que não termina.",
+        "Você tenta abrir uma sessão de diagnóstico, mas o acesso se fecha assim que você toca nele. Do outro lado da conexão, Gus diz alguma coisa. A voz chega alongada, quase irreconhecível. Você procura outro caminho. Há uma função de reinicialização no controlador local. Sem tempo para examinar o restante, você envia o comando e o repete até receber uma resposta. Durante um instante, todas as linhas ficam brancas."
+      ]
+    },
+    "connect-to-terminal-failure-2": {
+      "lines": [
+        "Você é devolvido ao próprio corpo com o gosto de metal na boca. O terminal apaga. Gus olha para a tela vazia.",
+        "Tu matou essa porra?",
+        "Antes que você responda, o logotipo da New Human aparece. Uma sequência de números corre pela tela, rápida demais para acompanhar. A luz do leitor acende em verde.",
+        "APRESENTE SUA CREDENCIAL.",
+        "Você aponta para o leitor. Gus aproxima o pulso. A catraca libera a passagem.",
+        "Puta merda. Valeu mesmo, te devo essa",
+        "Você puxa o conector. O cabo demora a se recolher, e precisa guiá-lo com os dedos até a abertura na têmpora. Quando se levanta, sua visão ainda deixa rastros nas luzes do teto. Jô espera na outra fila. Está olhando por cima do seu ombro.",
+        "Tá quase na hora, vamo.",
+        "Você ajeita o uniforme e volta para junto dele. No segundo controle, o escaneamento parece demorar mais do que deveria. Então a tela muda.",
+        "RECONHECIMENTO CONFIRMADO! Seja bem-vindo de volta"
       ]
     }
   }

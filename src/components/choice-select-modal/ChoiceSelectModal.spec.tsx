@@ -13,8 +13,14 @@ const defaultProps: IChoiceSelectModal = {
       id: 'corporate',
       label: 'Como um grande figurão corporativo',
       disabled: false,
+      used: false,
     },
-    { id: 'crime', label: 'Como uma lenda do crime', disabled: false },
+    {
+      id: 'crime',
+      label: 'Como uma lenda do crime',
+      disabled: false,
+      used: false,
+    },
   ],
   onSelect: mockOnSelect,
 };
@@ -25,18 +31,21 @@ const quickChoices = [
     label: 'Desviar o olhar',
     isQuickChoice: true,
     disabled: false,
+    used: false,
   },
   {
     id: 'dont-react',
     label: 'Não Reagir',
     isQuickChoice: true,
     disabled: false,
+    used: false,
   },
   {
     id: 'focus',
     label: 'Focar o Olhar',
     isQuickChoice: true,
     disabled: false,
+    used: false,
   },
 ];
 
@@ -117,8 +126,18 @@ describe('ChoiceSelectModal', () => {
 
     mockOnSelect.mockClear();
     const drinkChoices = [
-      { id: 'accept-drink', label: 'Aceitar a bebida', disabled: false },
-      { id: 'refuse-drink', label: 'Recusar a bebida', disabled: false },
+      {
+        id: 'accept-drink',
+        label: 'Aceitar a bebida',
+        disabled: false,
+        used: false,
+      },
+      {
+        id: 'refuse-drink',
+        label: 'Recusar a bebida',
+        disabled: false,
+        used: false,
+      },
     ];
     await view.rerender(
       <ChoiceSelectModal {...defaultProps} choices={drinkChoices} />,

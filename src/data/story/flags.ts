@@ -14,4 +14,5 @@ export enum StoryFlag {
   useCardToHelpGus = 'use_card_to_help_gus',
   helpedGusWithForcePassage = 'helped_gus_with_force_passage',
   tryToForcePassageFailureTwice = 'try_to_force_passage_failure_twice',
+  failedToHackTerminal = 'failed_to_hack_terminal',
 }

@@ -6,7 +6,8 @@ declare global {
     | 'intelligence'
     | 'wisdom'
     | 'charisma'
-    | 'energy';
+    | 'energy'
+    | 'technical_ability';
 
   interface IStatus {
     energy: number;
@@ -16,6 +17,7 @@ declare global {
     intelligence: number;
     wisdom: number;
     charisma: number;
+    technical_ability: number;
   }
 
   type GameStackParamsList = {

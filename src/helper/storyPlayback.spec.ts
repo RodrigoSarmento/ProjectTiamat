@@ -102,7 +102,7 @@ describe('storyPlayback', () => {
     expect(
       visibleChoices(choices, [StoryFlag.dreamedCorporate], ['open']).map(
         (choice) => choice.id,
-      ),
+      ), 
     ).toEqual(['locked']);
   });
 
@@ -119,6 +119,7 @@ describe('storyPlayback', () => {
         label: 'Focar o Olhar',
         isQuickChoice: true,
         disabled: false,
+        used: false,
       },
     ]);
   });
@@ -131,23 +132,26 @@ describe('storyPlayback', () => {
           label: 'Desviar o olhar',
           isQuickChoice: true,
           disabled: false,
+          used: false,
         },
         {
           id: 'focus',
           label: 'Focar o Olhar',
           isQuickChoice: true,
           disabled: false,
+          used: false,
         },
       ]),
     ).toBe(true);
     expect(
       isQuickChoicePrompt([
-        { id: 'open', label: 'Open', disabled: false },
+        { id: 'open', label: 'Open', disabled: false, used: false },
         {
           id: 'focus',
           label: 'Focar o Olhar',
           isQuickChoice: true,
           disabled: false,
+          used: false,
         },
       ]),
     ).toBe(false);
@@ -170,6 +174,7 @@ describe('storyPlayback', () => {
         label: 'Continue',
         next: 'jo-answer',
         disabled: false,
+        used: false,
       },
       {
         id: 'ask-about-service',
@@ -177,11 +182,12 @@ describe('storyPlayback', () => {
         next: 'jo-job-first-answer',
         once: true,
         disabled: true,
+        used: true,
       },
     ]);
   });
 
-  it('keeps optional choices visible and disabled after use', () => {
+  it('keeps optional choices visible and pressable after use', () => {
     const optionalChoices: IStoryChoice[] = [
       { id: 'continue', label: 'Continue', next: 'jo-answer' },
       {
@@ -198,13 +204,15 @@ describe('storyPlayback', () => {
         label: 'Continue',
         next: 'jo-answer',
         disabled: false,
+        used: false,
       },
       {
         id: 'use-card',
         label: 'Use the card',
         next: 'use-card-response',
         optional: true,
-        disabled: true,
+        disabled: false,
+        used: true,
       },
     ]);
   });
@@ -282,10 +290,7 @@ describe('storyPlayback', () => {
     expect(shouldSkipPassageText(withChoices, true)).toBe(true);
     expect(shouldSkipPassageText(withChoices, false)).toBe(false);
     expect(
-      shouldSkipPassageText(
-        { type: 'passage', text: 'Keep walking.' },
-        true,
-      ),
+      shouldSkipPassageText({ type: 'passage', text: 'Keep walking.' }, true),
     ).toBe(false);
   });
 
