@@ -7,6 +7,7 @@ export const STORY_LOG_LIMIT = 20;
 
 export type IStoryLogEntry = {
   key: string;
+  nodeId: string;
   speaker?: string;
   title?: string;
   text: string;
@@ -18,6 +19,7 @@ export const toStoryLogEntry = (
   pageIndex: number,
 ): IStoryLogEntry => ({
   key: `${nodeId}:${pageIndex}`,
+  nodeId,
   speaker:
     page.kind === 'dialogue'
       ? translate(getCharacter(page.characterId).name)

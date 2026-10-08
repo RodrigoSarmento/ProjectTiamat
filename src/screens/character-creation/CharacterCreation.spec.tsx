@@ -48,7 +48,7 @@ describe('CharacterCreation', () => {
       dexterity: 3,
       constitution: 3,
     });
-    expect(store.getState().saves.hasCreatedCharacter).toBe(true);
+    expect(store.getState().saves.hasCreatedCharacter).toBe(false);
     expect(mockGoBack).not.toHaveBeenCalled();
     expect(screen.getByTestId('CharacterCreation-nameModal')).toBeOnTheScreen();
     expect(
@@ -66,6 +66,7 @@ describe('CharacterCreation', () => {
     await fireEvent.press(screen.getByTestId('CharacterCreation-saveName'));
 
     expect(store.getState().saves.save.charName).toBe('Nyx');
+    expect(store.getState().saves.hasCreatedCharacter).toBe(true);
     expect(mockGoBack).toHaveBeenCalled();
   });
 });

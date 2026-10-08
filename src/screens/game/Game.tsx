@@ -15,8 +15,10 @@ import {
   prologueChapter,
 } from '@data/story';
 import { translate } from '@helper/translate';
+import { eraseSave } from '@redux/slices/SavesSlice';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 import GameDebugJump, { GameDebugDice } from './Game.debug';
 import { useStoryGame } from './Game.hooks';
@@ -42,11 +44,17 @@ const Game = () => {
     currentBackground.backgroundImage,
   );
   const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
+  const dispatch = useDispatch();
 
   const handleAdvance = () => {
     if (advance()) {
       navigation.navigate('CharacterCreation');
     }
+  };
+
+  const handleEraseSave = () => {
+    dispatch(eraseSave());
+    navigation.reset({ index: 0, routes: [{ name: 'Start' }] });
   };
 
   const speaker =
@@ -103,6 +111,7 @@ const Game = () => {
           onOpenCombat={() =>
             navigation.navigate('Combat', { enemyId: EnemiesId.enemy1 })
           }
+          onEraseSave={handleEraseSave}
         />
       ) : null}
       <StoryLog entries={storyLog} />

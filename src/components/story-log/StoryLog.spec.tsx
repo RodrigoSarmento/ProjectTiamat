@@ -7,10 +7,16 @@ import StoryLog from './StoryLog';
 const entries = [
   {
     key: 'dreaming:0',
+    nodeId: 'dreaming',
     title: 'TELA PRETA - Sonhando',
     text: 'De olhos fechados.',
   },
-  { key: 'wake-voice:0', speaker: 'Voz masculina', text: 'Ô! Acorda aê!' },
+  {
+    key: 'wake-voice:0',
+    nodeId: 'wake-voice',
+    speaker: 'Voz masculina',
+    text: 'Ô! Acorda aê!',
+  },
 ];
 
 describe('StoryLog', () => {

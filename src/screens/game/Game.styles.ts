@@ -79,6 +79,15 @@ export const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
+  debugEraseButton: {
+    alignSelf: 'flex-end',
+    marginBottom: 12,
+    backgroundColor: Colors.warningRed,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 4,
+    zIndex: 1,
+  },
   debugList: {
     maxHeight: '80%',
     backgroundColor: 'rgba(10, 10, 16, 0.96)',

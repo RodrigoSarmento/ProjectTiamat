@@ -27,11 +27,13 @@ import {
 } from '@helper/storyPlayback';
 import { useSound } from '@hooks/use-sound';
 import {
+  type IStoryProgress,
   applyTemporaryStatus,
+  saveProgress,
   setCurrentBackground,
 } from '@redux/slices/SavesSlice';
 import type { RootState } from '@redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
 import {
   DIALOGUE_CHARS_PER_LINE,
@@ -51,9 +53,56 @@ const getNodePages = (node: IStoryNode | undefined) =>
       )
     : [];
 
-const initialStoryLog = (chapter: IStoryChapter): IStoryLogEntry[] => {
-  const firstPage = getNodePages(chapter.nodes[chapter.entry])[0];
-  return firstPage ? [toStoryLogEntry(firstPage, chapter.entry, 0)] : [];
+const initialStoryLog = (
+  chapter: IStoryChapter,
+  nodeId: StoryNodeId,
+): IStoryLogEntry[] => {
+  const firstPage = getNodePages(chapter.nodes[nodeId])[0];
+  return firstPage ? [toStoryLogEntry(firstPage, nodeId, 0)] : [];
+};
+
+const logBefore = (
+  chapter: IStoryChapter,
+  log: IStoryLogEntry[],
+  nodeId: StoryNodeId,
+) => {
+  let end = log.length;
+  while (
+    end > 0 &&
+    (log[end - 1].nodeId === nodeId || !chapter.nodes[log[end - 1].nodeId])
+  ) {
+    end -= 1;
+  }
+  return log.slice(0, end);
+};
+
+const resumeProgress = (
+  chapter: IStoryChapter,
+  saved: IStoryProgress | undefined,
+): IStoryProgress => {
+  const savedLog = saved?.storyLog ?? [];
+  const nodeId =
+    saved && chapter.nodes[saved.nodeId]
+      ? saved.nodeId
+      : [...savedLog].reverse().find((entry) => chapter.nodes[entry.nodeId])
+          ?.nodeId;
+
+  if (!saved || !nodeId) {
+    return {
+      nodeId: chapter.entry,
+      flags: [],
+      usedChoiceIds: [],
+      storyLog: initialStoryLog(chapter, chapter.entry),
+    };
+  }
+
+  const history = logBefore(chapter, savedLog, nodeId);
+  const [firstPage] = initialStoryLog(chapter, nodeId);
+  return {
+    ...saved,
+    nodeId,
+    storyLog: firstPage ? appendStoryLog(history, firstPage) : history,
+  };
 };
 
 export const useStoryGame = (chapter: IStoryChapter) => {
@@ -68,29 +117,46 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   const hasCreatedCharacter = useSelector(
     (state: RootState) => state.saves.hasCreatedCharacter,
   );
-  const [nodeId, setNodeId] = useState(chapter.entry);
+  const store = useStore<RootState>();
+  const [start] = useState(() =>
+    resumeProgress(chapter, store.getState().saves.save.progress),
+  );
+  const [nodeId, setNodeId] = useState(start.nodeId);
   const [pageIndex, setPageIndex] = useState(0);
   const [isChoicesOpen, setIsChoicesOpen] = useState(() =>
-    passageOpensWithChoices(chapter.nodes[chapter.entry]),
+    passageOpensWithChoices(chapter.nodes[start.nodeId]),
   );
-  const [flags, setFlags] = useState<StoryFlag[]>([]);
-  const [usedChoiceIds, setUsedChoiceIds] = useState<string[]>([]);
+  const [flags, setFlags] = useState<StoryFlag[]>(start.flags);
+  const [usedChoiceIds, setUsedChoiceIds] = useState<string[]>(
+    start.usedChoiceIds,
+  );
   const [pendingDiceChoice, setPendingDiceChoice] = useState<
     IPresentedStoryChoice | undefined
   >(undefined);
-  const [storyLog, setStoryLog] = useState<IStoryLogEntry[]>(() =>
-    initialStoryLog(chapter),
-  );
+  const [storyLog, setStoryLog] = useState<IStoryLogEntry[]>(start.storyLog);
   const [currentBackground, setBackground] = useState<IStoryBackground>(() =>
     applyBackground(
       savedBackground ?? {},
-      nodeBackground(chapter.nodes[chapter.entry]),
+      nodeBackground(chapter.nodes[start.nodeId]),
     ),
   );
 
   useEffect(() => {
     dispatch(setCurrentBackground(currentBackground));
   }, [currentBackground, dispatch]);
+
+  useEffect(() => {
+    const saved = store.getState().saves.save.progress;
+    if (
+      saved?.nodeId === nodeId &&
+      saved.flags === flags &&
+      saved.usedChoiceIds === usedChoiceIds &&
+      saved.storyLog === storyLog
+    ) {
+      return;
+    }
+    dispatch(saveProgress({ nodeId, flags, usedChoiceIds, storyLog }));
+  }, [nodeId, flags, usedChoiceIds, storyLog, dispatch, store]);
 
   const node = chapter.nodes[nodeId];
   const passage = node?.type === 'passage' ? node : undefined;

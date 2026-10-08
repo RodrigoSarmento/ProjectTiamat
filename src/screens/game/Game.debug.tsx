@@ -32,6 +32,7 @@ const GameDebugJump: React.FC<IGameDebugJump> = ({
   currentNodeId,
   onJump,
   onOpenCombat,
+  onEraseSave,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -51,7 +52,7 @@ const GameDebugJump: React.FC<IGameDebugJump> = ({
         onPress={() => setIsOpen(true)}
         style={styles.debugButton}
       >
-        <Text style={styles.debugButtonLabel}>DEV</Text>
+        <Text style={styles.debugButtonLabel}>Select Node</Text>
       </Pressable>
       <Modal
         visible={isOpen}
@@ -65,6 +66,18 @@ const GameDebugJump: React.FC<IGameDebugJump> = ({
             style={styles.debugBackdrop}
             onPress={() => setIsOpen(false)}
           />
+          {onEraseSave ? (
+            <Pressable
+              testID="GameDebugEraseSave"
+              onPress={() => {
+                setIsOpen(false);
+                onEraseSave();
+              }}
+              style={styles.debugEraseButton}
+            >
+              <Text style={styles.debugButtonLabel}>ERASE SAVE</Text>
+            </Pressable>
+          ) : null}
           <ScrollView style={styles.debugList}>
             {[...nodeIds].map((nodeId) => {
               const isCurrent = nodeId === currentNodeId;

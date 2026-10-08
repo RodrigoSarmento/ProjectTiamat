@@ -57,4 +57,47 @@ describe('GameDebugJump', () => {
       screen.queryByTestId('GameDebugJump-dreaming-current'),
     ).not.toBeOnTheScreen();
   });
+
+  it('labels the node list button as Select Node', async () => {
+    await render(
+      <GameDebugJump
+        nodeIds={['dreaming']}
+        currentNodeId="dreaming"
+        onJump={jest.fn()}
+      />,
+    );
+
+    expect(screen.getByText('Select Node')).toBeOnTheScreen();
+  });
+
+  it('erases the save from the node list', async () => {
+    const onEraseSave = jest.fn();
+    await render(
+      <GameDebugJump
+        nodeIds={['dreaming']}
+        currentNodeId="dreaming"
+        onJump={jest.fn()}
+        onEraseSave={onEraseSave}
+      />,
+    );
+
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+    await fireEvent.press(screen.getByTestId('GameDebugEraseSave'));
+
+    expect(onEraseSave).toHaveBeenCalledTimes(1);
+  });
+
+  it('hides the erase button when there is no erase handler', async () => {
+    await render(
+      <GameDebugJump
+        nodeIds={['dreaming']}
+        currentNodeId="dreaming"
+        onJump={jest.fn()}
+      />,
+    );
+
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+
+    expect(screen.queryByTestId('GameDebugEraseSave')).not.toBeOnTheScreen();
+  });
 });

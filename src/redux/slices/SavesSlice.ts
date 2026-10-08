@@ -1,5 +1,6 @@
 import { CombatDieId } from '@data/combat';
-import type { IStoryBackground } from '@data/story';
+import type { IStoryBackground, StoryFlag, StoryNodeId } from '@data/story';
+import type { IStoryLogEntry } from '@helper/storyLog';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const EMPTY_STATUS: IStatus = {
@@ -13,12 +14,20 @@ export const EMPTY_STATUS: IStatus = {
   technical_ability: 0,
 };
 
+export interface IStoryProgress {
+  nodeId: StoryNodeId;
+  flags: StoryFlag[];
+  usedChoiceIds: string[];
+  storyLog: IStoryLogEntry[];
+}
+
 export interface ISave {
   charName: string;
   origin?: BackgroundId;
   status: IStatus;
   temporaryStatus: IStatus;
   currentBackground: IStoryBackground;
+  progress?: IStoryProgress;
 }
 
 export interface ISaves {
@@ -84,10 +93,10 @@ const savesSlice = createSlice({
     },
     saveStatus: (state, action: PayloadAction<IStatus>) => {
       state.save.status = action.payload;
-      state.hasCreatedCharacter = true;
     },
     saveCharName: (state, action: PayloadAction<string>) => {
       state.save.charName = action.payload.trim();
+      state.hasCreatedCharacter = true;
     },
     applyTemporaryStatus: (state, action: PayloadAction<Partial<IStatus>>) => {
       state.save.temporaryStatus = addTemporaryStatus(
@@ -98,6 +107,10 @@ const savesSlice = createSlice({
     setCurrentBackground: (state, action: PayloadAction<IStoryBackground>) => {
       state.save.currentBackground = action.payload;
     },
+    saveProgress: (state, action: PayloadAction<IStoryProgress>) => {
+      state.save.progress = action.payload;
+    },
+    eraseSave: () => initialState,
   },
 });
 
@@ -107,6 +120,8 @@ export const {
   saveCharName,
   applyTemporaryStatus,
   setCurrentBackground,
+  saveProgress,
+  eraseSave,
 } = savesSlice.actions;
 
 export default savesSlice.reducer;

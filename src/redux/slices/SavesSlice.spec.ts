@@ -1,11 +1,14 @@
 import { DECK_MAX_SIZE, DECK_MIN_SIZE, HAND_SIZE } from '@data/combat';
+import { StoryFlag } from '@data/story';
 
 import savesReducer, {
   EMPTY_STATUS,
   STARTER_DICES,
   STARTER_NUM_OF_DICES,
   applyTemporaryStatus,
+  eraseSave,
   saveCharName,
+  saveProgress,
   saveStatus,
   setCurrentBackground,
   startGame,
@@ -46,7 +49,7 @@ describe('SavesSlice', () => {
     const status: IStatus = { ...EMPTY_STATUS, strength: 3 };
     const state = savesReducer(init(), saveStatus(status));
 
-    expect(state.hasCreatedCharacter).toBe(true);
+    expect(state.hasCreatedCharacter).toBe(false);
     expect(state.save.status).toEqual(status);
     expect(state.save.temporaryStatus).toEqual(EMPTY_STATUS);
   });
@@ -95,10 +98,11 @@ describe('SavesSlice', () => {
     });
   });
 
-  it('stores the character name', () => {
+  it('stores the character name and marks the character as created', () => {
     const state = savesReducer(init(), saveCharName('  Nyx  '));
 
     expect(state.save.charName).toBe('Nyx');
+    expect(state.hasCreatedCharacter).toBe(true);
   });
 
   it('stores the current background', () => {
@@ -108,5 +112,34 @@ describe('SavesSlice', () => {
     );
 
     expect(state.save.currentBackground).toEqual({ backgroundColor: 'black' });
+  });
+
+  it('stores the story progress', () => {
+    const progress = {
+      nodeId: 'wake-on-bus',
+      flags: [StoryFlag.helpedGusWithForcePassage],
+      usedChoiceIds: ['ask-about-service'],
+      storyLog: [
+        { key: 'wake-on-bus:0', nodeId: 'wake-on-bus', text: 'Acorda!' },
+      ],
+    };
+    const state = savesReducer(init(), saveProgress(progress));
+
+    expect(state.save.progress).toEqual(progress);
+  });
+
+  it('erases the whole save back to a new game', () => {
+    const played = [
+      startGame('corp'),
+      saveStatus({ ...EMPTY_STATUS, strength: 3 }),
+      saveProgress({
+        nodeId: 'wake-on-bus',
+        flags: [],
+        usedChoiceIds: [],
+        storyLog: [],
+      }),
+    ].reduce(savesReducer, init());
+
+    expect(savesReducer(played, eraseSave())).toEqual(init());
   });
 });
