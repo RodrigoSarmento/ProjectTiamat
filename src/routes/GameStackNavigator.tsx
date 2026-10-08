@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 import type { RootState } from '@redux/store';
+import { BackgroundSelect } from '@screens/background-select';
 import { CharacterCreation } from '@screens/character-creation';
 import { Combat } from '@screens/combat';
 import { Game } from '@screens/game';
@@ -21,6 +22,7 @@ const GameStackNavigator = () => {
       screenOptions={bookPageTransition}
     >
       <Stack.Screen name="Start" component={Start} />
+      <Stack.Screen name="BackgroundSelect" component={BackgroundSelect} />
       <Stack.Screen name="Game" component={Game} />
       <Stack.Screen name="CharacterCreation" component={CharacterCreation} />
       <Stack.Screen

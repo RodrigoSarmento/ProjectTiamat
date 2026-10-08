@@ -5,21 +5,17 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { ImageButton } from '@components/image-button';
 import { translate } from '@helper/translate';
-import { startGame } from '@redux/slices/SavesSlice';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
 
 import { styles } from './Start.styles';
 
 const Start = () => {
-  const dispatch = useDispatch();
   const navigation =
     useNavigation<StackNavigationProp<GameStackParamsList, 'Start'>>();
 
   const handleStart = () => {
-    dispatch(startGame());
-    navigation.replace('Game');
+    navigation.navigate('BackgroundSelect');
   };
 
   return (
@@ -31,7 +27,7 @@ const Start = () => {
       <SafeAreaView style={CommonStyles.flex1}>
         <View style={styles.content}>
           <ImageButton
-            source={require('@assets/buttons/button_start.png')}
+            source={require('@assets/buttons/button_start_plate.png')}
             text={translate('chrome.start')}
             textStyle={styles.startButtonText}
             style={styles.startButton}

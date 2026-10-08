@@ -9,20 +9,20 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
 }));
 
-const mockReplace = jest.fn();
+const mockNavigate = jest.fn();
 
 describe('Start', () => {
   beforeEach(() => {
-    mockReplace.mockClear();
-    (useNavigation as jest.Mock).mockReturnValue({ replace: mockReplace });
+    mockNavigate.mockClear();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
   });
 
-  it('replaces to Game when Start is pressed', async () => {
+  it('navigates to BackgroundSelect when Start is pressed', async () => {
     const { store } = await renderWithProviders(<Start />);
 
     await fireEvent.press(screen.getByText('Iniciar'));
 
-    expect(mockReplace).toHaveBeenCalledWith('Game');
-    expect(store.getState().saves.hasStarted).toBe(true);
+    expect(mockNavigate).toHaveBeenCalledWith('BackgroundSelect');
+    expect(store.getState().saves.hasStarted).toBe(false);
   });
 });

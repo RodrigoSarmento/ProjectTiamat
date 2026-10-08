@@ -7,7 +7,10 @@
   },
   "words": {
     "attack": "Ataque",
-    "defense": "Defesa"
+    "defense": "Defesa",
+    "corp": "Corp",
+    "military": "Militar",
+    "citizen": "Cidadão"
   },
   "combat": {
     "prepare": "Preparação",
@@ -91,7 +94,15 @@
       }
     }
   },
-
+  "backgroundSelect": {
+    "title": "Escolha sua origem",
+    "choose": "Escolher"
+  },
+  "backgrounds": {
+    "corp": "Dos andares superiores da New Human Corp., Nova São Paulo parece funcionar. O trânsito corre abaixo das janelas, os anúncios brilham com a mais alta tecnologia já criada pela ciência e alguém sempre resolve seus problemas antes que eles alcancem sua mesa.\n\nVocê ocupa um cargo de influência dentro da corporação. Tem contatos e uma credencial que abre portas diante das quais a maioria das pessoas não podem cruzar. Nas reuniões, interesses privados se tornam políticas públicas e decisões que destroem milhares de vidas terminam com um aperto de mãos, sorrisos e um brinde.\n\nAgora você tem a oportunidade de participar disso — e receber sua parte.",
+    "military": "Sua empresa acaba de assumir a segurança do megaprédio da New Human Corp.\n\nVocê conhece os acessos, os protocolos e os pontos onde deve manter uma arma apontada, apesar de raramente saber o real motivo de estar fazendo isso. Nessa vida você aprendeu que ordens são para serem cumpridas, não questionadas.\n\nDurante os turnos, você protege pessoas que fazem questão de nunca aprender seu nome e controla o fluxo de quem acessa o prédio. O uniforme garante um bom salário, equipamento de alta qualidade e um certo conforto, mas também determina a sua liberdade.\n\nA grande questão é: o que acontecerá quando você se deparar com uma ordem a qual não consegue aceitar? Vai continuar obedecendo ou descobrir o preço de abandonar o posto?",
+    "citizen": "Você trabalha na linha de manutenção de bonecas da New Human Corp. Passa o turno corrigindo defeitos em corpos sintéticos que valem mais do que meses do seu salário e, no fim do expediente, volta para casa calculando o que ainda pode gastar. Quando o dinheiro não chega, você aceita serviços no submundo de Nova São Paulo.\n\nAté onde você está disposto a ir para conseguir uma vida que não se resuma a sobreviver à próxima semana?"
+  },
   "prologue": {
     "choices": {
       "rethink-the-issue": "Repensar o problema"

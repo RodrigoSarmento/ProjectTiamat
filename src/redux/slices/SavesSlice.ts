@@ -10,10 +10,12 @@ export const EMPTY_STATUS: IStatus = {
   intelligence: 0,
   wisdom: 0,
   charisma: 0,
+  technical_ability: 0,
 };
 
 export interface ISave {
   charName: string;
+  origin?: BackgroundId;
   status: IStatus;
   temporaryStatus: IStatus;
   currentBackground: IStoryBackground;
@@ -76,8 +78,9 @@ const savesSlice = createSlice({
   name: 'saves',
   initialState,
   reducers: {
-    startGame: (state) => {
+    startGame: (state, action: PayloadAction<BackgroundId>) => {
       state.hasStarted = true;
+      state.save.origin = action.payload;
     },
     saveStatus: (state, action: PayloadAction<IStatus>) => {
       state.save.status = action.payload;

@@ -9,6 +9,8 @@ declare global {
     | 'energy'
     | 'technical_ability';
 
+  type BackgroundId = 'corp' | 'citizen' | 'military';
+
   interface IStatus {
     energy: number;
     strength: number;
@@ -21,6 +23,7 @@ declare global {
   }
 
   type GameStackParamsList = {
+    BackgroundSelect: undefined;
     Start: undefined;
     Game: undefined;
     CharacterCreation: undefined;

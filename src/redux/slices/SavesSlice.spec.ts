@@ -35,8 +35,11 @@ describe('SavesSlice', () => {
     expect(STARTER_DICES.length).toBeGreaterThan(HAND_SIZE);
   });
 
-  it('marks the game as started', () => {
-    expect(savesReducer(init(), startGame()).hasStarted).toBe(true);
+  it('marks the game as started with the chosen origin', () => {
+    const state = savesReducer(init(), startGame('military'));
+
+    expect(state.hasStarted).toBe(true);
+    expect(state.save.origin).toBe('military');
   });
 
   it('writes character status on create or level up', () => {

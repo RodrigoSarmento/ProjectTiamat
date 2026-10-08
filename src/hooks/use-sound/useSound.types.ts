@@ -1,5 +1,6 @@
 export interface IPlaySoundOptions {
   loop?: boolean;
+  random?: boolean;
   volume?: number;
 }
 

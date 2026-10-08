@@ -102,7 +102,7 @@ describe('storyPlayback', () => {
     expect(
       visibleChoices(choices, [StoryFlag.dreamedCorporate], ['open']).map(
         (choice) => choice.id,
-      ), 
+      ),
     ).toEqual(['locked']);
   });
 
@@ -265,6 +265,30 @@ describe('storyPlayback', () => {
         title: 'On the bus',
       },
     ]);
+  });
+
+  it('puts a line sound only on the first page of that line', () => {
+    const pages = getPassagePages(
+      {
+        type: 'passage',
+        lines: [
+          { text: 'He shakes a can.' },
+          {
+            text: 'ACCESS GRANTED. Welcome back to the factory floor.',
+            soundFile: 'granted.wav',
+          },
+        ],
+      },
+      1,
+      20,
+      3,
+      38,
+    );
+
+    expect(pages[0].soundFile).toBeUndefined();
+    expect(pages[1].soundFile).toBe('granted.wav');
+    expect(pages.length).toBeGreaterThan(2);
+    expect(pages.slice(2).every((page) => !page.soundFile)).toBe(true);
   });
 
   it('opens immediately only when a passage has choices and no text', () => {

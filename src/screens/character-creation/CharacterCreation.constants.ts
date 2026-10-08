@@ -8,6 +8,7 @@ export const INITIAL_ATTRIBUTES: IStatus = {
   intelligence: 0,
   wisdom: 0,
   charisma: 0,
+  technical_ability: 0,
 };
 
 export const TOTAL_POINTS = 10;

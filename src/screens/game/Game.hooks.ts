@@ -25,6 +25,7 @@ import {
   visibleChoices,
   withFlagConsequences,
 } from '@helper/storyPlayback';
+import { useSound } from '@hooks/use-sound';
 import {
   applyTemporaryStatus,
   setCurrentBackground,
@@ -93,14 +94,28 @@ export const useStoryGame = (chapter: IStoryChapter) => {
 
   const node = chapter.nodes[nodeId];
   const passage = node?.type === 'passage' ? node : undefined;
-
+  const { playSound } = useSound();
+  const passageSoundFile = passage?.soundFile;
   const pages = useMemo(() => getNodePages(node), [node]);
+  const page = pages[pageIndex];
+  const pageSoundFile = page?.soundFile;
+
+  useEffect(() => {
+    if (passageSoundFile) {
+      playSound(passageSoundFile);
+    }
+  }, [nodeId, passageSoundFile, playSound]);
+
+  useEffect(() => {
+    if (pageSoundFile) {
+      playSound(pageSoundFile);
+    }
+  }, [nodeId, pageIndex, pageSoundFile, playSound]);
 
   const availableChoices = useMemo(
     () => visibleChoices(passage?.choices, flags, usedChoiceIds),
     [passage, flags, usedChoiceIds],
   );
-  const page = pages[pageIndex];
 
   const recordPage = (
     nextPage: IStoryPage | undefined,
@@ -188,6 +203,9 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   const selectChoice = (choice: IPresentedStoryChoice) => {
     if (choice.disabled) {
       return;
+    }
+    if (choice.soundFile) {
+      playSound(choice.soundFile);
     }
     if (choice.rollDice) {
       setPendingDiceChoice(choice);

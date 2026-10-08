@@ -10,6 +10,7 @@ export interface IStoryLine {
   text: string;
   characterId?: CharacterId;
   portraitPosition?: PortraitPosition;
+  soundFile?: string;
 }
 
 export type IStoryTemporaryStatusDelta = {
@@ -51,6 +52,7 @@ export interface IStoryChoice {
   optional?: boolean;
   isQuickChoice?: boolean;
   rollDice?: IStoryDiceRoll;
+  soundFile?: string;
 }
 
 export interface IStoryBackground {
@@ -71,6 +73,7 @@ export interface IStoryPassageNode {
   next?: StoryNodeId;
   skipNextText?: boolean;
   choices?: IStoryChoice[];
+  soundFile?: string;
 }
 
 export interface IStoryEndTrechoNode {

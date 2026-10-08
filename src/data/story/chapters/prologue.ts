@@ -1,3 +1,5 @@
+import { SOUND_EFFECT_FILE } from '@hooks/use-sound';
+
 import type { IStoryChapter } from '../Story.types';
 import { CharacterId } from '../characters';
 import { StoryFlag } from '../flags';
@@ -117,10 +119,10 @@ export const prologueChapter = {
       text: 'prologue.drink-offer.text',
       choices: [
         {
-          //TODO: drinking sound
           id: 'accept-drink',
           label: 'prologue.drink-offer.choices.accept-drink',
           next: 'accepted-drink',
+          soundFile: SOUND_EFFECT_FILE.openCan,
           consequences: [
             {
               type: 'temporaryStatus',
@@ -289,6 +291,7 @@ export const prologueChapter = {
         {
           text: 'prologue.approaching-line-gus-blocked.lines.1',
           characterId: CharacterId.terminal,
+          soundFile: SOUND_EFFECT_FILE.accessDenied,
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.2',
@@ -303,6 +306,7 @@ export const prologueChapter = {
         {
           text: 'prologue.approaching-line-gus-blocked.lines.5',
           characterId: CharacterId.terminal,
+          soundFile: SOUND_EFFECT_FILE.accessDenied,
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.6',
@@ -449,6 +453,7 @@ export const prologueChapter = {
         {
           text: 'prologue.choose-to-not-help-gus.lines.5',
           characterId: CharacterId.terminal2,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,
@@ -572,6 +577,7 @@ export const prologueChapter = {
         {
           text: 'prologue.connect-to-terminal-success-2.lines.8',
           characterId: CharacterId.terminal2,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,
@@ -633,6 +639,7 @@ export const prologueChapter = {
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.9',
           characterId: CharacterId.terminal2,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,
@@ -725,6 +732,7 @@ export const prologueChapter = {
         {
           text: 'prologue.use-card-confirm.lines.9',
           characterId: CharacterId.terminal2,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,
@@ -757,6 +765,7 @@ export const prologueChapter = {
         {
           text: 'prologue.force-passage-success.lines.6',
           characterId: CharacterId.terminal2,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,
@@ -780,6 +789,7 @@ export const prologueChapter = {
         {
           text: 'prologue.force-passage-success-2.lines.6',
           characterId: CharacterId.terminal2,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,
@@ -902,6 +912,7 @@ export const prologueChapter = {
         {
           text: 'prologue.force-passage-failure-twice.lines.20',
           characterId: CharacterId.scanner,
+          soundFile: SOUND_EFFECT_FILE.accessGranted,
         },
       ],
       startCharCreation: true,

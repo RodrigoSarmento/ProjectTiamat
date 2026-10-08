@@ -18,6 +18,7 @@ export type IStoryNarratorPage = {
   kind: 'narrator';
   text: string;
   title?: string;
+  soundFile?: string;
 };
 
 export type IStoryDialoguePage = {
@@ -25,6 +26,7 @@ export type IStoryDialoguePage = {
   characterId: CharacterId;
   text: string;
   portraitPosition: PortraitPosition;
+  soundFile?: string;
 };
 
 export type IStoryPage = IStoryNarratorPage | IStoryDialoguePage;
@@ -46,21 +48,26 @@ export const getPassagePages = (
       isDialogue ? dialogueCharsPerLine : narratorCharsPerLine,
     );
 
-    return pages.map((text) =>
-      beat.characterId
+    return pages.map((text, index) => {
+      const sound =
+        index === 0 && beat.soundFile ? { soundFile: beat.soundFile } : {};
+
+      return beat.characterId
         ? {
             kind: 'dialogue' as const,
             characterId: beat.characterId,
             text,
             portraitPosition:
               beat.portraitPosition ?? node.portraitPosition ?? 'right',
+            ...sound,
           }
         : {
             kind: 'narrator' as const,
             text,
             title: node.title ? translate(node.title) : undefined,
-          },
-    );
+            ...sound,
+          };
+    });
   });
 };
 

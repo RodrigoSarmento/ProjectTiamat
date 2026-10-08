@@ -1,10 +1,10 @@
-import './src/i18n';
 import { useEffect } from 'react';
+
 import { StyleSheet, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import { SOUND_FILE, useSound } from '@hooks/use-sound';
+import { SOUND_FILE_THEMES, useSound } from '@hooks/use-sound';
 import GameStackNavigator from '@navigators/GameStackNavigator';
 import { persistor, store } from '@redux/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -12,11 +12,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import './src/i18n';
+
 function App() {
   const { playSound } = useSound();
 
   useEffect(() => {
-    playSound(SOUND_FILE.theme1, { loop: true });
+    playSound(SOUND_FILE_THEMES.theme1, { loop: true, random: true });
   }, [playSound]);
 
   return (
