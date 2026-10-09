@@ -1,6 +1,7 @@
 jest.mock('react-native-sound', () => {
   const MockSound = jest.fn(function MockSound(_file, _bundle, callback) {
     this.play = jest.fn();
+    this.pause = jest.fn();
     this.stop = jest.fn();
     this.release = jest.fn();
     this.setVolume = jest.fn();

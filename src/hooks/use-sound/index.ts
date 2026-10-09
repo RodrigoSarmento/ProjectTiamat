@@ -1,3 +1,14 @@
-export { SOUND_EFFECT_FILE, SOUND_FILE_THEMES } from './useSound.constants';
+export {
+  DEFAULT_THEME,
+  SOUND_EFFECT_FILE,
+  SOUND_FILE_BACKGROUNDS,
+  SOUND_FILE_THEMES,
+  THEME_BACKGROUND_VOLUME,
+} from './useSound.constants';
 export { useSound } from './useSound';
-export type { IPlaySoundOptions, IUseSound } from './useSound.types';
+export type {
+  IPlaySoundOptions,
+  ISound,
+  IUseSound,
+  SoundType,
+} from './useSound.types';

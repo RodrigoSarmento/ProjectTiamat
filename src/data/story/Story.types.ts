@@ -1,3 +1,5 @@
+import type { ISound } from '@hooks/use-sound';
+
 import type { StoryBackgroundImageId } from './backgrounds';
 import type { CharacterId } from './characters';
 import type { StoryFlag } from './flags';
@@ -10,7 +12,7 @@ export interface IStoryLine {
   text: string;
   characterId?: CharacterId;
   portraitPosition?: PortraitPosition;
-  soundFile?: string;
+  dispatchNewSound?: ISound;
 }
 
 export type IStoryTemporaryStatusDelta = {
@@ -52,7 +54,7 @@ export interface IStoryChoice {
   optional?: boolean;
   isQuickChoice?: boolean;
   rollDice?: IStoryDiceRoll;
-  soundFile?: string;
+  dispatchNewSound?: ISound;
 }
 
 export interface IStoryBackground {
@@ -73,7 +75,7 @@ export interface IStoryPassageNode {
   next?: StoryNodeId;
   skipNextText?: boolean;
   choices?: IStoryChoice[];
-  soundFile?: string;
+  dispatchNewSound?: ISound;
 }
 
 export interface IStoryEndTrechoNode {

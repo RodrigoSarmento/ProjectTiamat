@@ -1,6 +1,7 @@
 import { CombatDieId } from '@data/combat';
 import type { IStoryBackground, StoryFlag, StoryNodeId } from '@data/story';
 import type { IStoryLogEntry } from '@helper/storyLog';
+import type { ISound } from '@hooks/use-sound';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const EMPTY_STATUS: IStatus = {
@@ -27,6 +28,7 @@ export interface ISave {
   status: IStatus;
   temporaryStatus: IStatus;
   currentBackground: IStoryBackground;
+  themeOrBackground?: ISound;
   progress?: IStoryProgress;
 }
 
@@ -107,6 +109,9 @@ const savesSlice = createSlice({
     setCurrentBackground: (state, action: PayloadAction<IStoryBackground>) => {
       state.save.currentBackground = action.payload;
     },
+    setThemeOrBackground: (state, action: PayloadAction<ISound>) => {
+      state.save.themeOrBackground = action.payload;
+    },
     saveProgress: (state, action: PayloadAction<IStoryProgress>) => {
       state.save.progress = action.payload;
     },
@@ -120,6 +125,7 @@ export const {
   saveCharName,
   applyTemporaryStatus,
   setCurrentBackground,
+  setThemeOrBackground,
   saveProgress,
   eraseSave,
 } = savesSlice.actions;

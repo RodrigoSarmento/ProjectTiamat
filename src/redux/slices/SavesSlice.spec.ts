@@ -11,6 +11,7 @@ import savesReducer, {
   saveProgress,
   saveStatus,
   setCurrentBackground,
+  setThemeOrBackground,
   startGame,
 } from './SavesSlice';
 
@@ -114,6 +115,16 @@ describe('SavesSlice', () => {
     expect(state.save.currentBackground).toEqual({ backgroundColor: 'black' });
   });
 
+  it('stores the theme or background that is playing', () => {
+    const sound = {
+      soundType: 'background',
+      soundFile: 'background_metro.mp3',
+    } as const;
+    const state = savesReducer(init(), setThemeOrBackground(sound));
+
+    expect(state.save.themeOrBackground).toEqual(sound);
+  });
+
   it('stores the story progress', () => {
     const progress = {
       nodeId: 'wake-on-bus',
@@ -132,6 +143,10 @@ describe('SavesSlice', () => {
     const played = [
       startGame('corp'),
       saveStatus({ ...EMPTY_STATUS, strength: 3 }),
+      setThemeOrBackground({
+        soundType: 'background',
+        soundFile: 'background_metro.mp3',
+      }),
       saveProgress({
         nodeId: 'wake-on-bus',
         flags: [],

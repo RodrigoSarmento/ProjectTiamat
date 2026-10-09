@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   type IStoryBackground,
@@ -25,12 +25,13 @@ import {
   visibleChoices,
   withFlagConsequences,
 } from '@helper/storyPlayback';
-import { useSound } from '@hooks/use-sound';
+import { type ISound, useSound } from '@hooks/use-sound';
 import {
   type IStoryProgress,
   applyTemporaryStatus,
   saveProgress,
   setCurrentBackground,
+  setThemeOrBackground,
 } from '@redux/slices/SavesSlice';
 import type { RootState } from '@redux/store';
 import { useDispatch, useSelector, useStore } from 'react-redux';
@@ -161,22 +162,32 @@ export const useStoryGame = (chapter: IStoryChapter) => {
   const node = chapter.nodes[nodeId];
   const passage = node?.type === 'passage' ? node : undefined;
   const { playSound } = useSound();
-  const passageSoundFile = passage?.soundFile;
+  const passageSound = passage?.dispatchNewSound;
   const pages = useMemo(() => getNodePages(node), [node]);
   const page = pages[pageIndex];
-  const pageSoundFile = page?.soundFile;
+  const pageSound = page?.dispatchNewSound;
+
+  const dispatchNewSound = useCallback(
+    (sound: ISound) => {
+      playSound(sound);
+      if (sound.soundType !== 'effect') {
+        dispatch(setThemeOrBackground(sound));
+      }
+    },
+    [dispatch, playSound],
+  );
 
   useEffect(() => {
-    if (passageSoundFile) {
-      playSound(passageSoundFile);
+    if (passageSound) {
+      dispatchNewSound(passageSound);
     }
-  }, [nodeId, passageSoundFile, playSound]);
+  }, [nodeId, passageSound, dispatchNewSound]);
 
   useEffect(() => {
-    if (pageSoundFile) {
-      playSound(pageSoundFile);
+    if (pageSound) {
+      dispatchNewSound(pageSound);
     }
-  }, [nodeId, pageIndex, pageSoundFile, playSound]);
+  }, [nodeId, pageIndex, pageSound, dispatchNewSound]);
 
   const availableChoices = useMemo(
     () => visibleChoices(passage?.choices, flags, usedChoiceIds),
@@ -270,8 +281,8 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     if (choice.disabled) {
       return;
     }
-    if (choice.soundFile) {
-      playSound(choice.soundFile);
+    if (choice.dispatchNewSound) {
+      dispatchNewSound(choice.dispatchNewSound);
     }
     if (choice.rollDice) {
       setPendingDiceChoice(choice);

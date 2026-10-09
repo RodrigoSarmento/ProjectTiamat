@@ -1,10 +1,20 @@
 import { StoryFlag, prologueChapter } from '@data/story';
 import { toStoryLogEntry } from '@helper/storyLog';
 import { type IStoryPage, getPassagePages } from '@helper/storyPlayback';
-import { SOUND_EFFECT_FILE } from '@hooks/use-sound';
+import {
+  DEFAULT_THEME,
+  SOUND_EFFECT_FILE,
+  SOUND_FILE_BACKGROUNDS,
+  useSound,
+} from '@hooks/use-sound';
 import savesReducer, { type IStoryProgress } from '@redux/slices/SavesSlice';
 import { renderWithProviders } from '@test/renderWithProviders';
-import { fireEvent, screen } from '@testing-library/react-native';
+import {
+  act,
+  fireEvent,
+  renderHook,
+  screen,
+} from '@testing-library/react-native';
 import Sound from 'react-native-sound';
 
 import Game from './Game';
@@ -80,6 +90,14 @@ const advanceToChoices = () => continuePages(dreamingPages);
 describe('Game', () => {
   beforeEach(() => {
     mockReset.mockClear();
+    (Sound as unknown as jest.Mock).mockClear();
+  });
+
+  afterEach(async () => {
+    const { result } = await renderHook(() => useSound());
+    await act(async () => {
+      result.current.stopSound();
+    });
   });
 
   it('starts on the black-screen narrator, not a character dialogue box', async () => {
@@ -170,7 +188,10 @@ describe('Game', () => {
 
   it('plays the sound of a line when its page opens', async () => {
     const blockedPages = nodePages('approaching-line-gus-blocked');
-    const soundPageIndex = blockedPages.findIndex((page) => page.soundFile);
+    const soundPageIndex = blockedPages.findIndex(
+      (page) =>
+        page.dispatchNewSound?.soundFile === SOUND_EFFECT_FILE.accessDenied,
+    );
     const isDeniedLoaded = () =>
       (Sound as unknown as jest.Mock).mock.calls.some(
         ([file]) => file === SOUND_EFFECT_FILE.accessDenied,
@@ -310,6 +331,46 @@ describe('Game', () => {
       index: 0,
       routes: [{ name: 'Start' }],
     });
+  });
+
+  it('saves the background so it plays again when the app reopens', async () => {
+    const { store } = await renderGame();
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+    await fireEvent.press(
+      screen.getByTestId('GameDebugJump-wake-on-bus-corporate'),
+    );
+
+    expect(store.getState().saves.save.themeOrBackground).toEqual({
+      soundType: 'background',
+      soundFile: SOUND_FILE_BACKGROUNDS.corporate,
+    });
+  });
+
+  it('does not save effects as the sound to play when the app reopens', async () => {
+    const { store } = await renderGame();
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+    await fireEvent.press(screen.getByTestId('GameDebugJump-drink-offer'));
+    await continuePages(nodePages('drink-offer'));
+    await fireEvent.press(screen.getByTestId('StoryChoices-accept-drink'));
+
+    expect(store.getState().saves.save.themeOrBackground).toBeUndefined();
+  });
+
+  it('goes back to the default theme when the save is erased', async () => {
+    await renderGame();
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+    await fireEvent.press(
+      screen.getByTestId('GameDebugJump-wake-on-bus-corporate'),
+    );
+
+    await fireEvent.press(screen.getByTestId('GameDebugJump'));
+    await fireEvent.press(screen.getByTestId('GameDebugEraseSave'));
+
+    expect(Sound).toHaveBeenLastCalledWith(
+      DEFAULT_THEME.soundFile,
+      'MAIN_BUNDLE',
+      expect.any(Function),
+    );
   });
 
   it('keeps the latest pages in the story log', async () => {

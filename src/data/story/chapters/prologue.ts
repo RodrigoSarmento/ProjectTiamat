@@ -1,4 +1,4 @@
-import { SOUND_EFFECT_FILE } from '@hooks/use-sound';
+import { SOUND_EFFECT_FILE, SOUND_FILE_BACKGROUNDS } from '@hooks/use-sound';
 
 import type { IStoryChapter } from '../Story.types';
 import { CharacterId } from '../characters';
@@ -65,12 +65,20 @@ export const prologueChapter = {
       title: 'prologue.wake-on-bus-corporate.title',
       text: 'prologue.wake-on-bus-corporate.text',
       next: 'wake-voice',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.corporate,
+      },
     },
     'wake-on-bus-financial': {
       type: 'passage',
       title: 'prologue.wake-on-bus-financial.title',
       text: 'prologue.wake-on-bus-financial.text',
       next: 'wake-voice',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.financial,
+      },
     },
     'wake-on-bus-crime': {
       type: 'passage',
@@ -83,6 +91,10 @@ export const prologueChapter = {
       title: 'prologue.wake-on-bus-peace.title',
       text: 'prologue.wake-on-bus-peace.text',
       next: 'wake-voice',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.peace,
+      },
     },
     'wake-voice': {
       type: 'passage',
@@ -96,6 +108,10 @@ export const prologueChapter = {
       backgroundImage: 'metro_crowded',
       text: 'prologue.wake-on-bus.text',
       next: 'jo-offer',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.metro,
+      },
     },
     'jo-offer': {
       type: 'passage',
@@ -122,7 +138,10 @@ export const prologueChapter = {
           id: 'accept-drink',
           label: 'prologue.drink-offer.choices.accept-drink',
           next: 'accepted-drink',
-          soundFile: SOUND_EFFECT_FILE.openCan,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.openCan,
+          },
           consequences: [
             {
               type: 'temporaryStatus',
@@ -148,6 +167,10 @@ export const prologueChapter = {
       type: 'passage',
       text: 'prologue.refused-drink.text',
       next: 'bus-system-message',
+      dispatchNewSound: {
+        soundType: 'effect',
+        soundFile: SOUND_EFFECT_FILE.crashCan,
+      },
     },
     'bus-system-message': {
       type: 'passage',
@@ -281,20 +304,35 @@ export const prologueChapter = {
       text: 'prologue.approaching-line.text',
       next: 'approaching-line-gus-blocked',
       backgroundImage: 'building_turnstiles',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
+      },
     },
     'approaching-line-gus-blocked': {
       type: 'passage',
       lines: [
         {
           text: 'prologue.approaching-line-gus-blocked.lines.0',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.punch,
+          },
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.1',
           characterId: CharacterId.terminal,
-          soundFile: SOUND_EFFECT_FILE.accessDenied,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessDenied,
+          },
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.2',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.punch,
+          },
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.3',
@@ -306,11 +344,18 @@ export const prologueChapter = {
         {
           text: 'prologue.approaching-line-gus-blocked.lines.5',
           characterId: CharacterId.terminal,
-          soundFile: SOUND_EFFECT_FILE.accessDenied,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessDenied,
+          },
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.6',
           characterId: CharacterId.terminal,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.warningOneMoreTry,
+          },
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.7',
@@ -442,6 +487,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.choose-to-not-help-gus.lines.2',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.metalLatchOpen,
+          },
         },
         {
           text: 'prologue.choose-to-not-help-gus.lines.3',
@@ -453,7 +502,10 @@ export const prologueChapter = {
         {
           text: 'prologue.choose-to-not-help-gus.lines.5',
           characterId: CharacterId.terminal2,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,
@@ -538,8 +590,18 @@ export const prologueChapter = {
     'connect-to-terminal-success': {
       backgroundImage: 'background_hacking',
       type: 'passage',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.hacking,
+      },
       lines: [
-        { text: 'prologue.connect-to-terminal-success.lines.0' },
+        {
+          text: 'prologue.connect-to-terminal-success.lines.0',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.plugCable,
+          },
+        },
         { text: 'prologue.connect-to-terminal-success.lines.1' },
       ],
       next: 'connect-to-terminal-success-2',
@@ -547,6 +609,10 @@ export const prologueChapter = {
     'connect-to-terminal-success-2': {
       backgroundImage: 'building_turnstiles',
       type: 'passage',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
+      },
       lines: [
         { text: 'prologue.connect-to-terminal-success-2.lines.0' },
         {
@@ -559,6 +625,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.connect-to-terminal-success-2.lines.3',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.metalLatchOpen,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-success-2.lines.4',
@@ -566,6 +636,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.connect-to-terminal-success-2.lines.5',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.unplugCable,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-success-2.lines.6',
@@ -577,7 +651,10 @@ export const prologueChapter = {
         {
           text: 'prologue.connect-to-terminal-success-2.lines.8',
           characterId: CharacterId.terminal2,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,
@@ -585,9 +662,17 @@ export const prologueChapter = {
     'connect-to-terminal-failure': {
       backgroundImage: 'background_hacking',
       type: 'passage',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.hacking,
+      },
       lines: [
         {
           text: 'prologue.connect-to-terminal-failure.lines.0',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.plugCable,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-failure.lines.1',
@@ -604,9 +689,17 @@ export const prologueChapter = {
     'connect-to-terminal-failure-2': {
       backgroundImage: 'building_turnstiles',
       type: 'passage',
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
+      },
       lines: [
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.0',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.powerDown,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.1',
@@ -614,6 +707,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.2',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.computerPowerUp,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.3',
@@ -621,6 +718,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.4',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.metalLatchOpen,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.5',
@@ -628,6 +729,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.6',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.unplugCable,
+          },
         },
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.7',
@@ -639,7 +744,10 @@ export const prologueChapter = {
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.9',
           characterId: CharacterId.terminal2,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,
@@ -709,6 +817,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.use-card-confirm.lines.3',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.metalLatchOpen,
+          },
         },
         {
           text: 'prologue.use-card-confirm.lines.4',
@@ -732,7 +844,10 @@ export const prologueChapter = {
         {
           text: 'prologue.use-card-confirm.lines.9',
           characterId: CharacterId.terminal2,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,
@@ -754,6 +869,10 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.force-passage-success.lines.3',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.metalLatchOpen,
+          },
         },
         {
           text: 'prologue.force-passage-success.lines.4',
@@ -765,7 +884,10 @@ export const prologueChapter = {
         {
           text: 'prologue.force-passage-success.lines.6',
           characterId: CharacterId.terminal2,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,
@@ -785,11 +907,20 @@ export const prologueChapter = {
           characterId: CharacterId.jo,
           portraitPosition: 'left',
         },
-        { text: 'prologue.force-passage-success-2.lines.5' },
+        {
+          text: 'prologue.force-passage-success-2.lines.5',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.metalLatchOpen,
+          },
+        },
         {
           text: 'prologue.force-passage-success-2.lines.6',
           characterId: CharacterId.terminal2,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,
@@ -863,12 +994,20 @@ export const prologueChapter = {
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.6',
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.boneCrack,
+          },
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.7',
           characterId: CharacterId.gus,
         },
         {
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.alarm,
+          },
           text: 'prologue.force-passage-failure-twice.lines.8',
         },
         {
@@ -912,7 +1051,10 @@ export const prologueChapter = {
         {
           text: 'prologue.force-passage-failure-twice.lines.20',
           characterId: CharacterId.scanner,
-          soundFile: SOUND_EFFECT_FILE.accessGranted,
+          dispatchNewSound: {
+            soundType: 'effect',
+            soundFile: SOUND_EFFECT_FILE.accessGranted,
+          },
         },
       ],
       startCharCreation: true,

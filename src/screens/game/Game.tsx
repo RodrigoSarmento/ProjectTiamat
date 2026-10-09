@@ -15,6 +15,7 @@ import {
   prologueChapter,
 } from '@data/story';
 import { translate } from '@helper/translate';
+import { DEFAULT_THEME, useSound } from '@hooks/use-sound';
 import { eraseSave } from '@redux/slices/SavesSlice';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -45,6 +46,7 @@ const Game = () => {
   );
   const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
   const dispatch = useDispatch();
+  const { playSound } = useSound();
 
   const handleAdvance = () => {
     if (advance()) {
@@ -54,6 +56,7 @@ const Game = () => {
 
   const handleEraseSave = () => {
     dispatch(eraseSave());
+    playSound(DEFAULT_THEME);
     navigation.reset({ index: 0, routes: [{ name: 'Start' }] });
   };
 

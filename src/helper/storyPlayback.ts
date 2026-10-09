@@ -10,6 +10,7 @@ import type {
   PortraitPosition,
   StoryFlag,
 } from '@data/story';
+import type { ISound } from '@hooks/use-sound';
 
 import { paginateText } from './paginateText';
 import { translate } from './translate';
@@ -18,7 +19,7 @@ export type IStoryNarratorPage = {
   kind: 'narrator';
   text: string;
   title?: string;
-  soundFile?: string;
+  dispatchNewSound?: ISound;
 };
 
 export type IStoryDialoguePage = {
@@ -26,7 +27,7 @@ export type IStoryDialoguePage = {
   characterId: CharacterId;
   text: string;
   portraitPosition: PortraitPosition;
-  soundFile?: string;
+  dispatchNewSound?: ISound;
 };
 
 export type IStoryPage = IStoryNarratorPage | IStoryDialoguePage;
@@ -50,7 +51,9 @@ export const getPassagePages = (
 
     return pages.map((text, index) => {
       const sound =
-        index === 0 && beat.soundFile ? { soundFile: beat.soundFile } : {};
+        index === 0 && beat.dispatchNewSound
+          ? { dispatchNewSound: beat.dispatchNewSound }
+          : {};
 
       return beat.characterId
         ? {

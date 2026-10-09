@@ -74,6 +74,16 @@ let it speak for itself.
 - **Empty pages: do not recommend runtime fallbacks.** Leave an empty page visible so it can be fixed in chapter JSON / TS. Do not suggest auto-advance, dummy copy, or a runtime skip.
 - **Accessibility: skip unless asked.** Do not flag missing `accessibilityRole` / `accessibilityLabel` / selected state / VoiceOver unless the user asked for a11y.
 
+### Chapter sound maps — keep in sync
+
+A chapter file in `src/data/story/chapters/` can have a sound map next to it (`prologue.ts` → `prologue.soundmapping.md`). Whenever the diff touches a chapter file that has one, check that the map still matches it, and flag any drift as a finding:
+
+- **Graph:** nodes added, removed or renamed; `next` / choice / dice edges changed; the node's color class matches its sounds (yellow `theme`, blue `background`, red `effect`, white `default` for no sound; a node that starts a theme/background and also has effects takes the theme/background color). A choice with a `dispatchNewSound` is its own hexagon node (`choice <id>`) colored by its sound type, not just an edge label.
+- **Sound labels:** every `dispatchNewSound` on a node, line (with its line index) or choice appears in the graph and in the "Every sound, in story order" table. Line indexes must still be right after lines are inserted or removed.
+- **Tables:** the theme/background timeline and the "By sound file" table match the constants in `useSound.constants.ts` (including files that are no longer used).
+
+The fix is to update the `.md` to match the chapter, not the other way around.
+
 ### When to run checks
 
 Run repo checks **once, after applying fixes** — not during the read-only review
@@ -108,7 +118,10 @@ If no fixes were applied, skip the checks.
    - **deviations from our architecture / patterns** (Redux local media, path
      helpers, Toast/NetInfo, screen/component placement),
    - **unhandled edge / use cases** (offline, empty local media, partial sync),
-   - **missing or weak tests** for non-trivial behavior.
+   - **missing or weak tests** for non-trivial behavior,
+   - **stale chapter sound maps** — a changed chapter `.ts` whose
+     `*.soundmapping.md` no longer matches it (see Chapter sound maps — keep in
+     sync).
 
    Instruct it **not** to flag (see Story graph and UI — skip unless asked):
    last-node WIP dead ends (missing `next` / dead Continue on the last node of a

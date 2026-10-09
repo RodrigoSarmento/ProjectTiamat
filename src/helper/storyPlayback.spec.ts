@@ -275,7 +275,7 @@ describe('storyPlayback', () => {
           { text: 'He shakes a can.' },
           {
             text: 'ACCESS GRANTED. Welcome back to the factory floor.',
-            soundFile: 'granted.wav',
+            dispatchNewSound: { soundType: 'effect', soundFile: 'granted.wav' },
           },
         ],
       },
@@ -285,10 +285,13 @@ describe('storyPlayback', () => {
       38,
     );
 
-    expect(pages[0].soundFile).toBeUndefined();
-    expect(pages[1].soundFile).toBe('granted.wav');
+    expect(pages[0].dispatchNewSound).toBeUndefined();
+    expect(pages[1].dispatchNewSound).toEqual({
+      soundType: 'effect',
+      soundFile: 'granted.wav',
+    });
     expect(pages.length).toBeGreaterThan(2);
-    expect(pages.slice(2).every((page) => !page.soundFile)).toBe(true);
+    expect(pages.slice(2).every((page) => !page.dispatchNewSound)).toBe(true);
   });
 
   it('opens immediately only when a passage has choices and no text', () => {
