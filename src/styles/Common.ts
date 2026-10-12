@@ -15,6 +15,14 @@ export const scaleFont = (size: number) => {
   return PixelRatio.roundToNearestPixel(size * scale);
 };
 
+export const contentPaddingHorizontal = 24;
+export const contentPaddingVertical = 48;
+export const iconSize = 52;
+export const iconSafeAreaSpacing = 12;
+
+export const iconTop = (safeAreaTop: number) =>
+  Math.max(contentPaddingVertical, safeAreaTop + iconSafeAreaSpacing);
+
 export const radiusSmall = 8; // For small containers
 export const radiusBase = 12;
 export const radiusLarge = 24;

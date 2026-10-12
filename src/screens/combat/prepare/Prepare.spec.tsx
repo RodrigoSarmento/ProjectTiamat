@@ -5,6 +5,7 @@ import { EnemiesId, getEnemy } from '@data/story';
 import { toCards } from '@helper/combatDice';
 import { createTestStore, renderWithProviders } from '@test';
 import { fireEvent, screen } from '@testing-library/react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import type { ICombatRef } from '../Combat.types';
 
@@ -31,13 +32,15 @@ const renderPrepare = ({
   const { saves } = createTestStore().getState();
 
   return renderWithProviders(
-    <Prepare
-      combatRef={createRef<ICombatRef>()}
-      enemy={getEnemy(EnemiesId.enemy1)}
-      enemyHealth={3}
-      hand={toCards(getDice(hand))}
-      deckCount={deckCount}
-    />,
+    <GestureHandlerRootView>
+      <Prepare
+        combatRef={createRef<ICombatRef>()}
+        enemy={getEnemy(EnemiesId.enemy1)}
+        enemyHealth={3}
+        hand={toCards(getDice(hand))}
+        deckCount={deckCount}
+      />
+    </GestureHandlerRootView>,
     { preloadedState: { saves: { ...saves, numOfDices } } },
   );
 };

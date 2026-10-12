@@ -115,14 +115,38 @@ describe('SavesSlice', () => {
     expect(state.save.currentBackground).toEqual({ backgroundColor: 'black' });
   });
 
-  it('stores the theme or background that is playing', () => {
-    const sound = {
+  it('stores the theme and the background that are playing side by side', () => {
+    const theme = { soundType: 'theme', soundFile: 'theme_2.mp3' } as const;
+    const background = {
       soundType: 'background',
       soundFile: 'background_metro.mp3',
     } as const;
-    const state = savesReducer(init(), setThemeOrBackground(sound));
+    const state = [
+      setThemeOrBackground(theme),
+      setThemeOrBackground(background),
+    ].reduce(savesReducer, init());
 
-    expect(state.save.themeOrBackground).toEqual(sound);
+    expect(state.save.themeSound).toEqual(theme);
+    expect(state.save.backgroundSound).toEqual(background);
+  });
+
+  it('replaces only the background when a new background plays', () => {
+    const theme = { soundType: 'theme', soundFile: 'theme_2.mp3' } as const;
+    const crowd = {
+      soundType: 'background',
+      soundFile: 'background_crowded_noise.mp3',
+    } as const;
+    const state = [
+      setThemeOrBackground(theme),
+      setThemeOrBackground({
+        soundType: 'background',
+        soundFile: 'background_metro.mp3',
+      }),
+      setThemeOrBackground(crowd),
+    ].reduce(savesReducer, init());
+
+    expect(state.save.themeSound).toEqual(theme);
+    expect(state.save.backgroundSound).toEqual(crowd);
   });
 
   it('stores the story progress', () => {

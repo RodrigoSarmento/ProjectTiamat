@@ -5,6 +5,7 @@ import { COMBAT_DICE, type CombatDieId, getDice } from '@data/combat';
 import { EnemiesId, type IStoryEnemy, getEnemy } from '@data/story';
 import { renderWithProviders } from '@test';
 import { act, fireEvent, screen } from '@testing-library/react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { PLAYER_MAX_HEALTH } from '../Combat.constants';
 import type { CombatHealth, ICombatRef } from '../Combat.types';
@@ -45,13 +46,15 @@ const renderRunning = ({
   health?: CombatHealth;
 } = {}) =>
   renderWithProviders(
-    <Running
-      combatRef={combatRef}
-      dice={getDice(playerDice)}
-      enemy={enemy}
-      health={health ?? { player: PLAYER_MAX_HEALTH, enemy: enemy.health }}
-      hits={{}}
-    />,
+    <GestureHandlerRootView>
+      <Running
+        combatRef={combatRef}
+        dice={getDice(playerDice)}
+        enemy={enemy}
+        health={health ?? { player: PLAYER_MAX_HEALTH, enemy: enemy.health }}
+        hits={{}}
+      />
+    </GestureHandlerRootView>,
   );
 
 const tap = () => fireEvent.press(screen.getByTestId('CombatRunning-tap'));

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors, Fonts } from '@styles';
+import { Colors, Common, Fonts } from '@styles';
 
 import {
   NARRATOR_FONT_SIZE,
@@ -10,7 +10,7 @@ import {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: Common.contentPaddingHorizontal,
     paddingTop: 120,
     paddingBottom: 16,
   },

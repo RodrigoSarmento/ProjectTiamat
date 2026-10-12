@@ -1,0 +1,1 @@
+export { useSoundSettings } from './useSoundSettings';

@@ -28,7 +28,8 @@ export interface ISave {
   status: IStatus;
   temporaryStatus: IStatus;
   currentBackground: IStoryBackground;
-  themeOrBackground?: ISound;
+  themeSound?: ISound;
+  backgroundSound?: ISound;
   progress?: IStoryProgress;
 }
 
@@ -110,7 +111,12 @@ const savesSlice = createSlice({
       state.save.currentBackground = action.payload;
     },
     setThemeOrBackground: (state, action: PayloadAction<ISound>) => {
-      state.save.themeOrBackground = action.payload;
+      if (action.payload.soundType === 'theme') {
+        state.save.themeSound = action.payload;
+      }
+      if (action.payload.soundType === 'background') {
+        state.save.backgroundSound = action.payload;
+      }
     },
     saveProgress: (state, action: PayloadAction<IStoryProgress>) => {
       state.save.progress = action.payload;

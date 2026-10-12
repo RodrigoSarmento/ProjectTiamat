@@ -181,7 +181,7 @@ const ChoiceSelectModal: React.FC<IChoiceSelectModal> = ({
               style={styles.confirm}
             >
               <Text style={styles.confirmLabel}>
-                {translate('chrome.confirm')}
+                {translate('words.confirm')}
               </Text>
             </Pressable>
           ) : null}

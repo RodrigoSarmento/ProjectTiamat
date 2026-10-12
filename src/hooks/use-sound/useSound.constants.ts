@@ -1,7 +1,17 @@
-import type { ISound } from './useSound.types';
+import type { ISound, LoopingSoundType } from './useSound.types';
 
-export const THEME_BACKGROUND_VOLUME = 0.1;
-export const EFFECT_VOLUME = 0.5;
+export const THEME_VOLUME = 0.2;
+export const EFFECT_VOLUME = 1;
+
+export const BACKGROUND_START_VOLUME = 0.4;
+export const BACKGROUND_END_VOLUME = 0.1;
+export const BACKGROUND_FADE_DELAY_MS = 10_000;
+export const BACKGROUND_FADE_DURATION_MS = 30_000;
+export const BACKGROUND_FADE_STEP_MS = 1_000;
+export const BACKGROUND_FADE_STEPS =
+  BACKGROUND_FADE_DURATION_MS / BACKGROUND_FADE_STEP_MS;
+
+export const LOOPING_SOUND_TYPES: LoopingSoundType[] = ['theme', 'background'];
 
 export const SOUND_FILE_THEMES = {
   theme1: 'theme_1.mp3',

@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ChoiceSelectModal } from '@components/choice-select-modal';
 import { Dialogue } from '@components/dialogue';
 import { DiceRollD20 } from '@components/dice-roll-d20';
+import { ImageButton } from '@components/image-button';
 import { NarratorText } from '@components/narrator-text';
 import { StoryLog } from '@components/story-log';
 import {
@@ -15,11 +16,11 @@ import {
   prologueChapter,
 } from '@data/story';
 import { translate } from '@helper/translate';
-import { DEFAULT_THEME, useSound } from '@hooks/use-sound';
-import { eraseSave } from '@redux/slices/SavesSlice';
-import { CommonStyles } from '@styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { Common, CommonStyles } from '@styles';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 import GameDebugJump, { GameDebugDice } from './Game.debug';
 import { useStoryGame } from './Game.hooks';
@@ -35,7 +36,7 @@ const Game = () => {
     currentBackground,
     nodeIds,
     currentNodeId,
-    advance,
+    shouldCreateCharacter,
     selectChoice,
     completeDiceRoll,
     isDiceSuccess,
@@ -45,23 +46,17 @@ const Game = () => {
     currentBackground.backgroundImage,
   );
   const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
-  const dispatch = useDispatch();
-  const { playSound } = useSound();
+  const insets = useSafeAreaInsets();
+
+  const speaker =
+    page?.kind === 'dialogue' ? getCharacter(page.characterId) : undefined;
 
   const handleAdvance = () => {
-    if (advance()) {
+    if (shouldCreateCharacter()) {
       navigation.navigate('CharacterCreation');
     }
   };
 
-  const handleEraseSave = () => {
-    dispatch(eraseSave());
-    playSound(DEFAULT_THEME);
-    navigation.reset({ index: 0, routes: [{ name: 'Start' }] });
-  };
-
-  const speaker =
-    page?.kind === 'dialogue' ? getCharacter(page.characterId) : undefined;
   const pageContent =
     page?.kind === 'dialogue' ? (
       <View style={styles.dialogueContainer}>
@@ -106,17 +101,27 @@ const Game = () => {
           ) : null}
         </View>
       ) : null}
-      {__DEV__ ? (
-        <GameDebugJump
-          nodeIds={nodeIds}
-          currentNodeId={currentNodeId}
-          onJump={goToNode}
-          onOpenCombat={() =>
-            navigation.navigate('Combat', { enemyId: EnemiesId.enemy1 })
-          }
-          onEraseSave={handleEraseSave}
+      <View
+        style={[styles.rightContainer, { top: Common.iconTop(insets.top) }]}
+      >
+        <ImageButton
+          testID="Game-settings"
+          source={require('@assets/icons/icon_settings.png')}
+          style={styles.settingsIcon}
+          onPress={() => navigation.navigate('OptionsBottomTabNavigator')}
         />
-      ) : null}
+        {__DEV__ ? (
+          <GameDebugJump
+            nodeIds={nodeIds}
+            currentNodeId={currentNodeId}
+            onJump={goToNode}
+            onOpenCombat={() =>
+              navigation.navigate('Combat', { enemyId: EnemiesId.enemy1 })
+            }
+          />
+        ) : null}
+      </View>
+
       <StoryLog entries={storyLog} />
     </SafeAreaView>
   );

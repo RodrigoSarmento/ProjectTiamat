@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors } from '@styles';
+import { Colors, Common } from '@styles';
 
 export const styles = StyleSheet.create({
   dimmed: {
@@ -27,8 +27,6 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.72)',
   },
   diceDebugRow: {
-    position: 'absolute',
-    bottom: 56,
     flexDirection: 'row',
     gap: 12,
     zIndex: 21,
@@ -40,9 +38,6 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
   },
   debugButton: {
-    position: 'absolute',
-    top: 48,
-    right: 8,
     zIndex: 20,
     backgroundColor: Colors.neonMagenta,
     paddingHorizontal: 10,
@@ -50,9 +45,6 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
   },
   debugCombatButton: {
-    position: 'absolute',
-    top: 84,
-    right: 8,
     zIndex: 20,
     backgroundColor: Colors.neonCyan,
     paddingHorizontal: 10,
@@ -79,15 +71,6 @@ export const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  debugEraseButton: {
-    alignSelf: 'flex-end',
-    marginBottom: 12,
-    backgroundColor: Colors.warningRed,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 4,
-    zIndex: 1,
-  },
   debugList: {
     maxHeight: '80%',
     backgroundColor: 'rgba(10, 10, 16, 0.96)',
@@ -112,5 +95,16 @@ export const styles = StyleSheet.create({
   debugRowLabelCurrent: {
     color: Colors.neonCyan,
     fontWeight: '700',
+  },
+  settingsIcon: {
+    width: Common.iconSize,
+    height: Common.iconSize,
+  },
+  rightContainer: {
+    position: 'absolute',
+    right: Common.contentPaddingHorizontal,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    gap: 12,
   },
 });

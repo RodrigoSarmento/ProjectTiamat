@@ -8,6 +8,7 @@ import { Game } from '@screens/game';
 import { Start } from '@screens/start';
 import { useSelector } from 'react-redux';
 
+import OptionsBottomTabNavigator from './OptionsBottomTabNavigator';
 import { bookPageTransition } from './bookPageTransition';
 import { combatTransition } from './combatTransition';
 
@@ -29,6 +30,10 @@ const GameStackNavigator = () => {
         name="Combat"
         component={Combat}
         options={combatTransition}
+      />
+      <Stack.Screen
+        name="OptionsBottomTabNavigator"
+        component={OptionsBottomTabNavigator}
       />
     </Stack.Navigator>
   );

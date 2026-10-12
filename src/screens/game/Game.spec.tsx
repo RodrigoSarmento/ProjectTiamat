@@ -2,7 +2,6 @@ import { StoryFlag, prologueChapter } from '@data/story';
 import { toStoryLogEntry } from '@helper/storyLog';
 import { type IStoryPage, getPassagePages } from '@helper/storyPlayback';
 import {
-  DEFAULT_THEME,
   SOUND_EFFECT_FILE,
   SOUND_FILE_BACKGROUNDS,
   useSound,
@@ -25,10 +24,10 @@ import {
   NARRATOR_MAX_LINES,
 } from './Game.constants';
 
-const mockReset = jest.fn();
+const mockNavigate = jest.fn();
 
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({ navigate: jest.fn(), reset: mockReset }),
+  useNavigation: () => ({ navigate: mockNavigate }),
 }));
 
 const dreamingNode = prologueChapter.nodes.dreaming;
@@ -89,7 +88,7 @@ const advanceToChoices = () => continuePages(dreamingPages);
 
 describe('Game', () => {
   beforeEach(() => {
-    mockReset.mockClear();
+    mockNavigate.mockClear();
     (Sound as unknown as jest.Mock).mockClear();
   });
 
@@ -106,6 +105,14 @@ describe('Game', () => {
     expect(screen.getByText('TELA PRETA - Sonhando')).toBeOnTheScreen();
     expect(screen.getByText(/De olhos fechados/)).toBeOnTheScreen();
     expect(screen.queryByTestId('Dialogue')).not.toBeOnTheScreen();
+  });
+
+  it('opens the options tabs from the settings icon', async () => {
+    await renderGame();
+
+    await fireEvent.press(screen.getByTestId('Game-settings'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('OptionsBottomTabNavigator');
   });
 
   it('splits overflow onto another narrator page', async () => {
@@ -318,21 +325,6 @@ describe('Game', () => {
     );
   });
 
-  it('erases the save and goes back to Start from the debug menu', async () => {
-    const { store } = await renderGame();
-    await fireEvent.press(screen.getByTestId('GameDebugJump'));
-    await fireEvent.press(screen.getByTestId('GameDebugJump-wake-on-bus'));
-
-    await fireEvent.press(screen.getByTestId('GameDebugJump'));
-    await fireEvent.press(screen.getByTestId('GameDebugEraseSave'));
-
-    expect(store.getState().saves.save.progress).toBeUndefined();
-    expect(mockReset).toHaveBeenCalledWith({
-      index: 0,
-      routes: [{ name: 'Start' }],
-    });
-  });
-
   it('saves the background so it plays again when the app reopens', async () => {
     const { store } = await renderGame();
     await fireEvent.press(screen.getByTestId('GameDebugJump'));
@@ -340,7 +332,7 @@ describe('Game', () => {
       screen.getByTestId('GameDebugJump-wake-on-bus-corporate'),
     );
 
-    expect(store.getState().saves.save.themeOrBackground).toEqual({
+    expect(store.getState().saves.save.backgroundSound).toEqual({
       soundType: 'background',
       soundFile: SOUND_FILE_BACKGROUNDS.corporate,
     });
@@ -353,24 +345,8 @@ describe('Game', () => {
     await continuePages(nodePages('drink-offer'));
     await fireEvent.press(screen.getByTestId('StoryChoices-accept-drink'));
 
-    expect(store.getState().saves.save.themeOrBackground).toBeUndefined();
-  });
-
-  it('goes back to the default theme when the save is erased', async () => {
-    await renderGame();
-    await fireEvent.press(screen.getByTestId('GameDebugJump'));
-    await fireEvent.press(
-      screen.getByTestId('GameDebugJump-wake-on-bus-corporate'),
-    );
-
-    await fireEvent.press(screen.getByTestId('GameDebugJump'));
-    await fireEvent.press(screen.getByTestId('GameDebugEraseSave'));
-
-    expect(Sound).toHaveBeenLastCalledWith(
-      DEFAULT_THEME.soundFile,
-      'MAIN_BUNDLE',
-      expect.any(Function),
-    );
+    expect(store.getState().saves.save.themeSound).toBeUndefined();
+    expect(store.getState().saves.save.backgroundSound).toBeUndefined();
   });
 
   it('keeps the latest pages in the story log', async () => {

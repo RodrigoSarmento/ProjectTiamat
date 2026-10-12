@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import { DEFAULT_THEME, useSound } from '@hooks/use-sound';
+import { useSoundSettings } from '@hooks/use-sound-settings';
 import GameStackNavigator from '@navigators/GameStackNavigator';
 import { persistor, store } from '@redux/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -12,27 +12,25 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import './src/i18n';
 
+const AppNavigation = () => {
+  useSoundSettings();
+
+  return (
+    <NavigationContainer>
+      <View style={styles.container}>
+        <GameStackNavigator />
+      </View>
+    </NavigationContainer>
+  );
+};
+
 function App() {
-  const { playSound } = useSound();
-
-  const playSavedThemeOrBackground = () => {
-    playSound(store.getState().saves.save.themeOrBackground ?? DEFAULT_THEME);
-  };
-
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaProvider>
         <Provider store={store}>
-          <PersistGate
-            loading={null}
-            persistor={persistor}
-            onBeforeLift={playSavedThemeOrBackground}
-          >
-            <NavigationContainer>
-              <View style={styles.container}>
-                <GameStackNavigator />
-              </View>
-            </NavigationContainer>
+          <PersistGate loading={null} persistor={persistor}>
+            <AppNavigation />
           </PersistGate>
         </Provider>
       </SafeAreaProvider>

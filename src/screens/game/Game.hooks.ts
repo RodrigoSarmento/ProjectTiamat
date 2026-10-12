@@ -254,7 +254,7 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     }
   };
 
-  const advance = () => {
+  const shouldCreateCharacter = () => {
     if (isChoicesOpen || pendingDiceChoice) {
       return false;
     }
@@ -337,7 +337,7 @@ export const useStoryGame = (chapter: IStoryChapter) => {
     currentBackground,
     nodeIds: Object.keys(chapter.nodes),
     currentNodeId: nodeId,
-    advance,
+    shouldCreateCharacter,
     selectChoice,
     completeDiceRoll,
     isDiceSuccess,

@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import Modal from './Modal';
 import type { IModal } from './Modal.types';
@@ -58,5 +58,59 @@ describe('Modal Component', () => {
       testID: 'Modal-Bottom',
     });
     expect(screen.getByTestId('Modal-Bottom')).toBeTruthy();
+  });
+
+  describe('closing', () => {
+    const ANIMATION_TIMING = 300;
+
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    const advanceTime = async (ms: number) => {
+      await act(async () => {
+        jest.advanceTimersByTime(ms);
+      });
+    };
+
+    it('stays on screen while it animates out, then hides', async () => {
+      await renderModal({ animationTiming: ANIMATION_TIMING });
+
+      await screen.rerender(
+        <Modal
+          {...defaultProps}
+          animationTiming={ANIMATION_TIMING}
+          isVisible={false}
+        />,
+      );
+      expect(screen.getByText('Test Modal Title')).toBeOnTheScreen();
+
+      await advanceTime(ANIMATION_TIMING * 2);
+
+      expect(screen.queryByText('Test Modal Title')).not.toBeOnTheScreen();
+    });
+
+    it('stays on screen when reopened while it animates out', async () => {
+      await renderModal({ animationTiming: ANIMATION_TIMING });
+
+      await screen.rerender(
+        <Modal
+          {...defaultProps}
+          animationTiming={ANIMATION_TIMING}
+          isVisible={false}
+        />,
+      );
+      await advanceTime(ANIMATION_TIMING / 2);
+      await screen.rerender(
+        <Modal {...defaultProps} animationTiming={ANIMATION_TIMING} />,
+      );
+      await advanceTime(ANIMATION_TIMING * 2);
+
+      expect(screen.getByText('Test Modal Title')).toBeOnTheScreen();
+    });
   });
 });

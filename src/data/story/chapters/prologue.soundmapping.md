@@ -2,7 +2,7 @@
 
 Every sound dispatched by `prologue.ts`, laid over the chapter's node graph.
 
-- **Theme / background** share one slot and loop until another theme or background replaces them. The last one is saved and plays again when the app reopens.
+- **Theme / background** each have their own slot and loop together: a new theme only replaces the theme, a new background only replaces the background. The theme plays at 0.2. A background starts at 0.4 so it's noticed, holds for 10 seconds, then fades to 0.1 over 30 seconds. The last theme and the last background are saved and play again when the app reopens.
 - **Effects** play once, on top of whatever theme or background is playing.
 - **Where a sound fires**: on a node (when the node opens), on a line (when that line's page opens), or on a choice (when the player picks it).
 
@@ -132,16 +132,16 @@ flowchart TD
 
 ## Theme / background timeline
 
-| From                                                  | Plays                                                 | Until                                                                               |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| App launch                                            | `theme_1.mp3` (or the saved theme/background)         | a dream background starts, or `wake-on-bus` opens (the crime dream keeps the theme) |
-| `wake-on-bus-corporate` (node)                        | `background_corporate.mp3`                            | `wake-on-bus` opens (plays through `wake-voice`)                                    |
-| `wake-on-bus-financial` (node)                        | `background_financial.mp3`                            | `wake-on-bus` opens (plays through `wake-voice`)                                    |
-| `wake-on-bus-peace` (node)                            | `background_peace.mp3`                                | `wake-on-bus` opens (plays through `wake-voice`)                                    |
-| `wake-on-bus` (node)                                  | `background_metro.mp3`                                | `approaching-line` opens                                                            |
-| `approaching-line` (node)                             | `background_crowded_noise.mp3`                        | end of the prologue, unless the hacking path replaces it                            |
-| `connect-to-terminal-success` / `-failure` (node)     | `background_hacking.mp3`                              | the matching `-2` node opens                                                        |
-| `connect-to-terminal-success-2` / `-failure-2` (node) | `background_crowded_noise.mp3` (back from cyberspace) | end of the prologue                                                                 |
+| From                                                  | Plays                                                 | Until                                                          |
+| ----------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------- |
+| App launch                                            | `theme_1.mp3` (or the saved theme)                    | end of the prologue; every background below plays on top of it |
+| `wake-on-bus-corporate` (node)                        | `background_corporate.mp3`                            | `wake-on-bus` opens (plays through `wake-voice`)               |
+| `wake-on-bus-financial` (node)                        | `background_financial.mp3`                            | `wake-on-bus` opens (plays through `wake-voice`)               |
+| `wake-on-bus-peace` (node)                            | `background_peace.mp3`                                | `wake-on-bus` opens (plays through `wake-voice`)               |
+| `wake-on-bus` (node)                                  | `background_metro.mp3`                                | `approaching-line` opens                                       |
+| `approaching-line` (node)                             | `background_crowded_noise.mp3`                        | end of the prologue, unless the hacking path replaces it       |
+| `connect-to-terminal-success` / `-failure` (node)     | `background_hacking.mp3`                              | the matching `-2` node opens                                   |
+| `connect-to-terminal-success-2` / `-failure-2` (node) | `background_crowded_noise.mp3` (back from cyberspace) | end of the prologue                                            |
 
 `theme_2.mp3` is not used in the prologue.
 

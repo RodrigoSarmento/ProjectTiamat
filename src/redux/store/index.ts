@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SavesSlice from '@redux/slices/SavesSlice';
+import SettingsSlice from '@redux/slices/SettingsSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   FLUSH,
@@ -9,10 +10,13 @@ import {
   type PersistConfig,
   REGISTER,
   REHYDRATE,
+  createMigrate,
   persistReducer,
   persistStore,
 } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
+import { PERSIST_VERSION, migrations } from './migrations';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createEnhancers = (getDefaultEnhancers: any) => {
@@ -28,12 +32,15 @@ const createEnhancers = (getDefaultEnhancers: any) => {
 
 const rootReducer = combineReducers({
   saves: SavesSlice,
+  settings: SettingsSlice,
 });
 
 const rootPersistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
   key: 'root',
+  version: PERSIST_VERSION,
+  migrate: createMigrate(migrations, { debug: false }),
   storage: AsyncStorage,
-  whitelist: ['saves'],
+  whitelist: ['saves', 'settings'],
   stateReconciler: autoMergeLevel2,
 };
 

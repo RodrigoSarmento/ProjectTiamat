@@ -146,7 +146,7 @@ const DiceRollD20 = forwardRef<DiceRollD20Ref, DiceRollD20Props>(
                 { transform: [{ scale: outcomeScale }] },
               ]}
             >
-              {translate(passed ? 'chrome.diceSuccess' : 'chrome.diceFailure')}
+              {translate(passed ? 'words.diceSuccess' : 'words.diceFailure')}
             </Animated.Text>
           ) : null}
         </View>

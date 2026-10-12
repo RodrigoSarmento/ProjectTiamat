@@ -33,6 +33,13 @@ declare global {
       defeatText?: string[];
       background?: import('@data/story').StoryBackgroundImageId;
     };
+    OptionsBottomTabNavigator: undefined;
+  };
+
+  type OptionsBottomTabNavigatorParamsList = {
+    Deck: undefined;
+    Lore: undefined;
+    Options: undefined;
   };
 }
 

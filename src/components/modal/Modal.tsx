@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Animated,
@@ -30,16 +30,19 @@ const Modal: React.FC<IModal> = ({
   transparent = false,
   onBackdropPress = () => {},
 }) => {
-  const scaleAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(
-    new Animated.Value(variant === 'top' ? -300 : 300),
-  ).current;
+  const [scaleAnim] = useState(() => new Animated.Value(0));
+  const [slideAnim] = useState(
+    () => new Animated.Value(variant === 'top' ? -300 : 300),
+  );
 
   const [visible, setVisible] = useState(isVisible);
 
+  if (isVisible && !visible) {
+    setVisible(true);
+  }
+
   useEffect(() => {
     if (isVisible) {
-      setVisible(true);
       Animated.parallel([
         Animated.timing(scaleAnim, {
           toValue: 1,
@@ -68,8 +71,10 @@ const Modal: React.FC<IModal> = ({
           easing: Easing.ease,
           useNativeDriver: true,
         }),
-      ]).start(() => {
-        setVisible(false);
+      ]).start(({ finished }) => {
+        if (finished) {
+          setVisible(false);
+        }
       });
     }
   }, [isVisible, scaleAnim, slideAnim, animationTiming, variant]);
@@ -77,25 +82,15 @@ const Modal: React.FC<IModal> = ({
   const containerStyle = useMemo(() => {
     const { modalContentBottom, modalContentRegular, modalContentTop } = styles;
 
+    const backgroundColor = transparent ? 'transparent' : Colors.white;
+
     switch (variant) {
       case 'regular':
-        return {
-          ...modalContentRegular,
-          ...customStyle,
-          backgroundColor: transparent ? 'transparent' : Colors.white,
-        };
+        return { ...modalContentRegular, backgroundColor, ...customStyle };
       case 'bottom':
-        return {
-          ...modalContentBottom,
-          ...customStyle,
-          backgroundColor: transparent ? 'transparent' : Colors.white,
-        };
+        return { ...modalContentBottom, backgroundColor, ...customStyle };
       case 'top':
-        return {
-          ...modalContentTop,
-          ...customStyle,
-          backgroundColor: transparent ? 'transparent' : Colors.white,
-        };
+        return { ...modalContentTop, backgroundColor, ...customStyle };
     }
   }, [customStyle, transparent, variant]);
 

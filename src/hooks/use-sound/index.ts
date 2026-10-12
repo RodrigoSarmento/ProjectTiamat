@@ -3,7 +3,7 @@ export {
   SOUND_EFFECT_FILE,
   SOUND_FILE_BACKGROUNDS,
   SOUND_FILE_THEMES,
-  THEME_BACKGROUND_VOLUME,
+  THEME_VOLUME,
 } from './useSound.constants';
 export { useSound } from './useSound';
 export type {

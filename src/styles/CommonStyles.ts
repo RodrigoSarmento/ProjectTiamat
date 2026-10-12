@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import * as Colors from './Colors';
+import { bold } from './Font';
 
 export const CommonStyles = StyleSheet.create({
   flex1: { flex: 1 },
@@ -44,13 +45,6 @@ export const CommonStyles = StyleSheet.create({
     right: 24,
     gap: 24,
   },
-  bottomContainerForBottomTab: {
-    position: 'absolute',
-    bottom: 48,
-    left: 24,
-    right: 24,
-    gap: 24,
-  },
   paddingBottomForScrollView: { paddingBottom: 80 },
   marginHorizontal24: { marginHorizontal: 24 },
   marginTop24: { marginTop: 24 },
@@ -58,5 +52,21 @@ export const CommonStyles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: Colors.borderColor,
+  },
+  settingsTitle: {
+    ...bold,
+    fontSize: 40,
+    letterSpacing: 2,
+    color: Colors.white,
+    textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 12,
+  },
+  settingsDivider: {
+    height: 1.5,
+    marginTop: 4,
+    marginBottom: 20,
+    backgroundColor: Colors.neonCyan,
+    boxShadow: '0 0 8px rgba(60, 246, 255, 0.8)',
   },
 });

@@ -1,18 +1,16 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors, Fonts } from '@styles';
+import { Colors, Common, Fonts } from '@styles';
 
 export const styles = StyleSheet.create({
   iconButton: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
     zIndex: 20,
+    position: 'absolute',
+    left: Common.contentPaddingHorizontal,
   },
   icon: {
-    top: 40,
-    width: 52,
-    height: 52,
+    width: Common.iconSize,
+    height: Common.iconSize,
   },
   modal: {
     flex: 1,

@@ -28,7 +28,7 @@ const Start = () => {
         <View style={styles.content}>
           <ImageButton
             source={require('@assets/buttons/button_start_plate.png')}
-            text={translate('chrome.start')}
+            text={translate('words.start')}
             textStyle={styles.startButtonText}
             style={styles.startButton}
             onPress={handleStart}

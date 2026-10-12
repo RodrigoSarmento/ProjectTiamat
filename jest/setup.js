@@ -19,6 +19,17 @@ jest.mock('react-native-sound', () => {
   return MockSound;
 });
 
+jest.mock(
+  'react-native-safe-area-context',
+  () => require('react-native-safe-area-context/jest/mock').default,
+);
+
+jest.mock('react-native-worklets', () =>
+  require('react-native-worklets/src/mock'),
+);
+
+require('react-native-reanimated').setUpTests();
+
 jest.mock('react-native-webview', () => {
   const { View } = require('react-native');
   return { __esModule: true, default: View };

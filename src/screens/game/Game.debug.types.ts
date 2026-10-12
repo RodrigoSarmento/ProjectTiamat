@@ -5,7 +5,6 @@ export interface IGameDebugJump {
   currentNodeId: StoryNodeId;
   onJump: (nodeId: StoryNodeId) => void;
   onOpenCombat?: () => void;
-  onEraseSave?: () => void;
 }
 
 export interface IGameDebugDice {

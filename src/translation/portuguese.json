@@ -1,16 +1,42 @@
 {
-  "chrome": {
-    "start": "Iniciar",
-    "confirm": "Confirmar",
-    "diceSuccess": "Sucesso",
-    "diceFailure": "Falha"
-  },
   "words": {
     "attack": "Ataque",
     "defense": "Defesa",
     "corp": "Corp",
     "military": "Militar",
-    "citizen": "Cidadão"
+    "citizen": "Cidadão",
+    "start": "Iniciar",
+    "confirm": "Confirmar",
+    "diceSuccess": "Sucesso",
+    "diceFailure": "Falha",
+    "options": "Opções",
+    "lore": "Lore",
+    "deck": "Baralho",
+    "close": "Fechar",
+    "cancel": "Cancelar"
+  },
+  "options": {
+    "music": "Música",
+    "ambience": "Som ambiente",
+    "effects": "Efeitos sonoros",
+    "eraseSave": "Apagar progresso",
+    "eraseSaveTitle": "Apagar progresso?",
+    "eraseSaveMessage": "Todo o seu progresso será perdido. Essa ação não pode ser desfeita.",
+    "eraseSaveConfirm": "Apagar"
+  },
+  "lore": {
+    "terceiraGuerra": {
+      "title": "A Terceira Grande Guerra",
+      "description": "Até meados da década de 2020, os Estados Unidos continuavam sendo uma das nações mais ricas e militarmente poderosas do planeta. Sua influência sobre o mundo, entretanto, começava a diminuir. O crescimento de novas potências, a expansão de acordos comerciais fora de sua influência e o desenvolvimento de sistemas internacionais de pagamento independentes do dólar ameaçavam os interesses de uma parcela da elite econômica estadunidense."
+    },
+    "colapso": {
+      "title": "O Colapso",
+      "description": "A guerra encontrou um planeta já pressionado pelas mudanças climáticas e reduziu sua capacidade de enfrentar seus efeitos. Acordos internacionais perderam força e preocupações com o meio ambiente foram colocados de lado."
+    },
+    "privatizacoes": {
+      "title": "As Privatizações",
+      "description": "As primeiras concessões foram anunciadas como medidas temporárias. Empresas assumiriam a recuperação de redes de energia, sistemas de abastecimento, hospitais e corredores de transporte. Quando a emergência terminasse, os serviços voltariam à normalidade.\n\nEntretanto, cada novo desastre prolongava os contratos. Governos endividados ofereciam terrenos, benefícios fiscais e direitos de exploração como pagamento. Os conglomerados financiavam as obras e passavam a controlar também as tecnologias necessárias para mantê-las. Romper uma concessão significava arriscar a interrupção do serviço que ela sustentava."
+    }
   },
   "combat": {
     "prepare": "Preparação",
