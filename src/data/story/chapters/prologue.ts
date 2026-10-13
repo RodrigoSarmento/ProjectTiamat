@@ -117,15 +117,15 @@ export const prologueChapter = {
       type: 'passage',
       lines: [
         {
-          characterId: CharacterId.jo,
           text: 'prologue.jo-offer.lines.0',
+          characterId: CharacterId.jo,
         },
         {
           text: 'prologue.jo-offer.lines.1',
         },
         {
-          characterId: CharacterId.jo,
           text: 'prologue.jo-offer.lines.2',
+          characterId: CharacterId.jo,
         },
       ],
       next: 'drink-offer',
@@ -174,8 +174,8 @@ export const prologueChapter = {
     },
     'bus-system-message': {
       type: 'passage',
-      text: 'prologue.bus-system-message.text',
       characterId: CharacterId.busSystem,
+      text: 'prologue.bus-system-message.text',
       next: 'riding-bus',
     },
     'riding-bus': {
@@ -247,14 +247,14 @@ export const prologueChapter = {
         {
           id: 'who-is-the-client',
           label: 'prologue.jo-job-talk.choices.who-is-the-client',
-          optional: true,
           next: 'jo-client-answer',
+          optional: true,
         },
         {
           id: 'why-client-wants',
           label: 'prologue.jo-job-talk.choices.why-client-wants',
-          optional: true,
           next: 'jo-client-why-wants-answer',
+          optional: true,
         },
       ],
     },
@@ -278,32 +278,32 @@ export const prologueChapter = {
         {
           id: 'i-ll-think',
           label: 'prologue.jo-client-history-answer.choices.i-ll-think',
+          next: 'approaching-line',
           consequences: [
             {
               type: 'flag',
               value: StoryFlag.answerYesToJoCase,
             },
           ],
-          next: 'approaching-line',
         },
         {
           id: 'not-sure',
           label: 'prologue.jo-client-history-answer.choices.not-sure',
+          next: 'approaching-line',
           consequences: [
             {
               type: 'flag',
               value: StoryFlag.answerNoToJoCase,
             },
           ],
-          next: 'approaching-line',
         },
       ],
     },
     'approaching-line': {
       type: 'passage',
+      backgroundImage: 'building_turnstiles',
       text: 'prologue.approaching-line.text',
       next: 'approaching-line-gus-blocked',
-      backgroundImage: 'building_turnstiles',
       dispatchNewSound: {
         soundType: 'background',
         soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
@@ -361,22 +361,22 @@ export const prologueChapter = {
           text: 'prologue.approaching-line-gus-blocked.lines.7',
         },
         {
-          characterId: CharacterId.gus,
           text: 'prologue.approaching-line-gus-blocked.lines.8',
-        },
-        {
-          characterId: CharacterId.securityGuard,
-          portraitPosition: 'left',
-          text: 'prologue.approaching-line-gus-blocked.lines.9',
-        },
-        {
           characterId: CharacterId.gus,
-          text: 'prologue.approaching-line-gus-blocked.lines.10',
         },
         {
+          text: 'prologue.approaching-line-gus-blocked.lines.9',
           characterId: CharacterId.securityGuard,
           portraitPosition: 'left',
+        },
+        {
+          text: 'prologue.approaching-line-gus-blocked.lines.10',
+          characterId: CharacterId.gus,
+        },
+        {
           text: 'prologue.approaching-line-gus-blocked.lines.11',
+          characterId: CharacterId.securityGuard,
+          portraitPosition: 'left',
         },
         {
           text: 'prologue.approaching-line-gus-blocked.lines.12',
@@ -395,21 +395,36 @@ export const prologueChapter = {
           label: 'prologue.approaching-line-gus-blocked.choices.dont-look',
           next: 'dont-look-answer',
           isQuickChoice: true,
-          consequences: [{ type: 'flag', value: StoryFlag.dontLookAtGus }],
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.dontLookAtGus,
+            },
+          ],
         },
         {
           id: 'dont-react',
           label: 'prologue.approaching-line-gus-blocked.choices.dont-react',
           next: 'dont-react-answer',
           isQuickChoice: true,
-          consequences: [{ type: 'flag', value: StoryFlag.dontReactToGus }],
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.dontReactToGus,
+            },
+          ],
         },
         {
           id: 'focus',
           label: 'prologue.approaching-line-gus-blocked.choices.focus',
           next: 'focus-answer',
           isQuickChoice: true,
-          consequences: [{ type: 'flag', value: StoryFlag.focusOnGus }],
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.focusOnGus,
+            },
+          ],
         },
       ],
     },
@@ -428,10 +443,12 @@ export const prologueChapter = {
     'focus-answer': {
       type: 'passage',
       lines: [
-        { text: 'prologue.focus-answer.lines.0' },
         {
-          characterId: CharacterId.gus,
+          text: 'prologue.focus-answer.lines.0',
+        },
+        {
           text: 'prologue.focus-answer.lines.1',
+          characterId: CharacterId.gus,
         },
       ],
       next: 'gus-approaching',
@@ -443,8 +460,13 @@ export const prologueChapter = {
         {
           id: 'help-gus',
           label: 'prologue.gus-approaching.choices.help-gus',
-          consequences: [{ type: 'flag', value: StoryFlag.helpedGus }],
           next: 'try-to-help-gus',
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.helpedGus,
+            },
+          ],
         },
         {
           id: 'explain-to-gus-you-are-not-from-the-maintenance',
@@ -456,22 +478,32 @@ export const prologueChapter = {
     },
     'explain-to-gus-you-are-not-from-the-maintenance': {
       type: 'passage',
-      text: 'prologue.explain-to-gus-you-are-not-from-the-maintenance.text',
       characterId: CharacterId.gus,
+      text: 'prologue.explain-to-gus-you-are-not-from-the-maintenance.text',
       choices: [
         {
           id: 'help-gus',
           label:
             'prologue.explain-to-gus-you-are-not-from-the-maintenance.choices.help-gus',
-          consequences: [{ type: 'flag', value: StoryFlag.helpedGus }],
           next: 'try-to-help-gus',
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.helpedGus,
+            },
+          ],
         },
         {
           id: 'say-no-to-gus',
           label:
             'prologue.explain-to-gus-you-are-not-from-the-maintenance.choices.say-no-to-gus',
-          consequences: [{ type: 'flag', value: StoryFlag.sayNoToGus }],
           next: 'choose-to-not-help-gus',
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.sayNoToGus,
+            },
+          ],
         },
       ],
     },
@@ -482,8 +514,8 @@ export const prologueChapter = {
           text: 'prologue.choose-to-not-help-gus.lines.0',
         },
         {
-          characterId: CharacterId.gus,
           text: 'prologue.choose-to-not-help-gus.lines.1',
+          characterId: CharacterId.gus,
         },
         {
           text: 'prologue.choose-to-not-help-gus.lines.2',
@@ -524,32 +556,37 @@ export const prologueChapter = {
           text: 'prologue.try-to-help-gus.lines.2',
         },
         {
-          characterId: CharacterId.gus,
           text: 'prologue.try-to-help-gus.lines.3',
+          characterId: CharacterId.gus,
         },
       ],
       choices: [
         {
-          once: true,
           id: 'force-passage',
           label: 'prologue.try-to-help-gus.choices.force-passage',
+          once: true,
           rollDice: {
             attribute: 'strength',
             minToPass: 10,
             success: {
               next: 'force-passage-success',
               consequences: [
-                { type: 'flag', value: StoryFlag.helpedGusWithForcePassage },
+                {
+                  type: 'flag',
+                  value: StoryFlag.helpedGusWithForcePassage,
+                },
               ],
             },
-            failure: { next: 'force-passage-failure' },
+            failure: {
+              next: 'force-passage-failure',
+            },
           },
         },
         {
-          once: true,
           id: 'hack-terminal',
           label: 'prologue.try-to-help-gus.choices.hack-terminal',
           next: 'prev-hack-terminal',
+          once: true,
         },
         {
           id: 'use-card',
@@ -575,25 +612,24 @@ export const prologueChapter = {
             failure: {
               next: 'connect-to-terminal-failure',
               consequences: [
-                { type: 'flag', value: StoryFlag.failedToHackTerminal },
+                {
+                  type: 'flag',
+                  value: StoryFlag.failedToHackTerminal,
+                },
               ],
             },
           },
         },
         {
           id: 'rethink-problem',
-          label: 'prologue.choices.rethink-the-issue',
+          label: 'prologue.prev-hack-terminal.choices.rethink-problem',
           next: 'rethink-hacking',
         },
       ],
     },
     'connect-to-terminal-success': {
-      backgroundImage: 'background_hacking',
       type: 'passage',
-      dispatchNewSound: {
-        soundType: 'background',
-        soundFile: SOUND_FILE_BACKGROUNDS.hacking,
-      },
+      backgroundImage: 'background_hacking',
       lines: [
         {
           text: 'prologue.connect-to-terminal-success.lines.0',
@@ -602,19 +638,23 @@ export const prologueChapter = {
             soundFile: SOUND_EFFECT_FILE.plugCable,
           },
         },
-        { text: 'prologue.connect-to-terminal-success.lines.1' },
+        {
+          text: 'prologue.connect-to-terminal-success.lines.1',
+        },
       ],
       next: 'connect-to-terminal-success-2',
-    },
-    'connect-to-terminal-success-2': {
-      backgroundImage: 'building_turnstiles',
-      type: 'passage',
       dispatchNewSound: {
         soundType: 'background',
-        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
+        soundFile: SOUND_FILE_BACKGROUNDS.hacking,
       },
+    },
+    'connect-to-terminal-success-2': {
+      type: 'passage',
+      backgroundImage: 'building_turnstiles',
       lines: [
-        { text: 'prologue.connect-to-terminal-success-2.lines.0' },
+        {
+          text: 'prologue.connect-to-terminal-success-2.lines.0',
+        },
         {
           text: 'prologue.connect-to-terminal-success-2.lines.1',
           characterId: CharacterId.terminal,
@@ -658,14 +698,14 @@ export const prologueChapter = {
         },
       ],
       startCharCreation: true,
-    },
-    'connect-to-terminal-failure': {
-      backgroundImage: 'background_hacking',
-      type: 'passage',
       dispatchNewSound: {
         soundType: 'background',
-        soundFile: SOUND_FILE_BACKGROUNDS.hacking,
+        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
       },
+    },
+    'connect-to-terminal-failure': {
+      type: 'passage',
+      backgroundImage: 'background_hacking',
       lines: [
         {
           text: 'prologue.connect-to-terminal-failure.lines.0',
@@ -685,14 +725,14 @@ export const prologueChapter = {
         },
       ],
       next: 'connect-to-terminal-failure-2',
-    },
-    'connect-to-terminal-failure-2': {
-      backgroundImage: 'building_turnstiles',
-      type: 'passage',
       dispatchNewSound: {
         soundType: 'background',
-        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
+        soundFile: SOUND_FILE_BACKGROUNDS.hacking,
       },
+    },
+    'connect-to-terminal-failure-2': {
+      type: 'passage',
+      backgroundImage: 'building_turnstiles',
       lines: [
         {
           text: 'prologue.connect-to-terminal-failure-2.lines.0',
@@ -751,6 +791,10 @@ export const prologueChapter = {
         },
       ],
       startCharCreation: true,
+      dispatchNewSound: {
+        soundType: 'background',
+        soundFile: SOUND_FILE_BACKGROUNDS.crowdedNoise,
+      },
     },
     'rethink-hacking': {
       type: 'passage',
@@ -761,7 +805,9 @@ export const prologueChapter = {
     'use-card-response': {
       type: 'passage',
       lines: [
-        { text: 'prologue.use-card-response.lines.0' },
+        {
+          text: 'prologue.use-card-response.lines.0',
+        },
         {
           text: 'prologue.use-card-response.lines.1',
           characterId: CharacterId.terminal,
@@ -772,13 +818,23 @@ export const prologueChapter = {
           id: 'use-card-confirm',
           label: 'prologue.use-card-response.choices.use-card-confirm',
           next: 'use-card-confirm',
-          consequences: [{ type: 'flag', value: StoryFlag.useCardToHelpGus }],
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.useCardToHelpGus,
+            },
+          ],
         },
         {
           id: 'rethink',
           label: 'prologue.use-card-response.choices.rethink',
           next: 'rethink-use-card',
-          consequences: [{ type: 'flag', value: StoryFlag.sayNoToGus }],
+          consequences: [
+            {
+              type: 'flag',
+              value: StoryFlag.sayNoToGus,
+            },
+          ],
         },
       ],
     },
@@ -895,13 +951,19 @@ export const prologueChapter = {
     'force-passage-success-2': {
       type: 'passage',
       lines: [
-        { text: 'prologue.force-passage-success-2.lines.0' },
-        { text: 'prologue.force-passage-success-2.lines.1' },
+        {
+          text: 'prologue.force-passage-success-2.lines.0',
+        },
+        {
+          text: 'prologue.force-passage-success-2.lines.1',
+        },
         {
           text: 'prologue.force-passage-success-2.lines.2',
           characterId: CharacterId.gus,
         },
-        { text: 'prologue.force-passage-success-2.lines.3' },
+        {
+          text: 'prologue.force-passage-success-2.lines.3',
+        },
         {
           text: 'prologue.force-passage-success-2.lines.4',
           characterId: CharacterId.jo,
@@ -940,13 +1002,21 @@ export const prologueChapter = {
             success: {
               next: 'force-passage-success-2',
               consequences: [
-                { type: 'flag', value: StoryFlag.helpedGusWithForcePassage },
+                {
+                  type: 'flag',
+                  value: StoryFlag.helpedGusWithForcePassage,
+                },
               ],
             },
             failure: {
               next: 'force-passage-failure-twice',
               consequences: [
-                { type: 'temporaryStatus', value: { energy: -2 } },
+                {
+                  type: 'temporaryStatus',
+                  value: {
+                    energy: -2,
+                  },
+                },
                 {
                   type: 'flag',
                   value: StoryFlag.tryToForcePassageFailureTwice,
@@ -957,7 +1027,7 @@ export const prologueChapter = {
         },
         {
           id: 'rethink-the-issue',
-          label: 'prologue.choices.rethink-the-issue',
+          label: 'prologue.force-passage-failure.choices.rethink-the-issue',
           next: 'rethink-the-forcing-passage',
         },
       ],
@@ -1004,50 +1074,56 @@ export const prologueChapter = {
           characterId: CharacterId.gus,
         },
         {
+          text: 'prologue.force-passage-failure-twice.lines.8',
           dispatchNewSound: {
             soundType: 'effect',
             soundFile: SOUND_EFFECT_FILE.alarm,
           },
-          text: 'prologue.force-passage-failure-twice.lines.8',
         },
         {
-          portraitPosition: 'left',
           text: 'prologue.force-passage-failure-twice.lines.9',
           characterId: CharacterId.securityAgents,
+          portraitPosition: 'left',
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.10',
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.11',
-          portraitPosition: 'left',
           characterId: CharacterId.securityAgents,
+          portraitPosition: 'left',
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.12',
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.13',
-          portraitPosition: 'left',
           characterId: CharacterId.securityAgents,
+          portraitPosition: 'left',
         },
-        { text: 'prologue.force-passage-failure-twice.lines.14' },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.14',
+        },
         {
           text: 'prologue.force-passage-failure-twice.lines.15',
           characterId: CharacterId.jo,
         },
         {
           text: 'prologue.force-passage-failure-twice.lines.16',
-          portraitPosition: 'left',
           characterId: CharacterId.securityAgents,
+          portraitPosition: 'left',
         },
-        { text: 'prologue.force-passage-failure-twice.lines.17' },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.17',
+        },
         {
           text: 'prologue.force-passage-failure-twice.lines.18',
           characterId: CharacterId.securityAgents,
           portraitPosition: 'left',
         },
-        { text: 'prologue.force-passage-failure-twice.lines.19' },
+        {
+          text: 'prologue.force-passage-failure-twice.lines.19',
+        },
         {
           text: 'prologue.force-passage-failure-twice.lines.20',
           characterId: CharacterId.scanner,

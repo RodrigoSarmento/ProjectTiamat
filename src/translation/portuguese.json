@@ -130,9 +130,6 @@
     "citizen": "Você trabalha na linha de manutenção de bonecas da New Human Corp. Passa o turno corrigindo defeitos em corpos sintéticos que valem mais do que meses do seu salário e, no fim do expediente, volta para casa calculando o que ainda pode gastar. Quando o dinheiro não chega, você aceita serviços no submundo de Nova São Paulo.\n\nAté onde você está disposto a ir para conseguir uma vida que não se resuma a sobreviver à próxima semana?"
   },
   "prologue": {
-    "choices": {
-      "rethink-the-issue": "Repensar o problema"
-    },
     "dreaming": {
       "title": "TELA PRETA - Sonhando",
       "text": "De olhos fechados, você já não consegue mais distinguir exatamente o que é o seu corpo e o que é o movimento da rua. Cada curva te inclina devagar para um lado, cada freada te empurra um pouco para a frente, é como se você fosse o próprio movimento do ônibus.\n\nO ronco grave do motor vibra em suas costas. Vozes distantes se misturam ao chiado dos freios e ao balanço repetitivo da viagem como uma canção de ninar.\n\nEntão surge uma luz no fim do túnel, ela cresce lentamente em sua direção, convidando você a mergulhar nela. Dentro dela, você se vê:",
@@ -356,7 +353,8 @@
     "force-passage-failure": {
       "text": "Cara, se eu quisesse quebrar a catraca eu teria pedido pra alguém grande, não pro nerd das bonecas.",
       "choices": {
-        "ignore-gus-and-force-it": "Ignorar Gus e continuar forçando"
+        "ignore-gus-and-force-it": "Ignorar Gus e continuar forçando",
+        "rethink-the-issue": "Repensar o problema"
       }
     },
     "rethink-the-forcing-passage": {
@@ -401,7 +399,8 @@
     "prev-hack-terminal": {
       "text": "Você se agacha na frente do terminal de acesso. O brilho azulado da tela ilumina seu rosto. De uma abertura metálica na sua região temporal você puxa um cabo com a mão direita enquanto os dedos da sua outra mão tateiam a borda do aparelho em busca de uma porta.. Há alguns anos você e Jô precisaram resolver um B.O. pro Orelha no ciberespaço. Até hoje o maldito foge da conversa dizendo que o serviço foi pago com a cirurgia do equipamento que ele implantou na sua têmpora. \"Equipamento top de linha\" ele diz, e de fato era, há uns 10 anos.",
       "choices": {
-        "connect-to-terminal": "Conectar o cabo no terminal"
+        "connect-to-terminal": "Conectar o cabo no terminal",
+        "rethink-problem": "Repensar o problema"
       }
     },
     "connect-to-terminal-success": {
