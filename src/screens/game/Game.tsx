@@ -13,7 +13,7 @@ import {
   EnemiesId,
   getCharacter,
   getStoryBackgroundImage,
-  prologueChapter,
+  firstActCitizenChapter,
 } from '@data/story';
 import { translate } from '@helper/translate';
 import { Common, CommonStyles } from '@styles';
@@ -41,7 +41,7 @@ const Game = () => {
     completeDiceRoll,
     isDiceSuccess,
     goToNode,
-  } = useStoryGame(prologueChapter);
+  } = useStoryGame(firstActCitizenChapter);
   const backgroundImage = getStoryBackgroundImage(
     currentBackground.backgroundImage,
   );

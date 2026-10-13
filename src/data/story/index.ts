@@ -1,4 +1,5 @@
-export { prologueChapter } from './chapters/prologue';
+export { firstActCitizenChapter } from './chapters/first-act-citizen';
+export { prologoChapter } from './chapters/prologo';
 
 export { CHARACTERS, CharacterId, getCharacter } from './characters';
 export type { IStoryCharacter } from './characters';

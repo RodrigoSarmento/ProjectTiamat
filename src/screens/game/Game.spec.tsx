@@ -1,4 +1,4 @@
-import { StoryFlag, prologueChapter } from '@data/story';
+import { StoryFlag, firstActCitizenChapter } from '@data/story';
 import { toStoryLogEntry } from '@helper/storyLog';
 import { type IStoryPage, getPassagePages } from '@helper/storyPlayback';
 import {
@@ -30,7 +30,7 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
 }));
 
-const dreamingNode = prologueChapter.nodes.dreaming;
+const dreamingNode = firstActCitizenChapter.nodes.dreaming;
 
 const dreamingPages =
   dreamingNode.type === 'passage'
@@ -58,8 +58,8 @@ const renderSavedGame = (progress: IStoryProgress) => {
   });
 };
 
-const nodePages = (nodeId: keyof typeof prologueChapter.nodes) => {
-  const node = prologueChapter.nodes[nodeId];
+const nodePages = (nodeId: keyof typeof firstActCitizenChapter.nodes) => {
+  const node = firstActCitizenChapter.nodes[nodeId];
   return node.type === 'passage'
     ? getPassagePages(
         node,
@@ -72,7 +72,7 @@ const nodePages = (nodeId: keyof typeof prologueChapter.nodes) => {
 };
 
 const logEntry = (
-  nodeId: keyof typeof prologueChapter.nodes,
+  nodeId: keyof typeof firstActCitizenChapter.nodes,
   pageIndex: number,
 ) => toStoryLogEntry(nodePages(nodeId)[pageIndex], nodeId, pageIndex);
 
@@ -166,7 +166,7 @@ describe('Game', () => {
   });
 
   it('plays the sound of a choice when it is selected', async () => {
-    const drinkOffer = prologueChapter.nodes['drink-offer'];
+    const drinkOffer = firstActCitizenChapter.nodes['drink-offer'];
     const drinkOfferPages =
       drinkOffer.type === 'passage'
         ? getPassagePages(
@@ -318,7 +318,7 @@ describe('Game', () => {
     expect(screen.getByText('TELA PRETA - Sonhando')).toBeOnTheScreen();
     expect(store.getState().saves.save.progress).toEqual(
       expect.objectContaining({
-        nodeId: prologueChapter.entry,
+        nodeId: firstActCitizenChapter.entry,
         flags: [],
         usedChoiceIds: [],
       }),

@@ -1,9 +1,14 @@
 {
   "chapters": [
     {
-      "id": "prologue",
-      "file": "chapters/prologue.ts",
+      "id": "first-act-citizen",
+      "file": "chapters/first-act-citizen.ts",
       "entry": "dreaming"
+    },
+    {
+      "id": "prologo",
+      "file": "chapters/prologo.ts",
+      "entry": "cena-00"
     }
   ]
 }
