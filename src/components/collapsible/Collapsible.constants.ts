@@ -1,3 +1,6 @@
+export const PORTRAIT_SIZE = 96;
+export const NEW_DOT_SIZE = 8;
+
 export const CHEVRON_WIDTH = 12;
 export const CHEVRON_HEIGHT = 18;
 export const CHEVRON_STROKE_WIDTH = 2;

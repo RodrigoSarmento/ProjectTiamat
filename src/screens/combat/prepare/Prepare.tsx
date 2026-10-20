@@ -4,7 +4,6 @@ import { Pressable, Text, View } from 'react-native';
 
 import {
   CombatDie,
-  FIELD_DIE_SIZE,
   FLOAT_DIE_SIZE,
   TRAY_DIE_SIZE,
 } from '@components/combat-die';
@@ -24,7 +23,13 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TRAY_SCROLL_THROTTLE_MS } from './Prepare.constants';
+import {
+  TRAY_SCROLL_THROTTLE_MS,
+  fieldDieSize,
+  fieldSlotMinHeight,
+  fieldSlotRows,
+  fieldSlotWidth,
+} from './Prepare.constants';
 import { usePrepare } from './Prepare.hooks';
 import { styles } from './Prepare.styles';
 import type { IPrepare } from './Prepare.types';
@@ -43,7 +48,7 @@ const Prepare = ({
   deckCount,
 }: IPrepare) => {
   const {
-    trayRows,
+    trayDice,
     canScrollTray,
     onTrayScroll,
     onTrayLayout,
@@ -153,33 +158,52 @@ const Prepare = ({
             })}
           </Text>
           <View style={styles.slots}>
-            {fieldDice.map((die, index) => (
+            {fieldSlotRows(numOfDices).map((row, rowIndex) => (
               <View
-                key={`slot-${index}`}
-                ref={(node) => {
-                  slotRefs.current[index] = node;
-                }}
-                collapsable={false}
-                testID={`CombatPrepare-slot-${index}`}
-                onLayout={measureDropTargets}
-                style={[
-                  styles.slot,
-                  die && styles.slotFilled,
-                  hoverSlot === index && styles.slotHot,
-                ]}
+                key={`slot-row-${rowIndex}`}
+                testID={`CombatPrepare-slotRow-${rowIndex}`}
+                style={styles.slotRow}
               >
-                <Text style={styles.slotIndex}>{index + 1}</Text>
-                {die ? (
-                  <CombatDie
-                    die={die}
-                    size={FIELD_DIE_SIZE}
-                    isGhost={draggingDie?.id === die.id}
-                    onDragMove={moveDrag}
-                    onDragStart={() => handleDragStart(die)}
-                    onDragUpdate={(point) => handleDragUpdate(point.x, point.y)}
-                    onDragEnd={(point) => handleDragEnd(die, point.x, point.y)}
-                  />
-                ) : null}
+                {row.map((index) => {
+                  const die = fieldDice[index];
+                  return (
+                    <View
+                      key={`slot-${index}`}
+                      ref={(node) => {
+                        slotRefs.current[index] = node;
+                      }}
+                      collapsable={false}
+                      testID={`CombatPrepare-slot-${index}`}
+                      onLayout={measureDropTargets}
+                      style={[
+                        styles.slot,
+                        {
+                          width: fieldSlotWidth(numOfDices),
+                          minHeight: fieldSlotMinHeight(numOfDices),
+                        },
+                        die && styles.slotFilled,
+                        hoverSlot === index && styles.slotHot,
+                      ]}
+                    >
+                      <Text style={styles.slotIndex}>{index + 1}</Text>
+                      {die ? (
+                        <CombatDie
+                          die={die}
+                          size={fieldDieSize(numOfDices)}
+                          isGhost={draggingDie?.id === die.id}
+                          onDragMove={moveDrag}
+                          onDragStart={() => handleDragStart(die)}
+                          onDragUpdate={(point) =>
+                            handleDragUpdate(point.x, point.y)
+                          }
+                          onDragEnd={(point) =>
+                            handleDragEnd(die, point.x, point.y)
+                          }
+                        />
+                      ) : null}
+                    </View>
+                  );
+                })}
               </View>
             ))}
           </View>
@@ -203,36 +227,26 @@ const Prepare = ({
         >
           <ScrollView
             testID="CombatPrepare-tray"
-            horizontal
             scrollEnabled={!draggingDie}
             showsHorizontalScrollIndicator={false}
+            style={styles.trayScroll}
             scrollEventThrottle={TRAY_SCROLL_THROTTLE_MS}
             onScroll={onTrayScroll}
             onLayout={onTrayLayout}
             onContentSizeChange={onTrayContentSizeChange}
             contentContainerStyle={styles.trayContent}
           >
-            {trayRows.map((row, rowIndex) => (
-              <View key={`tray-row-${rowIndex}`} style={styles.trayRow}>
-                <Text style={styles.kindLabel}>
-                  {rowIndex === 0
-                    ? translate('words.attack')
-                    : translate('words.defense')}
-                </Text>
-
-                {row.map((die) => (
-                  <CombatDie
-                    key={die.id}
-                    die={die}
-                    size={TRAY_DIE_SIZE}
-                    isGhost={draggingDie?.id === die.id}
-                    onDragMove={moveDrag}
-                    onDragStart={() => handleDragStart(die)}
-                    onDragUpdate={(point) => handleDragUpdate(point.x, point.y)}
-                    onDragEnd={(point) => handleDragEnd(die, point.x, point.y)}
-                  />
-                ))}
-              </View>
+            {trayDice.map((die) => (
+              <CombatDie
+                key={die.id}
+                die={die}
+                size={TRAY_DIE_SIZE}
+                isGhost={draggingDie?.id === die.id}
+                onDragMove={moveDrag}
+                onDragStart={() => handleDragStart(die)}
+                onDragUpdate={(point) => handleDragUpdate(point.x, point.y)}
+                onDragEnd={(point) => handleDragEnd(die, point.x, point.y)}
+              />
             ))}
           </ScrollView>
           {canScrollTray ? (
@@ -241,7 +255,7 @@ const Prepare = ({
               pointerEvents="none"
               style={[styles.indicator, blinkStyle]}
             >
-              <Text style={styles.indicatorLabel}>▶</Text>
+              <Text style={styles.indicatorLabel}>▼</Text>
             </Animated.View>
           ) : null}
         </View>

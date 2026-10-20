@@ -1,9 +1,7 @@
 import {
-  FlatList,
   Image,
   type ListRenderItemInfo,
   Pressable,
-  ScrollView,
   Text,
   View,
 } from 'react-native';
@@ -11,6 +9,7 @@ import {
 import { ImageButton } from '@components/image-button';
 import { translate } from '@helper/translate';
 import { CommonStyles } from '@styles';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BACKGROUNDS } from './BackgroundSelect.constants';
@@ -37,6 +36,9 @@ const BackgroundSelect = () => {
       <ScrollView
         style={CommonStyles.flex1}
         contentContainerStyle={styles.descriptionContent}
+        nestedScrollEnabled
+        directionalLockEnabled
+        yieldsToContinuousGestures
       >
         <Text style={styles.description}>
           {translate(`backgrounds.${item.id}`)}
@@ -59,6 +61,8 @@ const BackgroundSelect = () => {
           onMomentumScrollEnd={onMomentumScrollEnd}
           horizontal
           pagingEnabled
+          nestedScrollEnabled
+          directionalLockEnabled
           showsHorizontalScrollIndicator={false}
           style={CommonStyles.flex1}
         />

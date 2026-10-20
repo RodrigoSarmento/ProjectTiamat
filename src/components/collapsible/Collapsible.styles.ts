@@ -3,7 +3,11 @@ import { StyleSheet } from 'react-native';
 import { Colors } from '@styles';
 import { bold, regular } from '@styles/Font';
 
-import { TITLE_FONT_SIZE } from './Collapsible.constants';
+import {
+  NEW_DOT_SIZE,
+  PORTRAIT_SIZE,
+  TITLE_FONT_SIZE,
+} from './Collapsible.constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,11 +16,28 @@ export const styles = StyleSheet.create({
   pressed: {
     opacity: 0.8,
   },
+  newDot: {
+    position: 'absolute',
+    top: 12,
+    left: 14,
+    zIndex: 2,
+    width: NEW_DOT_SIZE,
+    height: NEW_DOT_SIZE,
+    borderRadius: NEW_DOT_SIZE / 2,
+    backgroundColor: Colors.neonCyan,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 12,
+  },
+  portrait: {
+    width: PORTRAIT_SIZE,
+    height: PORTRAIT_SIZE,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: Colors.neonCyan,
   },
   title: {
     ...regular,

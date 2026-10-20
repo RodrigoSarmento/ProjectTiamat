@@ -23,7 +23,7 @@ export const CHARACTERS: Record<CharacterId, IStoryCharacter> = {
   [CharacterId.securityGuard]: {
     id: CharacterId.securityGuard,
     name: 'characters.securityGuard',
-    portrait: require('@assets/characters/character_security_guard.png'),
+    portrait: require('@assets/characters/character_security_guard_square.png'),
   },
   [CharacterId.maleVoice]: {
     id: CharacterId.maleVoice,
@@ -32,17 +32,17 @@ export const CHARACTERS: Record<CharacterId, IStoryCharacter> = {
   [CharacterId.jo]: {
     id: CharacterId.jo,
     name: 'characters.jo',
-    portrait: require('@assets/characters/character_jo.png'),
+    portrait: require('@assets/characters/character_jo_square.png'),
   },
   [CharacterId.gus]: {
     name: 'characters.gus',
     id: CharacterId.gus,
-    portrait: require('@assets/characters/character_gus.png'),
+    portrait: require('@assets/characters/character_gus_square.png'),
   },
   [CharacterId.you]: {
     name: 'characters.you',
     id: CharacterId.you,
-    portrait: require('@assets/characters/character_gus.png'), //TODO: Add your portrait
+    portrait: require('@assets/characters/character_gus_square.png'), //TODO: Add your portrait
   },
   [CharacterId.busSystem]: {
     name: 'characters.busSystem',

@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-import { type LayoutChangeEvent, Pressable, Text, View } from 'react-native';
+import {
+  Image,
+  type LayoutChangeEvent,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 
 import { NeonFrame } from '@components/neon-frame';
 import { Colors } from '@styles';
@@ -31,7 +37,10 @@ import type { ICollapsible } from './Collapsible.types';
 const Collapsible: React.FC<ICollapsible> = ({
   title,
   description,
+  portrait,
+  isNew = false,
   isOpen = false,
+  onPress,
   testID = 'Collapsible',
 }) => {
   const [isExpanded, setIsExpanded] = useState(isOpen);
@@ -64,6 +73,7 @@ const Collapsible: React.FC<ICollapsible> = ({
   }));
 
   const handlePress = () => {
+    onPress?.();
     const willExpand = !isExpanded;
 
     setIsExpanded(willExpand);
@@ -96,8 +106,16 @@ const Collapsible: React.FC<ICollapsible> = ({
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
       <NeonFrame isHighlighted={isExpanded} />
+      {isNew ? <View testID={`${testID}-new`} style={styles.newDot} /> : null}
       <Animated.View style={contentStyle}>
         <View style={styles.header}>
+          {portrait ? (
+            <Image
+              testID={`${testID}-portrait`}
+              source={portrait}
+              style={styles.portrait}
+            />
+          ) : null}
           <Animated.Text
             style={[styles.title, isExpanded && styles.titleOpen, titleStyle]}
           >

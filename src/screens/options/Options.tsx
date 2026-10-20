@@ -6,7 +6,7 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
-import { CloseButton } from '@components/close-button';
+import { CloseIcon } from '@components/close-icon';
 import { Modal } from '@components/modal';
 import { NeonToggle } from '@components/neon-toggle';
 import { translate } from '@helper/translate';
@@ -62,10 +62,12 @@ const Options = () => {
     >
       <SafeAreaView style={CommonStyles.flex1} edges={['top', 'left', 'right']}>
         <View style={styles.content}>
-          <Text style={CommonStyles.settingsTitle}>
-            {translate('words.options')}
-          </Text>
-          <CloseButton />
+          <View style={CommonStyles.settingsHeader}>
+            <Text style={CommonStyles.settingsTitle}>
+              {translate('words.options')}
+            </Text>
+            <CloseIcon />
+          </View>
           <View style={CommonStyles.settingsDivider} />
           <View style={styles.list}>
             {SOUND_OPTIONS.map(({ soundType, label }) => (

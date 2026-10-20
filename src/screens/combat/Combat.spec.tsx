@@ -1,6 +1,9 @@
-import { HAND_SIZE } from '@data/combat';
+import { COMBAT_DICE, type CombatDieId, HAND_SIZE } from '@data/combat';
 import { EnemiesId, getEnemy } from '@data/story';
-import { STARTER_DICES, STARTER_NUM_OF_DICES } from '@redux/slices/SavesSlice';
+import savesReducer, {
+  STARTER_DICES,
+  STARTER_NUM_OF_DICES,
+} from '@redux/slices/SavesSlice';
 import { renderWithProviders } from '@test';
 import { fireEvent, screen } from '@testing-library/react-native';
 
@@ -10,7 +13,12 @@ import type { IPrepare } from './prepare/Prepare.types';
 import type { IRunning } from './running/Running.types';
 
 const mockGoBack = jest.fn();
-const STARTING_DECK = STARTER_DICES.length - HAND_SIZE;
+const LONG_DECK = (Object.keys(COMBAT_DICE) as CombatDieId[])
+  .filter((id) => !id.startsWith('enemy-'))
+  .slice(0, HAND_SIZE + STARTER_NUM_OF_DICES + 1);
+const LONG_HAND = Math.min(HAND_SIZE, LONG_DECK.length);
+const LONG_DECK_LEFT = LONG_DECK.length - LONG_HAND;
+const AFTER_ROUND_DECK = LONG_DECK_LEFT - STARTER_NUM_OF_DICES;
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ goBack: mockGoBack }),
@@ -98,6 +106,19 @@ const playRound = async (outcome: 'hit' | 'lose' | 'overkill') => {
   await fireEvent.press(screen.getByTestId(`CombatRunning-${outcome}`));
 };
 
+const renderLongCombat = () => {
+  const saves = savesReducer(undefined, { type: '@@INIT' });
+
+  return renderWithProviders(<Combat />, {
+    preloadedState: { saves: { ...saves, dices: LONG_DECK } },
+  });
+};
+
+const playedCardIds = () =>
+  LONG_DECK.slice(0, STARTER_NUM_OF_DICES)
+    .map((id, index) => `${id}#${index}`)
+    .join(',');
+
 describe('Combat', () => {
   beforeEach(() => {
     mockGoBack.mockClear();
@@ -131,13 +152,11 @@ describe('Combat', () => {
 
   it('shows defeat with the defeat narrative and restarts the fight on retry', async () => {
     const enemyMaxHealth = getEnemy(EnemiesId.enemy1).health;
-    await renderWithProviders(<Combat />);
+    await renderLongCombat();
 
     await playRound('hit');
     expect(screen.getByText(`enemyHp-${enemyMaxHealth - 1}`)).toBeOnTheScreen();
-    expect(
-      screen.getByText(`deck-${STARTING_DECK - STARTER_NUM_OF_DICES}`),
-    ).toBeOnTheScreen();
+    expect(screen.getByText(`deck-${AFTER_ROUND_DECK}`)).toBeOnTheScreen();
 
     await playRound('lose');
 
@@ -156,8 +175,8 @@ describe('Combat', () => {
     await fireEvent.press(screen.getByTestId('CombatFinalResult-retry'));
 
     expect(screen.getByText(`enemyHp-${enemyMaxHealth}`)).toBeOnTheScreen();
-    expect(screen.getByText(`hand-${HAND_SIZE}`)).toBeOnTheScreen();
-    expect(screen.getByText(`deck-${STARTING_DECK}`)).toBeOnTheScreen();
+    expect(screen.getByText(`hand-${LONG_HAND}`)).toBeOnTheScreen();
+    expect(screen.getByText(`deck-${LONG_DECK_LEFT}`)).toBeOnTheScreen();
     expect(mockGoBack).not.toHaveBeenCalled();
 
     await fireEvent.press(screen.getByTestId('CombatPrepare'));
@@ -184,18 +203,18 @@ describe('Combat', () => {
     expect(mockGoBack).toHaveBeenCalledTimes(1);
   });
 
-  it('deals a full hand, refills it from the deck after a round, and clamps damage at 0', async () => {
-    await renderWithProviders(<Combat />);
+  it('deals a full hand, redraws the cards that were played, and clamps damage at 0', async () => {
+    await renderLongCombat();
 
-    expect(screen.getByText(`hand-${HAND_SIZE}`)).toBeOnTheScreen();
-    expect(screen.getByText(`deck-${STARTING_DECK}`)).toBeOnTheScreen();
+    expect(screen.getByText(`hand-${LONG_HAND}`)).toBeOnTheScreen();
+    expect(screen.getByText(`deck-${LONG_DECK_LEFT}`)).toBeOnTheScreen();
 
-    await playRound('overkill');
+    await fireEvent.press(screen.getByTestId('CombatPrepare'));
+    expect(screen.getByText(playedCardIds())).toBeOnTheScreen();
+    await fireEvent.press(screen.getByTestId('CombatRunning-overkill'));
 
-    expect(screen.getByText(`hand-${HAND_SIZE}`)).toBeOnTheScreen();
-    expect(
-      screen.getByText(`deck-${STARTING_DECK - STARTER_NUM_OF_DICES}`),
-    ).toBeOnTheScreen();
+    expect(screen.getByText(`hand-${LONG_HAND}`)).toBeOnTheScreen();
+    expect(screen.getByText(`deck-${AFTER_ROUND_DECK}`)).toBeOnTheScreen();
     expect(screen.getByText('enemyHp-0')).toBeOnTheScreen();
   });
 });

@@ -13,6 +13,7 @@ import { styles } from './StoryLog.styles';
 import type { IStoryLog } from './StoryLog.types';
 
 const logIcon = require('@assets/icons/icon_log.png');
+const closeIcon = require('@assets/icons/icon_close.png');
 
 const StoryLog: React.FC<IStoryLog> = ({ entries }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +44,7 @@ const StoryLog: React.FC<IStoryLog> = ({ entries }) => {
           <SafeAreaView style={styles.modalSafe}>
             <ImageButton
               testID="StoryLog-close"
-              source={logIcon}
+              source={closeIcon}
               onPress={() => setIsOpen(false)}
               style={styles.icon}
               containerStyle={iconButtonStyle}

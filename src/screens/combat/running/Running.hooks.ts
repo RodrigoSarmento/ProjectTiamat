@@ -3,6 +3,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import type { CombatantSide } from '@components/combatant-card';
 import { getDice } from '@data/combat';
 import {
+  defendingDice,
   diceOfKind,
   drawDice,
   resolveExchange,
@@ -37,11 +38,12 @@ export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
     (attacker: CombatantSide) => {
       const playerAttacks = attacker === 'player';
       return {
-        playerDice: diceOfKind(dice, playerAttacks ? 'attack' : 'defense'),
-        enemySideDice: diceOfKind(
-          enemyDice,
-          playerAttacks ? 'defense' : 'attack',
-        ),
+        playerDice: playerAttacks
+          ? diceOfKind(dice, 'attack')
+          : defendingDice(dice),
+        enemySideDice: playerAttacks
+          ? defendingDice(enemyDice)
+          : diceOfKind(enemyDice, 'attack'),
       };
     },
     [dice, enemyDice],
@@ -68,9 +70,14 @@ export const useRunning = ({ combatRef, dice, enemy, health }: IRunning) => {
   );
 
   const finishExchange = () => {
-    isOverRef.current = health[defender] - result.damage <= 0;
+    isOverRef.current =
+      health[defender] - result.damage <= 0 ||
+      health[attacker] - result.counter <= 0;
     if (result.damage > 0) {
       combatRef.current?.applyDamage(defender, result.damage);
+    }
+    if (result.counter > 0) {
+      combatRef.current?.applyDamage(attacker, result.counter);
     }
     setPhase('result');
   };

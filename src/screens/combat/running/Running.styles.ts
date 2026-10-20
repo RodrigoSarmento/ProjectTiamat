@@ -79,6 +79,7 @@ export const styles = StyleSheet.create({
   damageRow: {
     alignItems: 'center',
     minHeight: 36,
+    gap: 6,
   },
   damage: {
     ...Fonts.contentSmallBold,

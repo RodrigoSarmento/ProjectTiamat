@@ -19,12 +19,12 @@ export const ENEMIES: Record<EnemiesId, IStoryEnemy> = {
   [EnemiesId.enemy1]: {
     id: EnemiesId.enemy1,
     name: 'enemies.enemy1',
-    portrait: require('@assets/characters/character_security_guard.png'),
+    portrait: require('@assets/characters/character_security_guard_square.png'),
     diceDeck: [
-      'enemy-attack-d4-a',
-      'enemy-attack-d4-b',
-      'enemy-defense-d4-a',
-      'enemy-attack-d6-b',
+      'enemy-attack-d4-level1-a',
+      'enemy-attack-d4-level1-b',
+      'enemy-defense-d4-level1-a',
+      'enemy-attack-d6-level1-b',
     ],
     health: 5,
     numOfDices: 2,

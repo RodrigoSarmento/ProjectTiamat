@@ -1,4 +1,4 @@
-import { DECK_MAX_SIZE, DECK_MIN_SIZE, HAND_SIZE } from '@data/combat';
+import { DECK_MAX_SIZE, PLAYER_MAX_SLOTS } from '@data/combat';
 import { StoryFlag } from '@data/story';
 
 import savesReducer, {
@@ -7,6 +7,7 @@ import savesReducer, {
   STARTER_NUM_OF_DICES,
   applyTemporaryStatus,
   eraseSave,
+  markLoreRead,
   saveCharName,
   saveProgress,
   saveStatus,
@@ -30,13 +31,15 @@ describe('SavesSlice', () => {
       },
       dices: STARTER_DICES,
       numOfDices: STARTER_NUM_OF_DICES,
+      readLoreIds: [],
     });
   });
 
-  it('starts with a deck inside the deck size limits and bigger than a hand', () => {
-    expect(STARTER_DICES.length).toBeGreaterThanOrEqual(DECK_MIN_SIZE);
+  it('starts with one copy of each starter die, inside the deck maximum', () => {
+    expect(new Set(STARTER_DICES).size).toBe(STARTER_DICES.length);
     expect(STARTER_DICES.length).toBeLessThanOrEqual(DECK_MAX_SIZE);
-    expect(STARTER_DICES.length).toBeGreaterThan(HAND_SIZE);
+    expect(STARTER_NUM_OF_DICES).toBe(3);
+    expect(STARTER_NUM_OF_DICES).toBeLessThanOrEqual(PLAYER_MAX_SLOTS);
   });
 
   it('marks the game as started with the chosen origin', () => {
@@ -163,6 +166,14 @@ describe('SavesSlice', () => {
     expect(state.save.progress).toEqual(progress);
   });
 
+  it('remembers each lore entry the first time it is opened', () => {
+    const once = savesReducer(init(), markLoreRead('world:terceiraGuerra'));
+    const twice = savesReducer(once, markLoreRead('world:terceiraGuerra'));
+    const both = savesReducer(twice, markLoreRead('characters:jo'));
+
+    expect(both.readLoreIds).toEqual(['world:terceiraGuerra', 'characters:jo']);
+  });
+
   it('erases the whole save back to a new game', () => {
     const played = [
       startGame('corp'),
@@ -177,6 +188,7 @@ describe('SavesSlice', () => {
         usedChoiceIds: [],
         storyLog: [],
       }),
+      markLoreRead('world:terceiraGuerra'),
     ].reduce(savesReducer, init());
 
     expect(savesReducer(played, eraseSave())).toEqual(init());

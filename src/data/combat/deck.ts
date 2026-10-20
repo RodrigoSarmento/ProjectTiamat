@@ -2,4 +2,6 @@ export const HAND_SIZE = 8;
 
 export const DECK_MIN_SIZE = 12;
 
-export const DECK_MAX_SIZE = 20;
+export const DECK_MAX_SIZE = 16;
+
+export const PLAYER_MAX_SLOTS = 5;

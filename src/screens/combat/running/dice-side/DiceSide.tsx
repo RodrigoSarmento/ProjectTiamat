@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 import { CombatDie } from '@components/combat-die';
 import { translate } from '@helper/translate';
 
-import { SIDE_DIE_SIZE } from './DiceSide.constants';
+import { sideDieSize } from './DiceSide.constants';
 import { styles } from './DiceSide.styles';
 import type { IDiceSide } from './DiceSide.types';
 
@@ -28,7 +28,7 @@ const DiceSide: React.FC<IDiceSide> = ({
           <CombatDie
             key={die.id}
             die={die}
-            size={SIDE_DIE_SIZE}
+            size={sideDieSize(dice.length)}
             shownFace={rolls[die.id]}
             isRolling={isRolling}
             tossDirection={tossDirection}

@@ -18,7 +18,7 @@ const highestFace = (id: CombatDieId) => Math.max(...COMBAT_DICE[id].faces);
 
 const testEnemy: IStoryEnemy = {
   ...getEnemy(EnemiesId.enemy1),
-  diceDeck: ['attack-d4-b', 'defense-d4-a'],
+  diceDeck: ['attack-d4-level1-b', 'defense-d4-level1-a'],
   numOfDices: 2,
 };
 
@@ -36,7 +36,7 @@ const createCombatRef = () =>
 
 const renderRunning = ({
   combatRef = createRef<ICombatRef>(),
-  playerDice = ['attack-d4-a', 'defense-d6-a'],
+  playerDice = ['attack-d4-level1-a', 'defense-d6-level1-b'],
   enemy = getEnemy(EnemiesId.enemy1),
   health,
 }: {
@@ -105,9 +105,9 @@ describe('Running', () => {
   });
 
   describe('with every die landing on its highest face', () => {
-    const playerAttack = highestFace('attack-d8-b');
-    const enemyDefense = highestFace('defense-d4-a');
-    const enemyAttack = highestFace('attack-d4-b');
+    const playerAttack = highestFace('attack-d4-level3-c');
+    const enemyDefense = highestFace('defense-d4-level1-a');
+    const enemyAttack = highestFace('attack-d4-level1-b');
     const playerDamage = Math.max(0, playerAttack - enemyDefense);
 
     beforeEach(() => {
@@ -118,7 +118,7 @@ describe('Running', () => {
       const combatRef = createCombatRef();
       await renderRunning({
         combatRef,
-        playerDice: ['attack-d8-b'],
+        playerDice: ['attack-d4-level3-c'],
         enemy: testEnemy,
         health: { player: PLAYER_MAX_HEALTH, enemy: playerDamage + 1 },
       });
@@ -149,7 +149,7 @@ describe('Running', () => {
       const combatRef = createCombatRef();
       await renderRunning({
         combatRef,
-        playerDice: ['attack-d8-b'],
+        playerDice: ['attack-d4-level3-c'],
         enemy: testEnemy,
         health: { player: PLAYER_MAX_HEALTH, enemy: playerDamage },
       });
@@ -170,8 +170,11 @@ describe('Running', () => {
       const combatRef = createCombatRef();
       await renderRunning({
         combatRef,
-        playerDice: ['attack-d8-b'],
-        enemy: { ...testEnemy, diceDeck: ['defense-d4-a', 'defense-d4-b'] },
+        playerDice: ['attack-d4-level3-c'],
+        enemy: {
+          ...testEnemy,
+          diceDeck: ['defense-d4-level1-a', 'defense-d6-level1-b'],
+        },
         health: { player: PLAYER_MAX_HEALTH, enemy: 99 },
       });
 
@@ -196,8 +199,11 @@ describe('Running', () => {
       const combatRef = createCombatRef();
       await renderRunning({
         combatRef,
-        playerDice: ['defense-d4-a'],
-        enemy: { ...testEnemy, diceDeck: ['defense-d4-a', 'defense-d4-b'] },
+        playerDice: ['defense-d4-level1-a'],
+        enemy: {
+          ...testEnemy,
+          diceDeck: ['defense-d4-level1-a', 'defense-d6-level1-b'],
+        },
       });
 
       expect(screen.queryByTestId('InitiativeToast')).toBeNull();
@@ -216,12 +222,15 @@ describe('Running', () => {
 
     it('lets only the enemy attack when the player holds only defense dice', async () => {
       const combatRef = createCombatRef();
-      const strongEnemyAttack = highestFace('attack-d8-b');
-      const playerDefense = highestFace('defense-d4-a');
+      const strongEnemyAttack = highestFace('attack-d4-level3-c');
+      const playerDefense = highestFace('defense-d4-level1-a');
       await renderRunning({
         combatRef,
-        playerDice: ['defense-d4-a'],
-        enemy: { ...testEnemy, diceDeck: ['attack-d8-b', 'defense-d4-a'] },
+        playerDice: ['defense-d4-level1-a'],
+        enemy: {
+          ...testEnemy,
+          diceDeck: ['attack-d4-level3-c', 'defense-d4-level1-a'],
+        },
       });
 
       expect(screen.queryByTestId('InitiativeToast')).toBeNull();
@@ -242,6 +251,78 @@ describe('Running', () => {
         strongEnemyAttack - playerDefense,
       );
       expect(combatRef.current.goTo).toHaveBeenCalledWith('prepare');
+    });
+
+    it('reflects the blocked surplus back to the attacker with counter dice', async () => {
+      const combatRef = createCombatRef();
+      const playerCounter = highestFace('counter-d4-level1-c');
+      await renderRunning({
+        combatRef,
+        playerDice: ['counter-d4-level1-c'],
+        enemy: testEnemy,
+      });
+
+      await tap();
+      await settleRolls();
+
+      expect(screen.getByTestId('CombatRunning-counter')).toHaveTextContent(
+        `Contra-ataque: ${playerCounter - enemyAttack} de dano`,
+      );
+      expect(combatRef.current.applyDamage).toHaveBeenCalledTimes(1);
+      expect(combatRef.current.applyDamage).toHaveBeenCalledWith(
+        'enemy',
+        playerCounter - enemyAttack,
+      );
+    });
+
+    it('lets the enemy counter a player attack', async () => {
+      const combatRef = createCombatRef();
+      const attack = highestFace('attack-d4-level1-a');
+      const defense = highestFace('defense-d6-level1-b');
+      const counter = highestFace('counter-d4-level1-c');
+      const reflected = Math.min(counter, defense + counter - attack);
+      await renderRunning({
+        combatRef,
+        playerDice: ['attack-d4-level1-a'],
+        enemy: {
+          ...testEnemy,
+          diceDeck: ['defense-d6-level1-b', 'counter-d4-level1-c'],
+        },
+      });
+
+      await tap();
+      await settleRolls();
+
+      expect(screen.getByTestId('CombatRunning-counter')).toHaveTextContent(
+        `Contra-ataque: ${reflected} de dano`,
+      );
+      expect(combatRef.current.applyDamage).toHaveBeenCalledTimes(1);
+      expect(combatRef.current.applyDamage).toHaveBeenCalledWith(
+        'player',
+        reflected,
+      );
+    });
+
+    it('ends the fight when a counter drops the attacker to 0', async () => {
+      const combatRef = createCombatRef();
+      const reflected = highestFace('counter-d4-level1-c') - enemyAttack;
+      await renderRunning({
+        combatRef,
+        playerDice: ['counter-d4-level1-c'],
+        enemy: testEnemy,
+        health: { player: PLAYER_MAX_HEALTH, enemy: reflected },
+      });
+
+      await tap();
+      await settleRolls();
+      await tap();
+
+      expect(combatRef.current.applyDamage).toHaveBeenCalledWith(
+        'enemy',
+        reflected,
+      );
+      expect(combatRef.current.goTo).toHaveBeenCalledWith('finalResult');
+      expect(combatRef.current.goTo).not.toHaveBeenCalledWith('prepare');
     });
   });
 });

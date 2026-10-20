@@ -12,7 +12,8 @@
     "options": "Opções",
     "lore": "Lore",
     "deck": "Baralho",
-    "close": "Fechar",
+    "world": "Mundo",
+    "characters": "Personagens",
     "cancel": "Cancelar"
   },
   "options": {
@@ -36,6 +37,9 @@
     "privatizacoes": {
       "title": "As Privatizações",
       "description": "As primeiras concessões foram anunciadas como medidas temporárias. Empresas assumiriam a recuperação de redes de energia, sistemas de abastecimento, hospitais e corredores de transporte. Quando a emergência terminasse, os serviços voltariam à normalidade.\n\nEntretanto, cada novo desastre prolongava os contratos. Governos endividados ofereciam terrenos, benefícios fiscais e direitos de exploração como pagamento. Os conglomerados financiavam as obras e passavam a controlar também as tecnologias necessárias para mantê-las. Romper uma concessão significava arriscar a interrupção do serviço que ela sustentava."
+    },
+    "characters": {
+      "jo": "Jô é um técnico da New Human CORP. e amigo próximo do Protagonista. Os dois trabalham juntos há alguns anos e, entre turnos excessivos, problemas na fábrica e viagens intermináveis nos ônibus corporativos, desenvolveram uma amizade baseada principalmente em companheirismo, provocações e reclamações sobre o trabalho.\n\nComo muitos trabalhadores dos níveis mais baixos de Nova São Paulo, o salário de Jô não acompanha o custo de vida da cidade. Por isso, há algum tempo ele começou a aceitar pequenos serviços ilegais fora do expediente: conseguir informações, transportar mercadorias, acessar sistemas corporativos ou servir de intermediário para pessoas que preferem não aparecer pessoalmente.\n\nJô não se considera um criminoso. Na cabeça dele, se o que o governo e as corporações fazem não é crime, o que ele faz também não é. Foi através desses trabalhos que ele conheceu Orelha, um contato do submundo que ocasionalmente lhe oferece serviços. Porém, apesar de estar sempre presente, ele não possui grande reputação no mundo do crime e está longe de ser alguém importante."
     }
   },
   "combat": {
@@ -57,6 +61,7 @@
     "yourDefense": "Sua defesa",
     "versus": "VS",
     "damageLine": "Ataque {{attack}} − Defesa {{defense}} = {{damage}} de dano",
+    "counterLine": "Contra-ataque: {{damage}} de dano",
     "noDice": "Sem dados",
     "tapToRoll": "Toque para rolar",
     "tapToContinue": "Toque para continuar",

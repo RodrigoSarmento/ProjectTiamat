@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 
 import { Colors, Fonts } from '@styles';
 
+import { FIELD_SLOT_GAP, TRAY_MAX_HEIGHT } from './Prepare.constants';
+
 export const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -31,14 +33,15 @@ export const styles = StyleSheet.create({
     gap: 18,
   },
   slots: {
+    alignItems: 'center',
+    gap: FIELD_SLOT_GAP,
+  },
+  slotRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
     justifyContent: 'center',
-    gap: 14,
+    gap: FIELD_SLOT_GAP,
   },
   slot: {
-    width: 124,
-    minHeight: 148,
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: 'rgba(255, 255, 255, 0.18)',
@@ -71,6 +74,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   tray: {
+    flexShrink: 1,
     paddingVertical: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -81,14 +85,14 @@ export const styles = StyleSheet.create({
     borderColor: Colors.neonCyan,
     backgroundColor: 'rgba(60, 246, 255, 0.08)',
   },
-  trayContent: {
-    flexDirection: 'column',
-    paddingHorizontal: 14,
-    gap: 10,
+  trayScroll: {
+    maxHeight: TRAY_MAX_HEIGHT,
   },
-  trayRow: {
+  trayContent: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'flex-end',
+    paddingHorizontal: 14,
     gap: 16,
     minHeight: 96,
   },
@@ -124,20 +128,12 @@ export const styles = StyleSheet.create({
     left: 0,
     top: 0,
   },
-  kindLabel: {
-    ...Fonts.extraSmallBold,
-    color: Colors.white,
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    zIndex: 10,
-  },
   indicator: {
     position: 'absolute',
-    top: 0,
-    right: 6,
-    bottom: 0,
-    justifyContent: 'center',
+    left: 0,
+    right: 0,
+    bottom: 2,
+    alignItems: 'center',
   },
   indicatorLabel: {
     ...Fonts.caption,

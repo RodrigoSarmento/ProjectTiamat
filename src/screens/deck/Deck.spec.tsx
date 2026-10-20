@@ -25,7 +25,12 @@ describe('Deck', () => {
   it('goes back when closed', async () => {
     await render(<Deck />);
 
-    await fireEvent.press(screen.getByTestId('CloseButton'));
+    expect(screen.getByTestId('CloseIcon')).toHaveStyle({
+      position: 'absolute',
+      right: 0,
+    });
+
+    await fireEvent.press(screen.getByTestId('CloseIcon'));
 
     expect(mockGoBack).toHaveBeenCalledTimes(1);
   });

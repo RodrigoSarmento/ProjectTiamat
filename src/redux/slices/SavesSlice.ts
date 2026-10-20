@@ -39,24 +39,19 @@ export interface ISaves {
   save: ISave;
   dices: CombatDieId[];
   numOfDices: number;
+  readLoreIds: string[];
 }
 
 export const STARTER_DICES: CombatDieId[] = [
-  'attack-d4-a',
-  'attack-d4-b',
-  'attack-d6-a',
-  'attack-d6-b',
-  'attack-d8-a',
-  'attack-d8-b',
-  'defense-d4-a',
-  'defense-d4-b',
-  'defense-d6-a',
-  'defense-d6-b',
-  'defense-d8-a',
-  'defense-d8-a',
+  'attack-d4-level1-a',
+  'attack-d4-level1-b',
+  'attack-d4-level1-c',
+  'defense-d4-level1-a',
+  'defense-d6-level1-b',
+  'counter-d4-level1-c',
 ];
 
-export const STARTER_NUM_OF_DICES = 2;
+export const STARTER_NUM_OF_DICES = 3;
 
 const initialState: ISaves = {
   hasStarted: false,
@@ -69,6 +64,7 @@ const initialState: ISaves = {
   },
   dices: [...STARTER_DICES],
   numOfDices: STARTER_NUM_OF_DICES,
+  readLoreIds: [],
 };
 
 const addTemporaryStatus = (
@@ -121,6 +117,11 @@ const savesSlice = createSlice({
     saveProgress: (state, action: PayloadAction<IStoryProgress>) => {
       state.save.progress = action.payload;
     },
+    markLoreRead: (state, action: PayloadAction<string>) => {
+      if (!state.readLoreIds.includes(action.payload)) {
+        state.readLoreIds.push(action.payload);
+      }
+    },
     eraseSave: () => initialState,
   },
 });
@@ -133,6 +134,7 @@ export const {
   setCurrentBackground,
   setThemeOrBackground,
   saveProgress,
+  markLoreRead,
   eraseSave,
 } = savesSlice.actions;
 

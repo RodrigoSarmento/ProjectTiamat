@@ -1,6 +1,6 @@
 import { ImageBackground, Text, View } from 'react-native';
 
-import { CloseButton } from '@components/close-button';
+import { CloseIcon } from '@components/close-icon';
 import { translate } from '@helper/translate';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,10 +15,12 @@ const Deck = () => {
     >
       <SafeAreaView style={CommonStyles.flex1} edges={['top', 'left', 'right']}>
         <View style={styles.content}>
-          <Text style={CommonStyles.settingsTitle}>
-            {translate('words.deck')}
-          </Text>
-          <CloseButton />
+          <View style={CommonStyles.settingsHeader}>
+            <Text style={CommonStyles.settingsTitle}>
+              {translate('words.deck')}
+            </Text>
+            <CloseIcon />
+          </View>
         </View>
       </SafeAreaView>
     </ImageBackground>

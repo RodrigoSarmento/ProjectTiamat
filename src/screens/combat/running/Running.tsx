@@ -171,6 +171,17 @@ const Running = (props: IRunning) => {
                     })}
                   </Animated.Text>
                 ) : null}
+                {showResult && result.counter > 0 ? (
+                  <Animated.Text
+                    testID="CombatRunning-counter"
+                    entering={FadeIn.duration(200)}
+                    style={[styles.damage, playerAttacks && styles.damageTaken]}
+                  >
+                    {translate('combat.counterLine', {
+                      damage: result.counter,
+                    })}
+                  </Animated.Text>
+                ) : null}
               </View>
             </Animated.View>
           )}

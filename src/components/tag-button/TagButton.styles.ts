@@ -4,17 +4,17 @@ import { Colors } from '@styles';
 import { semiBold } from '@styles/Font';
 
 import {
-  CLOSE_BUTTON_HEIGHT,
-  CLOSE_BUTTON_SLANT_WIDTH,
-} from './CloseButton.constants';
+  TAG_BUTTON_HEIGHT,
+  TAG_BUTTON_SLANT_WIDTH,
+} from './TagButton.constants';
 
 export const styles = StyleSheet.create({
   button: {
     alignSelf: 'flex-start',
-    height: CLOSE_BUTTON_HEIGHT,
+    height: TAG_BUTTON_HEIGHT,
     justifyContent: 'center',
     paddingLeft: 16,
-    paddingRight: 16 + CLOSE_BUTTON_SLANT_WIDTH,
+    paddingRight: 16 + TAG_BUTTON_SLANT_WIDTH,
   },
   pressed: {
     opacity: 0.7,

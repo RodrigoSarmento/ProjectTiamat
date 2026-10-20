@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors, Common, Fonts } from '@styles';
+import { Colors, Fonts } from '@styles';
 
 export const styles = StyleSheet.create({
   wrap: {
     alignItems: 'center',
-    minWidth: Common.screenWidth * 0.2,
   },
   hit: {
     alignItems: 'center',

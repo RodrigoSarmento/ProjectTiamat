@@ -22,6 +22,7 @@ describe('Collapsible', () => {
 
     expect(screen.getByText(TITLE)).toBeOnTheScreen();
     expect(screen.queryByText(DESCRIPTION)).not.toBeOnTheScreen();
+    expect(screen.queryByTestId('Collapsible-new')).not.toBeOnTheScreen();
     expect(screen.getByTestId('Collapsible')).toBeCollapsed();
   });
 
@@ -61,6 +62,25 @@ describe('Collapsible', () => {
 
     expect(screen.getByText(DESCRIPTION)).toBeOnTheScreen();
     expect(screen.getByTestId('Collapsible')).toBeExpanded();
+  });
+
+  it('shows a new dot when the entry is unread', async () => {
+    await render(<Collapsible title={TITLE} description={DESCRIPTION} isNew />);
+
+    expect(screen.getByTestId('Collapsible-new')).toBeOnTheScreen();
+  });
+
+  it('shows a portrait when one is given', async () => {
+    const portrait = { uri: 'https://example.com/jo.png' };
+    await render(
+      <Collapsible
+        title={TITLE}
+        description={DESCRIPTION}
+        portrait={portrait}
+      />,
+    );
+
+    expect(screen.getByTestId('Collapsible-portrait')).toBeOnTheScreen();
   });
 
   it('starts open when asked', async () => {

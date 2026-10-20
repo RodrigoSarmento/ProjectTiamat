@@ -1,4 +1,6 @@
-export type CombatDieKind = 'attack' | 'defense';
+import { PLAYER_MAX_SLOTS } from '@data/combat/deck';
+
+export type CombatDieKind = 'attack' | 'defense' | 'counter';
 export type CombatDieSides = 4 | 6 | 8;
 export type CombatSlots = Array<string | null>;
 
@@ -26,6 +28,7 @@ export type ICombatExchangeResult = {
   attack: number;
   defense: number;
   damage: number;
+  counter: number;
 };
 
 export type ICombatPiles = {
@@ -114,7 +117,7 @@ export const removeDieFromSlots = (
 };
 
 export const handSize = (cardsInHand: number, numOfDices: number) =>
-  Math.max(0, Math.min(cardsInHand, numOfDices));
+  Math.max(0, Math.min(cardsInHand, numOfDices, PLAYER_MAX_SLOTS));
 
 export const toCards = (dice: ICombatDie[]): ICombatDie[] =>
   dice.map((die, index) => ({ ...die, id: `${die.id}#${index}` }));
@@ -209,6 +212,9 @@ export const drawDice = (
 export const diceOfKind = (dice: ICombatDie[], kind: CombatDieKind) =>
   dice.filter((die) => die.kind === kind);
 
+export const defendingDice = (dice: ICombatDie[]) =>
+  dice.filter((die) => die.kind !== 'attack');
+
 export const rollDice = (
   dice: ICombatDie[],
   random: () => number = Math.random,
@@ -225,7 +231,13 @@ export const resolveExchange = (
 ): ICombatExchangeResult => {
   const attack = sumRolls(attackDice, rolls);
   const defense = sumRolls(defenseDice, rolls);
-  return { attack, defense, damage: Math.max(0, attack - defense) };
+  const counterRoll = sumRolls(diceOfKind(defenseDice, 'counter'), rolls);
+  return {
+    attack,
+    defense,
+    damage: Math.max(0, attack - defense),
+    counter: Math.min(counterRoll, Math.max(0, defense - attack)),
+  };
 };
 
 export const containsPoint = (

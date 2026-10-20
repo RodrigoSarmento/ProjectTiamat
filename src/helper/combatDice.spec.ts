@@ -4,6 +4,7 @@ import {
   type ICombatDie,
   containsPoint,
   dealHand,
+  defendingDice,
   diceOfKind,
   drawDice,
   emptyCombatSlots,
@@ -24,10 +25,10 @@ import {
 } from './combatDice';
 
 const deckIds: CombatDieId[] = [
-  'attack-d4-b',
-  'attack-d8-a',
-  'defense-d4-b',
-  'defense-d6-a',
+  'attack-d4-level1-b',
+  'attack-d8-level1-b',
+  'defense-d6-level1-b',
+  'counter-d4-level1-c',
 ];
 
 const keepOrder = () => 0.99;
@@ -44,9 +45,9 @@ describe('combatDice', () => {
     const deck = getDice(deckIds);
 
     expect(deck.map((die) => die.id)).toEqual(deckIds);
-    expect(getDie('attack-d4-a')).toEqual({
-      id: 'attack-d4-a',
-      ...COMBAT_DICE['attack-d4-a'],
+    expect(getDie('attack-d4-level1-a')).toEqual({
+      id: 'attack-d4-level1-a',
+      ...COMBAT_DICE['attack-d4-level1-a'],
     });
   });
 
@@ -59,7 +60,7 @@ describe('combatDice', () => {
   });
 
   it('rolls a deterministic face from the supplied random', () => {
-    const die = getDie('attack-d6-b');
+    const die = getDie('attack-d6-level1-b');
 
     expect(rollDie(die, () => 0)).toEqual({
       faceIndex: 0,
@@ -87,8 +88,8 @@ describe('combatDice', () => {
     slots = placeDieOnSlot(slots, 'attack-d4', 2);
     expect(slots).toEqual(['defense-d8', null, 'attack-d4']);
 
-    slots = placeDieOnSlot(slots, 'attack-d6-a', 1);
-    expect(slots).toEqual(['defense-d8', 'attack-d6-a', 'attack-d4']);
+    slots = placeDieOnSlot(slots, 'attack-d6-level1-b', 1);
+    expect(slots).toEqual(['defense-d8', 'attack-d6-level1-b', 'attack-d4']);
 
     slots = placeDieOnSlot(slots, 'defense-d4', 1);
     expect(slots).toEqual(['defense-d8', 'defense-d4', 'attack-d4']);
@@ -102,31 +103,69 @@ describe('combatDice', () => {
 
   it('resolves an exchange as attack minus defense, never below zero', () => {
     const dice = selectedDice(getDice(deckIds), [
-      'attack-d4-b',
-      'attack-d8-a',
-      'defense-d4-b',
+      'attack-d4-level1-b',
+      'attack-d8-level1-b',
+      'defense-d6-level1-b',
     ]);
     const attackDice = diceOfKind(dice, 'attack');
     const defenseDice = diceOfKind(dice, 'defense');
 
     expect(
       resolveExchange(attackDice, defenseDice, {
-        'attack-d4-b': 2,
-        'attack-d8-a': 3,
-        'defense-d4-b': 1,
+        'attack-d4-level1-b': 2,
+        'attack-d8-level1-b': 3,
+        'defense-d6-level1-b': 1,
       }),
-    ).toEqual({ attack: 5, defense: 1, damage: 4 });
+    ).toEqual({ attack: 5, defense: 1, damage: 4, counter: 0 });
     expect(
       resolveExchange(attackDice, defenseDice, {
-        'attack-d4-b': 0,
-        'attack-d8-a': 0,
-        'defense-d4-b': 2,
+        'attack-d4-level1-b': 0,
+        'attack-d8-level1-b': 0,
+        'defense-d6-level1-b': 2,
       }),
-    ).toEqual({ attack: 0, defense: 2, damage: 0 });
+    ).toEqual({ attack: 0, defense: 2, damage: 0, counter: 0 });
     expect(resolveExchange([], [], {})).toEqual({
       attack: 0,
       defense: 0,
       damage: 0,
+      counter: 0,
+    });
+  });
+
+  it('counters with the blocked surplus, capped by the counter roll', () => {
+    const dice = getDice(deckIds);
+    const attackDice = diceOfKind(dice, 'attack');
+    const defenseDice = defendingDice(dice);
+    const rolls = (attack: number, defense: number, counter: number) => ({
+      'attack-d4-level1-b': attack,
+      'attack-d8-level1-b': 0,
+      'defense-d6-level1-b': defense,
+      'counter-d4-level1-c': counter,
+    });
+
+    expect(resolveExchange(attackDice, defenseDice, rolls(1, 3, 3))).toEqual({
+      attack: 1,
+      defense: 6,
+      damage: 0,
+      counter: 3,
+    });
+    expect(resolveExchange(attackDice, defenseDice, rolls(2, 3, 0))).toEqual({
+      attack: 2,
+      defense: 3,
+      damage: 0,
+      counter: 0,
+    });
+    expect(resolveExchange(attackDice, defenseDice, rolls(2, 0, 3))).toEqual({
+      attack: 2,
+      defense: 3,
+      damage: 0,
+      counter: 1,
+    });
+    expect(resolveExchange(attackDice, defenseDice, rolls(2, 0, 0))).toEqual({
+      attack: 2,
+      defense: 0,
+      damage: 2,
+      counter: 0,
     });
   });
 
@@ -142,17 +181,21 @@ describe('combatDice', () => {
   });
 
   it('draws distinct dice from a deck with unique ids even for repeated entries', () => {
-    const deck = getDice(['attack-d4-b', 'attack-d4-b', 'defense-d4-a']);
+    const deck = getDice([
+      'attack-d4-level1-b',
+      'attack-d4-level1-b',
+      'defense-d4-level1-a',
+    ]);
     const drawn = drawDice(deck, 2, () => 0);
 
     expect(drawn.map((die) => die.id)).toEqual([
-      'attack-d4-b#0',
-      'attack-d4-b#1',
+      'attack-d4-level1-b#0',
+      'attack-d4-level1-b#1',
     ]);
     expect(drawDice(deck, 5, () => 0)).toHaveLength(3);
     expect(rollDice(drawn, () => 0)).toEqual({
-      'attack-d4-b#0': 0,
-      'attack-d4-b#1': 0,
+      'attack-d4-level1-b#0': 0,
+      'attack-d4-level1-b#1': 0,
     });
   });
 
@@ -170,20 +213,22 @@ describe('combatDice', () => {
     expect(hitSlotIndex(slots, 12, 12)).toBe(-1);
   });
 
-  it('caps the slots at the cards in hand', () => {
-    expect(handSize(8, 2)).toBe(2);
-    expect(handSize(1, 2)).toBe(1);
-    expect(handSize(0, 2)).toBe(0);
+  it('caps the slots at the cards in hand and at the player maximum', () => {
+    expect(handSize(8, 3)).toBe(3);
+    expect(handSize(8, 9)).toBe(5);
+    expect(handSize(1, 3)).toBe(1);
+    expect(handSize(0, 3)).toBe(0);
   });
 
   describe('hand and deck', () => {
-    const cards = toCards(getDice([...deckIds, 'attack-d6-a', 'defense-d8-a']));
+    const cards = toCards(
+      getDice([...deckIds, 'attack-d6-level1-b', 'defense-d4-level1-a']),
+    );
 
     it('gives every deck entry its own card id, even repeated dice', () => {
-      expect(idsOf(toCards(getDice(['attack-d4-b', 'attack-d4-b'])))).toEqual([
-        'attack-d4-b#0',
-        'attack-d4-b#1',
-      ]);
+      expect(
+        idsOf(toCards(getDice(['attack-d4-level1-b', 'attack-d4-level1-b']))),
+      ).toEqual(['attack-d4-level1-b#0', 'attack-d4-level1-b#1']);
     });
 
     it('shuffles without losing, duplicating or mutating cards', () => {

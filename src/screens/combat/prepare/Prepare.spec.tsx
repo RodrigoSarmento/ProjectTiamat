@@ -4,7 +4,7 @@ import { type CombatDieId, getDice } from '@data/combat';
 import { EnemiesId, getEnemy } from '@data/story';
 import { toCards } from '@helper/combatDice';
 import { createTestStore, renderWithProviders } from '@test';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, within } from '@testing-library/react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import type { ICombatRef } from '../Combat.types';
@@ -12,10 +12,10 @@ import type { ICombatRef } from '../Combat.types';
 import Prepare from './Prepare';
 
 const handIds: CombatDieId[] = [
-  'attack-d4-a',
-  'attack-d6-a',
-  'defense-d4-a',
-  'defense-d4-a',
+  'attack-d4-level1-a',
+  'attack-d4-level1-c',
+  'defense-d4-level1-a',
+  'counter-d4-level1-c',
 ];
 
 type RenderOptions = {
@@ -62,54 +62,100 @@ describe('Prepare', () => {
     expect(screen.getByTestId('CombatPrepare-ready')).toBeDisabled();
   });
 
+  it('caps the slots at five even when the save asks for more', async () => {
+    await renderPrepare({
+      numOfDices: 9,
+      hand: [
+        'attack-d4-level1-a',
+        'attack-d4-level1-b',
+        'attack-d4-level1-c',
+        'defense-d4-level1-a',
+        'defense-d6-level1-b',
+        'counter-d4-level1-c',
+      ],
+    });
+
+    expect(screen.getByTestId('CombatPrepare-slot-4')).toBeOnTheScreen();
+    expect(screen.queryByTestId('CombatPrepare-slot-5')).toBeNull();
+    expect(
+      within(screen.getByTestId('CombatPrepare-slotRow-0')).getByTestId(
+        'CombatPrepare-slot-2',
+      ),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('CombatPrepare-slotRow-1')).getByTestId(
+        'CombatPrepare-slot-3',
+      ),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('CombatPrepare-slotRow-1')).queryByTestId(
+        'CombatPrepare-slot-2',
+      ),
+    ).toBeNull();
+  });
+
+  it('lays four slots out as two rows of two', async () => {
+    await renderPrepare({
+      numOfDices: 4,
+      hand: [
+        'attack-d4-level1-a',
+        'attack-d4-level1-b',
+        'attack-d4-level1-c',
+        'defense-d4-level1-a',
+      ],
+    });
+
+    expect(
+      within(screen.getByTestId('CombatPrepare-slotRow-0')).getByTestId(
+        'CombatPrepare-slot-1',
+      ),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('CombatPrepare-slotRow-1')).getByTestId(
+        'CombatPrepare-slot-2',
+      ),
+    ).toBeOnTheScreen();
+    expect(screen.queryByTestId('CombatPrepare-slotRow-2')).toBeNull();
+  });
+
   it('caps the slots at the hand size when the hand is smaller than numOfDices', async () => {
-    await renderPrepare({ numOfDices: 3, hand: ['attack-d4-a'] });
+    await renderPrepare({ numOfDices: 3, hand: ['attack-d4-level1-a'] });
 
     expect(screen.getByTestId('CombatPrepare-slot-0')).toBeOnTheScreen();
     expect(screen.queryByTestId('CombatPrepare-slot-1')).toBeNull();
   });
 
-  it('hides the scroll arrow while every row fits on screen', async () => {
+  it('hides the scroll arrow while the hand fits in the tray', async () => {
     await renderPrepare();
 
     expect(screen.queryByTestId('CombatPrepare-scrollHint')).toBeNull();
   });
 
-  it('shows the scroll arrow once a row has more dice than fit on screen', async () => {
-    await renderPrepare({
-      hand: [
-        'attack-d4-a',
-        'attack-d4-b',
-        'attack-d6-a',
-        'attack-d6-b',
-        'attack-d8-a',
-        'defense-d4-a',
-      ],
+  it('shows the scroll arrow when the dice run past the tray', async () => {
+    await renderPrepare();
+    fireEvent.scroll(screen.getByTestId('CombatPrepare-tray'), {
+      nativeEvent: {
+        contentOffset: { x: 0, y: 0 },
+        layoutMeasurement: { width: 300, height: 100 },
+        contentSize: { width: 300, height: 500 },
+      },
     });
 
     expect(screen.getByTestId('CombatPrepare-scrollHint')).toBeOnTheScreen();
   });
 
-  it('hides the scroll arrow once the tray is scrolled all the way right', async () => {
-    await renderPrepare({
-      hand: [
-        'attack-d4-a',
-        'attack-d4-b',
-        'attack-d6-a',
-        'attack-d6-b',
-        'attack-d8-a',
-      ],
-    });
-    const scrollTo = (x: number) =>
+  it('hides the scroll arrow once the tray is scrolled to the end', async () => {
+    await renderPrepare();
+    const scrollTo = (y: number) =>
       fireEvent.scroll(screen.getByTestId('CombatPrepare-tray'), {
         nativeEvent: {
-          contentOffset: { x, y: 0 },
+          contentOffset: { x: 0, y },
           layoutMeasurement: { width: 300, height: 100 },
-          contentSize: { width: 500, height: 100 },
+          contentSize: { width: 300, height: 500 },
         },
       });
 
-    await scrollTo(200);
+    await scrollTo(400);
     expect(screen.queryByTestId('CombatPrepare-scrollHint')).toBeNull();
 
     await scrollTo(0);

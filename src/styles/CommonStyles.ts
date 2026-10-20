@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import * as Colors from './Colors';
+import { iconSize } from './Common';
 import { bold } from './Font';
 
 export const CommonStyles = StyleSheet.create({
@@ -53,14 +54,19 @@ export const CommonStyles = StyleSheet.create({
     height: 1,
     backgroundColor: Colors.borderColor,
   },
+  settingsHeader: {
+    position: 'relative',
+    marginTop: 16,
+    marginBottom: 12,
+    minHeight: iconSize,
+    justifyContent: 'center',
+  },
   settingsTitle: {
     ...bold,
     fontSize: 40,
     letterSpacing: 2,
     color: Colors.white,
     textAlign: 'center',
-    marginTop: 16,
-    marginBottom: 12,
   },
   settingsDivider: {
     height: 1.5,

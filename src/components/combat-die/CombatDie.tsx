@@ -20,11 +20,7 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { resetRoll, startRoll } from './CombatDie.animations';
-import {
-  FACE_STRIP_MAX_WIDTH,
-  FLICKER_MS,
-  LONG_PRESS_MS,
-} from './CombatDie.constants';
+import { FLICKER_MS, LONG_PRESS_MS } from './CombatDie.constants';
 import { styles } from './CombatDie.styles';
 import type { ICombatDieView } from './CombatDie.types';
 import CombatDieShape from './CombatDieShape';
@@ -39,6 +35,11 @@ const PALETTE = {
     fill: '#082028',
     stroke: Colors.neonCyan,
     face: '#C9FBFF',
+  },
+  counter: {
+    fill: '#2A0A24',
+    stroke: Colors.neonMagenta,
+    face: '#FFC9EF',
   },
 };
 
@@ -189,7 +190,7 @@ const CombatDie: React.FC<ICombatDieView> = ({
   });
 
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, { minWidth: size }]}>
       <GestureDetector gesture={gesture}>
         <Animated.View
           testID={testID}
@@ -230,10 +231,7 @@ const CombatDie: React.FC<ICombatDieView> = ({
         <Text
           numberOfLines={1}
           adjustsFontSizeToFit
-          style={[
-            styles.strip,
-            { maxWidth: Math.max(size, FACE_STRIP_MAX_WIDTH) },
-          ]}
+          style={[styles.strip, { maxWidth: size }]}
         >
           [ {die.faces.map(formatFaceMark).join(' ')} ]
         </Text>

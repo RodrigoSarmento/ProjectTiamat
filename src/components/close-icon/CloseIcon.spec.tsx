@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
-import CloseButton from './CloseButton';
+import CloseIcon from './CloseIcon';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
@@ -10,31 +10,34 @@ jest.mock('@react-navigation/native', () => ({
 
 const mockGoBack = jest.fn();
 
-describe('CloseButton', () => {
+describe('CloseIcon', () => {
   beforeEach(() => {
     mockGoBack.mockClear();
     (useNavigation as jest.Mock).mockReturnValue({ goBack: mockGoBack });
   });
 
-  it('shows the close label', async () => {
-    await render(<CloseButton />);
+  it('sits on the right of its row', async () => {
+    await render(<CloseIcon />);
 
-    expect(screen.getByText('Fechar')).toBeOnTheScreen();
+    expect(screen.getByTestId('CloseIcon')).toHaveStyle({
+      position: 'absolute',
+      right: 0,
+    });
   });
 
   it('goes back when pressed', async () => {
-    await render(<CloseButton />);
+    await render(<CloseIcon />);
 
-    await fireEvent.press(screen.getByTestId('CloseButton'));
+    await fireEvent.press(screen.getByTestId('CloseIcon'));
 
     expect(mockGoBack).toHaveBeenCalledTimes(1);
   });
 
   it('runs its own action instead of going back when given one', async () => {
     const onPress = jest.fn();
-    await render(<CloseButton onPress={onPress} />);
+    await render(<CloseIcon onPress={onPress} />);
 
-    await fireEvent.press(screen.getByTestId('CloseButton'));
+    await fireEvent.press(screen.getByTestId('CloseIcon'));
 
     expect(onPress).toHaveBeenCalledTimes(1);
     expect(mockGoBack).not.toHaveBeenCalled();

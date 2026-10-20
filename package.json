@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "dice:report": "node --no-warnings scripts/diceReport.mjs && prettier --write docs/dados.md",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",

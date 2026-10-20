@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { Colors, Fonts } from '@styles';
 
-import { SIDE_DIE_SIZE } from './DiceSide.constants';
+import { SIDE_DIE_GAP, SIDE_DIE_SIZE } from './DiceSide.constants';
 
 export const styles = StyleSheet.create({
   side: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 18,
+    gap: SIDE_DIE_GAP,
     minHeight: SIDE_DIE_SIZE,
   },
   empty: {
