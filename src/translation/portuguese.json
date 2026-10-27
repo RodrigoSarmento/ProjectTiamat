@@ -12,9 +12,12 @@
     "options": "Opções",
     "lore": "Lore",
     "deck": "Baralho",
-    "world": "Mundo",
+    "history": "História",
     "characters": "Personagens",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "language": "Idioma",
+    "portuguese": "Português",
+    "english": "Inglês"
   },
   "options": {
     "music": "Música",
@@ -66,6 +69,7 @@
     "tapToRoll": "Toque para rolar",
     "tapToContinue": "Toque para continuar",
     "deck": "Deck: {{count}}",
+    "discard": "Morto: {{count}}",
     "trayHint": "Segure e arraste {{count}} dados para o centro",
     "fieldHint": "Segure de novo para devolver à bandeja",
     "needDice": "Escolha {{count}} dados",

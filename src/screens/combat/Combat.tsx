@@ -37,19 +37,20 @@ import { FinalResult } from './final-result';
 import { Prepare } from './prepare';
 import { Running } from './running';
 
-const dealDeck = (deckIds: CombatDieId[]) =>
-  dealHand(toCards(getDice(deckIds)), HAND_SIZE);
+const dealDeck = (deckIds: CombatDieId[], size: number) =>
+  dealHand(toCards(getDice(deckIds)), size);
 
 const Combat = () => {
   const { params } = useRoute<RouteProp<GameStackParamsList, 'Combat'>>();
   const navigation = useNavigation<StackNavigationProp<GameStackParamsList>>();
   const enemy = getEnemy(params.enemyId);
   const deckIds = useSelector((state: RootState) => state.saves.dices);
+  const numOfDices = useSelector((state: RootState) => state.saves.numOfDices);
 
   const combatRef = useRef<ICombatRef>(null);
   const [step, setStep] = useState<CombatStep>('prepare');
   const [selectedDice, setSelectedDice] = useState<ICombatDie[]>([]);
-  const [piles, setPiles] = useState(() => dealDeck(deckIds));
+  const [piles, setPiles] = useState(() => dealDeck(deckIds, HAND_SIZE));
   const [health, setHealth] = useState<CombatHealth>({
     player: PLAYER_MAX_HEALTH,
     enemy: enemy.health,
@@ -75,6 +76,8 @@ const Combat = () => {
             current,
             dice.map((die) => die.id),
             HAND_SIZE,
+            Math.random,
+            numOfDices,
           ),
         );
       },
@@ -91,13 +94,13 @@ const Combat = () => {
       restart: () => {
         setHealth({ player: PLAYER_MAX_HEALTH, enemy: enemy.health });
         setHits({});
-        setPiles(dealDeck(deckIds));
+        setPiles(dealDeck(deckIds, HAND_SIZE));
         setSelectedDice([]);
         setStep('prepare');
       },
       finish: () => navigation.goBack(),
     }),
-    [deckIds, enemy.health, navigation],
+    [deckIds, enemy.health, navigation, numOfDices],
   );
 
   return (
@@ -109,6 +112,7 @@ const Combat = () => {
           enemyHealth={health.enemy}
           hand={piles.hand}
           deckCount={piles.drawPile.length}
+          discardCount={piles.discard.length}
         />
       ) : null}
       {step === 'running' ? (

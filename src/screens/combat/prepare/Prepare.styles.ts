@@ -1,8 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors, Fonts } from '@styles';
+import { Colors, Common, Fonts } from '@styles';
 
-import { FIELD_SLOT_GAP, TRAY_MAX_HEIGHT } from './Prepare.constants';
+import {
+  FIELD_SLOT_GAP,
+  TRAY_HEIGHT,
+  TRAY_HORIZONTAL_PADDING,
+  TRAY_ROW_GAP,
+} from './Prepare.constants';
 
 export const styles = StyleSheet.create({
   screen: {
@@ -70,11 +75,15 @@ export const styles = StyleSheet.create({
   trayHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingBottom: 6,
   },
+  pileCounts: {
+    flexDirection: 'row',
+    gap: 12,
+  },
   tray: {
-    flexShrink: 1,
     paddingVertical: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -86,15 +95,19 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(60, 246, 255, 0.08)',
   },
   trayScroll: {
-    maxHeight: TRAY_MAX_HEIGHT,
+    height: TRAY_HEIGHT,
   },
   trayContent: {
+    flexDirection: 'column',
+    height: TRAY_HEIGHT,
+    paddingHorizontal: TRAY_HORIZONTAL_PADDING,
+    gap: TRAY_ROW_GAP,
+  },
+  trayRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     alignItems: 'flex-end',
-    paddingHorizontal: 14,
-    gap: 16,
-    minHeight: 96,
+    justifyContent: 'space-evenly',
+    minWidth: Common.screenWidth - TRAY_HORIZONTAL_PADDING * 2,
   },
   actions: {
     paddingHorizontal: 20,
@@ -130,10 +143,10 @@ export const styles = StyleSheet.create({
   },
   indicator: {
     position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 2,
-    alignItems: 'center',
+    top: 0,
+    right: 4,
+    bottom: 0,
+    justifyContent: 'center',
   },
   indicatorLabel: {
     ...Fonts.caption,

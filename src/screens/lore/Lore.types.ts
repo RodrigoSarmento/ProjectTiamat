@@ -1,1 +1,1 @@
-export type LoreTab = 'world' | 'characters';
+export type LoreTab = 'history' | 'characters';

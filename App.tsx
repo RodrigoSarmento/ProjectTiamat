@@ -2,17 +2,20 @@ import { StyleSheet, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 
+import { applyLanguage } from '@helper/language';
 import { useSoundSettings } from '@hooks/use-sound-settings';
 import GameStackNavigator from '@navigators/GameStackNavigator';
-import { persistor, store } from '@redux/store';
+import { type RootState, persistor, store } from '@redux/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import './src/i18n';
 
 const AppNavigation = () => {
+  const language = useSelector((state: RootState) => state.settings.language);
+  applyLanguage(language);
   useSoundSettings();
 
   return (

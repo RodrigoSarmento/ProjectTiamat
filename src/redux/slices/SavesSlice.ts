@@ -46,9 +46,12 @@ export const STARTER_DICES: CombatDieId[] = [
   'attack-d4-level1-a',
   'attack-d4-level1-b',
   'attack-d4-level1-c',
+  'attack-d6-level1-b',
+  'attack-d8-level1-b',
   'defense-d4-level1-a',
   'defense-d6-level1-b',
   'counter-d4-level1-c',
+  'counter-d8-level1-c',
 ];
 
 export const STARTER_NUM_OF_DICES = 3;

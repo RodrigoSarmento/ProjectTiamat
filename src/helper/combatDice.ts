@@ -131,26 +131,13 @@ export const shuffle = <T>(items: T[], random: () => number = Math.random) => {
   return next;
 };
 
-export const drawCards = (
-  piles: ICombatPiles,
-  count: number,
-  random: () => number = Math.random,
-): ICombatPiles => {
+export const drawCards = (piles: ICombatPiles, count: number): ICombatPiles => {
   const hand = [...piles.hand];
-  let { drawPile, discard } = piles;
-  for (let drawn = 0; drawn < count; drawn += 1) {
-    if (drawPile.length === 0) {
-      if (discard.length === 0) {
-        break;
-      }
-      drawPile = shuffle(discard, random);
-      discard = [];
-    }
-    const [card, ...rest] = drawPile;
-    hand.push(card);
-    drawPile = rest;
-  }
-  return { hand, drawPile, discard };
+  let { drawPile } = piles;
+  const drawn = Math.min(count, drawPile.length);
+  hand.push(...drawPile.slice(0, drawn));
+  drawPile = drawPile.slice(drawn);
+  return { hand, drawPile, discard: piles.discard };
 };
 
 export const dealHand = (
@@ -158,24 +145,32 @@ export const dealHand = (
   size: number,
   random: () => number = Math.random,
 ): ICombatPiles =>
-  drawCards(
-    { hand: [], drawPile: shuffle(deck, random), discard: [] },
-    size,
-    random,
-  );
+  drawCards({ hand: [], drawPile: shuffle(deck, random), discard: [] }, size);
 
 export const playCards = (
   piles: ICombatPiles,
   usedIds: string[],
   size: number,
   random: () => number = Math.random,
+  /** Shuffle morto back in once the hand can no longer fill this many slots. */
+  minimum = 1,
 ): ICombatPiles => {
   const used = piles.hand.filter((card) => usedIds.includes(card.id));
   const hand = piles.hand.filter((card) => !usedIds.includes(card.id));
-  return drawCards(
+  const bought = drawCards(
     { hand, drawPile: piles.drawPile, discard: [...piles.discard, ...used] },
     Math.max(0, size - hand.length),
-    random,
+  );
+  if (bought.hand.length >= minimum || bought.discard.length === 0) {
+    return bought;
+  }
+  return drawCards(
+    {
+      hand: bought.hand,
+      drawPile: shuffle(bought.discard, random),
+      discard: [],
+    },
+    Math.max(0, size - bought.hand.length),
   );
 };
 

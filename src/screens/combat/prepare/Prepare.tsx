@@ -29,6 +29,7 @@ import {
   fieldSlotMinHeight,
   fieldSlotRows,
   fieldSlotWidth,
+  trayRows,
 } from './Prepare.constants';
 import { usePrepare } from './Prepare.hooks';
 import { styles } from './Prepare.styles';
@@ -46,6 +47,7 @@ const Prepare = ({
   enemyHealth,
   hand,
   deckCount,
+  discardCount,
 }: IPrepare) => {
   const {
     trayDice,
@@ -215,9 +217,14 @@ const Prepare = ({
               ? translate('combat.fieldHint')
               : translate('combat.trayHint', { count: numOfDices })}
           </Text>
-          <Text testID="CombatPrepare-deck" style={styles.hint}>
-            {translate('combat.deck', { count: deckCount })}
-          </Text>
+          <View style={styles.pileCounts}>
+            <Text testID="CombatPrepare-deck" style={styles.hint}>
+              {translate('combat.deck', { count: deckCount })}
+            </Text>
+            <Text testID="CombatPrepare-discard" style={styles.hint}>
+              {translate('combat.discard', { count: discardCount })}
+            </Text>
+          </View>
         </View>
         <View
           ref={trayRef}
@@ -227,6 +234,7 @@ const Prepare = ({
         >
           <ScrollView
             testID="CombatPrepare-tray"
+            horizontal
             scrollEnabled={!draggingDie}
             showsHorizontalScrollIndicator={false}
             style={styles.trayScroll}
@@ -236,17 +244,25 @@ const Prepare = ({
             onContentSizeChange={onTrayContentSizeChange}
             contentContainerStyle={styles.trayContent}
           >
-            {trayDice.map((die) => (
-              <CombatDie
-                key={die.id}
-                die={die}
-                size={TRAY_DIE_SIZE}
-                isGhost={draggingDie?.id === die.id}
-                onDragMove={moveDrag}
-                onDragStart={() => handleDragStart(die)}
-                onDragUpdate={(point) => handleDragUpdate(point.x, point.y)}
-                onDragEnd={(point) => handleDragEnd(die, point.x, point.y)}
-              />
+            {trayRows(trayDice).map((row, rowIndex) => (
+              <View
+                key={`tray-row-${rowIndex}`}
+                testID={`CombatPrepare-trayRow-${rowIndex}`}
+                style={styles.trayRow}
+              >
+                {row.map((die) => (
+                  <CombatDie
+                    key={die.id}
+                    die={die}
+                    size={TRAY_DIE_SIZE}
+                    isGhost={draggingDie?.id === die.id}
+                    onDragMove={moveDrag}
+                    onDragStart={() => handleDragStart(die)}
+                    onDragUpdate={(point) => handleDragUpdate(point.x, point.y)}
+                    onDragEnd={(point) => handleDragEnd(die, point.x, point.y)}
+                  />
+                ))}
+              </View>
             ))}
           </ScrollView>
           {canScrollTray ? (
@@ -255,7 +271,7 @@ const Prepare = ({
               pointerEvents="none"
               style={[styles.indicator, blinkStyle]}
             >
-              <Text style={styles.indicatorLabel}>▼</Text>
+              <Text style={styles.indicatorLabel}>▶</Text>
             </Animated.View>
           ) : null}
         </View>

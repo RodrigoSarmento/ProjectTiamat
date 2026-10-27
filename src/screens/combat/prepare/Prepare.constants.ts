@@ -53,7 +53,21 @@ export const fieldDieSize = (count: number) =>
 export const fieldSlotMinHeight = (count: number) =>
   fieldDieSize(count) + FIELD_SLOT_VERTICAL_PADDING;
 
-export const TRAY_MAX_HEIGHT = TRAY_DIE_SIZE * 2 + 36;
+export const TRAY_COLUMNS = 4;
+export const TRAY_ROW_GAP = 16;
+export const TRAY_HORIZONTAL_PADDING = 14;
+const TRAY_STRIP_HEIGHT = 22;
+export const TRAY_ROW_HEIGHT = TRAY_DIE_SIZE + TRAY_STRIP_HEIGHT;
+export const TRAY_HEIGHT = TRAY_ROW_HEIGHT * 2 + TRAY_ROW_GAP;
+
+export const trayRows = <T>(dice: T[]) => {
+  const rows = [
+    dice.slice(0, TRAY_COLUMNS),
+    dice.slice(TRAY_COLUMNS, TRAY_COLUMNS * 2),
+  ];
+
+  return rows.filter((row) => row.length > 0);
+};
 
 export const TRAY_END_TOLERANCE = 8;
 export const TRAY_SCROLL_THROTTLE_MS = 32;

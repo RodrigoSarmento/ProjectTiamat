@@ -25,7 +25,7 @@ import { styles } from './Lore.styles';
 import type { LoreTab } from './Lore.types';
 
 const Lore = () => {
-  const [tab, setTab] = useState<LoreTab>('world');
+  const [tab, setTab] = useState<LoreTab>('history');
   const dispatch = useDispatch();
   const readLoreIds = useSelector(
     (state: RootState) => state.saves.readLoreIds,
@@ -47,11 +47,11 @@ const Lore = () => {
           </View>
           <View style={styles.actions}>
             <TagButton
-              testID="Lore-world"
-              label={translate('words.world')}
-              accent={tab === 'world' ? LORE_TAB_SELECTED : LORE_TAB_IDLE}
-              fill={tab === 'world' ? LORE_TAB_FILL_SELECTED : LORE_TAB_FILL}
-              onPress={() => setTab('world')}
+              testID="Lore-history"
+              label={translate('words.history')}
+              accent={tab === 'history' ? LORE_TAB_SELECTED : LORE_TAB_IDLE}
+              fill={tab === 'history' ? LORE_TAB_FILL_SELECTED : LORE_TAB_FILL}
+              onPress={() => setTab('history')}
             />
             <TagButton
               testID="Lore-characters"
@@ -65,9 +65,9 @@ const Lore = () => {
           </View>
           <View style={CommonStyles.settingsDivider} />
           <ScrollView key={tab} contentContainerStyle={styles.list}>
-            {tab === 'world'
+            {tab === 'history'
               ? LORE_ENTRIES.map((id) => {
-                  const readId = loreReadId('world', id);
+                  const readId = loreReadId('history', id);
 
                   return (
                     <Collapsible

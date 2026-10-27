@@ -8,4 +8,5 @@ export interface IPrepare extends ICombatStep {
   enemyHealth: number;
   hand: ICombatDie[];
   deckCount: number;
+  discardCount: number;
 }

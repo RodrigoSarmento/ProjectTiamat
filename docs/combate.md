@@ -8,11 +8,11 @@ O personagem começa com um deck de cartas no inventário (`saves.dices`). Hoje 
 
 Os tamanhos ficam em `src/data/combat/deck.ts`: a mão tem 8 cartas (`HAND_SIZE`), um deck montado tem de 12 a 16 (`DECK_MIN_SIZE`, `DECK_MAX_SIZE`) e o jogador leva no máximo 5 dados por rodada (`PLAYER_MAX_SLOTS`). Cada dado entra uma vez só.
 
-O deck inicial (`STARTER_DICES`) tem 6 dados diferentes de nível 1, uma cópia de cada: os três ataques d4 (`a`, `b`, `c`), duas defesas e um contra-ataque.
+O deck inicial (`STARTER_DICES`) tem dados diferentes de nível 1, uma cópia de cada.
 
-No começo da luta, o deck é embaralhado e 8 cartas vão para a mão. O resto fica no deck, virado para baixo.
+No começo da luta, o deck é embaralhado e 8 cartas vão para a mão. O resto fica no deck, virado para baixo. Se o deck tiver menos de 8, a mão fica com o que existe.
 
-Cada dado já nasce de ataque, de defesa ou de contra-ataque. Na preparação, a bandeja mostra a mão inteira, na ordem ataque, defesa e contra-ataque. Os dados quebram de linha só quando não cabem na largura, e a bandeja rola se a altura passar da tela. O jogador arrasta exatamente `saves.numOfDices` dados para o centro. Começa com 3 (`STARTER_NUM_OF_DICES`) e pode chegar a 5 quando sobe de nível, nunca mais do que a mão tem. Com 3 espaços, uma escolha comum é 2 de ataque e 1 de defesa.
+Cada dado já nasce de ataque, de defesa ou de contra-ataque. Na preparação, a bandeja mostra a mão inteira, na ordem ataque, defesa e contra-ataque, em duas linhas de até 4 dados. A altura cabe nessas duas linhas. Se a linha passar da largura, a bandeja rola para o lado. O jogador arrasta exatamente `saves.numOfDices` dados para o centro. Começa com 3 (`STARTER_NUM_OF_DICES`) e pode chegar a 5 quando sobe de nível, nunca mais do que a mão tem. Com 3 espaços, uma escolha comum é 2 de ataque e 1 de defesa.
 
 No ataque, o jogador rola os dados de ataque escolhidos e o inimigo rola os de defesa e de contra-ataque. Na defesa, o jogador rola os de defesa e de contra-ataque escolhidos e o inimigo rola os de ataque.
 
@@ -22,7 +22,7 @@ O dado de contra-ataque bloqueia como um dado de defesa. Quando a defesa total p
 
 As faces trazem um número, que é o valor da rolagem, ou nada (`0`), que é um erro.
 
-Os dados escolhidos saem da mão e vão para o morto. A mão compra do deck o mesmo número de cartas até voltar a ter 8. Quando o deck acaba, o morto inteiro é embaralhado e vira o novo deck. A preparação mostra quantas cartas ainda estão no deck.
+Os dados escolhidos saem da mão e vão para o morto. A mão compra do deck até voltar a ter 8. Se o deck tem menos cartas do que falta, compra só as que tem. O morto fica parado enquanto ainda houver carta na mão. Quando a mão esvazia, o morto é embaralhado, vira o novo deck e a mão compra 8 de novo. A preparação mostra quantas cartas ainda estão no deck e no morto.
 
 ### Níveis
 
@@ -57,7 +57,7 @@ Ficar sem defesa pesa mais do que ficar sem ataque. Então há poucos dados de d
 
 Há menos ataques nos níveis altos (6, 5 e 4), e defesa e contra-ataque têm 2 dados por nível.
 
-As chances e o Valor de cada dado ficam em [`dados.md`](dados.md), gerado por `npm run dice:report`.
+As chances e o Valor de cada dado ficam em [`dados-jogador.md`](dados-jogador.md) e [`dados-inimigo.md`](dados-inimigo.md), gerados por `npm run dice:report`.
 
 `src/data/combat/dices.spec.ts` confere essas regras.
 
@@ -121,8 +121,8 @@ As regras são funções puras em `src/helper/combatDice.ts` (`dealHand`, `playC
 4. O inimigo sorteia o próprio `numOfDices` dados do próprio deck.
 5. O d20 de iniciativa decide quem ataca primeiro. Um lado sem dados de ataque pula a própria troca.
 6. Em cada troca, soma uma face aleatória de cada dado. Dano = ataque − defesa, nunca abaixo de 0. Se a defesa passar do ataque, o contra-ataque devolve a sobra ao atacante, até o que os dados de contra-ataque tiraram.
-7. Os escolhidos saem da mão e vão para o morto. A mão compra do deck até voltar a 8.
-8. Se o deck acabar durante a compra, o morto é embaralhado, vira o novo deck e a compra continua.
+7. Os escolhidos saem da mão e vão para o morto. A mão compra do deck até voltar a 8, e para quando o deck acaba.
+8. Se a mão ficou vazia, o morto é embaralhado, vira o novo deck e a mão compra 8 de novo.
 9. Se alguém chegou a 0 PV, vai para o resultado final. Se não, volta para a preparação.
 
 Isso não precisa de engine, física nem canvas. Dá para testar no Jest com um turno inteiro e um resultado fixo, sem abrir o app.

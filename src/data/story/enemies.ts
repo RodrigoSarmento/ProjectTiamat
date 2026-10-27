@@ -26,7 +26,7 @@ export const ENEMIES: Record<EnemiesId, IStoryEnemy> = {
       'enemy-defense-d4-level1-a',
       'enemy-attack-d6-level1-b',
     ],
-    health: 5,
+    health: 10,
     numOfDices: 2,
   },
 };

@@ -22,6 +22,8 @@ import {
 } from '@testing-library/react-native';
 import Sound from 'react-native-sound';
 
+import i18n from '../../i18n';
+
 import Options from './Options';
 
 jest.mock('@react-navigation/native', () => ({
@@ -69,6 +71,7 @@ describe('Options', () => {
   });
 
   afterEach(async () => {
+    await i18n.changeLanguage('pt');
     jest.useRealTimers();
     const { result } = await renderHook(() => useSound());
     await act(async () => {
@@ -83,10 +86,27 @@ describe('Options', () => {
     await renderOptions();
 
     expect(screen.getByText('Opções')).toBeOnTheScreen();
+    expect(screen.getByText('Idioma')).toBeOnTheScreen();
+    expect(screen.getByText('Português')).toBeOnTheScreen();
     expect(screen.getByText('Música')).toBeOnTheScreen();
     expect(screen.getByText('Som ambiente')).toBeOnTheScreen();
     expect(screen.getByText('Efeitos sonoros')).toBeOnTheScreen();
     expect(screen.getByText('Apagar progresso')).toBeOnTheScreen();
+  });
+
+  it('opens the languages and saves the one that is chosen', async () => {
+    const { store } = await renderOptions();
+
+    await fireEvent.press(screen.getByTestId('Options-language'));
+
+    expect(screen.getByText('Inglês')).toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByTestId('LanguageModal-en'));
+
+    expect(store.getState().settings.language).toBe('en');
+    expect(screen.getAllByText('Language').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('English').length).toBeGreaterThan(0);
+    expect(screen.getByText('Options')).toBeOnTheScreen();
   });
 
   it('shows the saved sound settings', async () => {

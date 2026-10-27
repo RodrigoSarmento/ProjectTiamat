@@ -12,7 +12,6 @@ module.exports = {
           '@data': './src/data',
           '@helper': './src/helper',
           '@hooks': './src/hooks',
-          '@jest': './jest',
           '@navigators': './src/routes',
           '@redux': './src/redux',
           '@screens': './src/screens',

@@ -10,6 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import type { ICombatRef } from '../Combat.types';
 
 import Prepare from './Prepare';
+import { TRAY_HEIGHT } from './Prepare.constants';
 
 const handIds: CombatDieId[] = [
   'attack-d4-level1-a',
@@ -21,12 +22,14 @@ const handIds: CombatDieId[] = [
 type RenderOptions = {
   hand?: CombatDieId[];
   deckCount?: number;
+  discardCount?: number;
   numOfDices?: number;
 };
 
 const renderPrepare = ({
   hand = handIds,
   deckCount = 4,
+  discardCount = 0,
   numOfDices = 3,
 }: RenderOptions = {}) => {
   const { saves } = createTestStore().getState();
@@ -39,6 +42,7 @@ const renderPrepare = ({
         enemyHealth={3}
         hand={toCards(getDice(hand))}
         deckCount={deckCount}
+        discardCount={discardCount}
       />
     </GestureHandlerRootView>,
     { preloadedState: { saves: { ...saves, numOfDices } } },
@@ -125,6 +129,39 @@ describe('Prepare', () => {
     expect(screen.queryByTestId('CombatPrepare-slot-1')).toBeNull();
   });
 
+  it('keeps the hand in two rows of four at a fixed height', async () => {
+    await renderPrepare({
+      hand: [
+        'attack-d4-level1-a',
+        'attack-d4-level1-b',
+        'attack-d4-level1-c',
+        'attack-d6-level1-b',
+        'attack-d8-level1-b',
+        'attack-d8-level1-c',
+        'defense-d4-level1-a',
+        'counter-d4-level1-c',
+      ],
+    });
+
+    expect(screen.getByTestId('CombatPrepare-tray')).toHaveStyle({
+      height: TRAY_HEIGHT,
+    });
+    expect(screen.getByTestId('CombatPrepare-trayRow-0')).toHaveStyle({
+      justifyContent: 'space-between',
+    });
+    expect(
+      within(screen.getByTestId('CombatPrepare-trayRow-0')).getAllByTestId(
+        /CombatDie-/,
+      ),
+    ).toHaveLength(4);
+    expect(
+      within(screen.getByTestId('CombatPrepare-trayRow-1')).getAllByTestId(
+        /CombatDie-/,
+      ),
+    ).toHaveLength(4);
+    expect(screen.queryByTestId('CombatPrepare-trayRow-2')).toBeNull();
+  });
+
   it('hides the scroll arrow while the hand fits in the tray', async () => {
     await renderPrepare();
 
@@ -136,22 +173,24 @@ describe('Prepare', () => {
     fireEvent.scroll(screen.getByTestId('CombatPrepare-tray'), {
       nativeEvent: {
         contentOffset: { x: 0, y: 0 },
-        layoutMeasurement: { width: 300, height: 100 },
-        contentSize: { width: 300, height: 500 },
+        layoutMeasurement: { width: 300, height: 200 },
+        contentSize: { width: 500, height: 200 },
       },
     });
 
-    expect(screen.getByTestId('CombatPrepare-scrollHint')).toBeOnTheScreen();
+    expect(screen.getByTestId('CombatPrepare-scrollHint')).toHaveTextContent(
+      '▶',
+    );
   });
 
   it('hides the scroll arrow once the tray is scrolled to the end', async () => {
     await renderPrepare();
-    const scrollTo = (y: number) =>
+    const scrollTo = (x: number) =>
       fireEvent.scroll(screen.getByTestId('CombatPrepare-tray'), {
         nativeEvent: {
-          contentOffset: { x: 0, y },
-          layoutMeasurement: { width: 300, height: 100 },
-          contentSize: { width: 300, height: 500 },
+          contentOffset: { x, y: 0 },
+          layoutMeasurement: { width: 300, height: 200 },
+          contentSize: { width: 500, height: 200 },
         },
       });
 
@@ -162,11 +201,14 @@ describe('Prepare', () => {
     expect(screen.getByTestId('CombatPrepare-scrollHint')).toBeOnTheScreen();
   });
 
-  it('shows how many cards are left in the deck', async () => {
-    await renderPrepare({ deckCount: 2 });
+  it('shows how many cards are left in the deck and in morto', async () => {
+    await renderPrepare({ deckCount: 2, discardCount: 3 });
 
     expect(screen.getByTestId('CombatPrepare-deck')).toHaveTextContent(
       'Deck: 2',
+    );
+    expect(screen.getByTestId('CombatPrepare-discard')).toHaveTextContent(
+      'Morto: 3',
     );
   });
 });

@@ -1,0 +1,22 @@
+{
+  "words": {
+    "attack": "Attack",
+    "defense": "Defense",
+    "corp": "Corp",
+    "military": "Military",
+    "citizen": "Citizen",
+    "start": "Start",
+    "confirm": "Confirm",
+    "diceSuccess": "Success",
+    "diceFailure": "Failure",
+    "options": "Options",
+    "lore": "Lore",
+    "deck": "Deck",
+    "history": "History",
+    "characters": "Characters",
+    "cancel": "Cancel",
+    "language": "Language",
+    "portuguese": "Portuguese",
+    "english": "English"
+  }
+}

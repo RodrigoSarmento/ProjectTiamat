@@ -1,5 +1,11 @@
-import { COMBAT_DICE, type CombatDieId, HAND_SIZE } from '@data/combat';
+import {
+  COMBAT_DICE,
+  type CombatDieId,
+  HAND_SIZE,
+  getDice,
+} from '@data/combat';
 import { EnemiesId, getEnemy } from '@data/story';
+import { dealHand, playCards, toCards } from '@helper/combatDice';
 import savesReducer, {
   STARTER_DICES,
   STARTER_NUM_OF_DICES,
@@ -38,7 +44,13 @@ jest.mock('./prepare', () => {
   );
 
   return {
-    Prepare: ({ combatRef, hand, deckCount, enemyHealth }: IPrepare) => (
+    Prepare: ({
+      combatRef,
+      hand,
+      deckCount,
+      discardCount,
+      enemyHealth,
+    }: IPrepare) => (
       <Pressable
         testID="CombatPrepare"
         onPress={() => {
@@ -48,6 +60,7 @@ jest.mock('./prepare', () => {
       >
         <Text>{`hand-${hand.length}`}</Text>
         <Text>{`deck-${deckCount}`}</Text>
+        <Text>{`discard-${discardCount}`}</Text>
         <Text>{`enemyHp-${enemyHealth}`}</Text>
       </Pressable>
     ),
@@ -201,6 +214,54 @@ describe('Combat', () => {
     await fireEvent.press(screen.getByTestId('CombatFinalResult-continue'));
 
     expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('buys from the deck until the hand is empty, then deals again from morto', async () => {
+    const keepOrder = () => 0.99;
+    let piles = dealHand(toCards(getDice(STARTER_DICES)), HAND_SIZE, keepOrder);
+    const play = () => {
+      piles = playCards(
+        piles,
+        piles.hand.slice(0, STARTER_NUM_OF_DICES).map((die) => die.id),
+        HAND_SIZE,
+        keepOrder,
+      );
+    };
+    const expectPiles = () => {
+      expect(screen.getByText(`hand-${piles.hand.length}`)).toBeOnTheScreen();
+      expect(
+        screen.getByText(`deck-${piles.drawPile.length}`),
+      ).toBeOnTheScreen();
+      expect(
+        screen.getByText(`discard-${piles.discard.length}`),
+      ).toBeOnTheScreen();
+    };
+
+    await renderWithProviders(<Combat />);
+
+    expect(piles.hand).toHaveLength(HAND_SIZE);
+    expect(piles.drawPile).toHaveLength(STARTER_DICES.length - HAND_SIZE);
+    expectPiles();
+
+    await playRound('hit');
+    play();
+    expect(piles.hand).toHaveLength(6);
+    expect(piles.drawPile).toHaveLength(0);
+    expect(piles.discard).toHaveLength(STARTER_NUM_OF_DICES);
+    expectPiles();
+
+    await playRound('hit');
+    play();
+    expect(piles.hand).toHaveLength(3);
+    expect(piles.discard).toHaveLength(STARTER_NUM_OF_DICES * 2);
+    expectPiles();
+
+    await playRound('hit');
+    play();
+    expect(piles.hand).toHaveLength(HAND_SIZE);
+    expect(piles.drawPile).toHaveLength(STARTER_DICES.length - HAND_SIZE);
+    expect(piles.discard).toEqual([]);
+    expectPiles();
   });
 
   it('deals a full hand, redraws the cards that were played, and clamps damage at 0', async () => {

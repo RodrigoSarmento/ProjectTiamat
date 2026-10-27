@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ImageBackground, Pressable, Text, View } from 'react-native';
+import { Image, ImageBackground, Pressable, Text, View } from 'react-native';
 
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -9,16 +9,17 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import { CloseIcon } from '@components/close-icon';
 import { Modal } from '@components/modal';
 import { NeonToggle } from '@components/neon-toggle';
+import { type Language, applyLanguage } from '@helper/language';
 import { translate } from '@helper/translate';
 import { DEFAULT_THEME, type SoundType, useSound } from '@hooks/use-sound';
 import { eraseSave } from '@redux/slices/SavesSlice';
-import { setSoundEnabled } from '@redux/slices/SettingsSlice';
+import { setLanguage, setSoundEnabled } from '@redux/slices/SettingsSlice';
 import type { RootState } from '@redux/store';
 import { CommonStyles } from '@styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SOUND_OPTIONS } from './Options.constants';
+import { LANGUAGES, SOUND_OPTIONS } from './Options.constants';
 import { styles } from './Options.styles';
 import { OptionCard } from './option-card';
 
@@ -31,17 +32,27 @@ const Options = () => {
   const soundEnabled = useSelector(
     (state: RootState) => state.settings.soundEnabled,
   );
+  const language = useSelector((state: RootState) => state.settings.language);
+  applyLanguage(language);
   const backgroundSound = useSelector(
     (state: RootState) => state.saves.save.backgroundSound,
   );
   const { playSound, stopSound } = useSound();
   const [isEraseModalVisible, setIsEraseModalVisible] = useState(false);
+  const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
+  const selectedLanguage =
+    LANGUAGES.find((item) => item.id === language) ?? LANGUAGES[0];
 
   const handleToggleSound = (soundType: SoundType, isEnabled: boolean) => {
     dispatch(setSoundEnabled({ soundType, isEnabled }));
   };
 
   const closeEraseModal = () => setIsEraseModalVisible(false);
+
+  const handleSelectLanguage = (next: Language) => {
+    dispatch(setLanguage(next));
+    setIsLanguageModalVisible(false);
+  };
 
   const handleEraseSave = () => {
     closeEraseModal();
@@ -70,6 +81,18 @@ const Options = () => {
           </View>
           <View style={CommonStyles.settingsDivider} />
           <View style={styles.list}>
+            <OptionCard
+              testID="Options-language"
+              label={translate('words.language')}
+              onPress={() => setIsLanguageModalVisible(true)}
+            >
+              <View style={styles.languageValue}>
+                <Image source={selectedLanguage.flag} style={styles.flag} />
+                <Text style={styles.languageValueLabel}>
+                  {translate(selectedLanguage.label)}
+                </Text>
+              </View>
+            </OptionCard>
             {SOUND_OPTIONS.map(({ soundType, label }) => (
               <OptionCard
                 key={soundType}
@@ -98,6 +121,38 @@ const Options = () => {
           </View>
         </View>
       </SafeAreaView>
+      <Modal
+        testID="LanguageModal"
+        isVisible={isLanguageModalVisible}
+        customStyle={styles.modal}
+        onBackdropPress={() => setIsLanguageModalVisible(false)}
+      >
+        <Text style={[styles.modalTitle, styles.languageModalTitle]}>
+          {translate('words.language')}
+        </Text>
+        {LANGUAGES.map((item) => {
+          const isSelected = item.id === language;
+          return (
+            <Pressable
+              key={item.id}
+              testID={`LanguageModal-${item.id}`}
+              accessibilityRole="button"
+              accessibilityState={{ selected: isSelected }}
+              onPress={() => handleSelectLanguage(item.id)}
+              style={({ pressed }) => [
+                styles.languageOption,
+                isSelected && styles.languageOptionSelected,
+                pressed && styles.modalButtonPressed,
+              ]}
+            >
+              <Image source={item.flag} style={styles.flag} />
+              <Text style={styles.languageOptionLabel}>
+                {translate(item.label)}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </Modal>
       <Modal
         testID="EraseSaveModal"
         isVisible={isEraseModalVisible}

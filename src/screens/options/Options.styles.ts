@@ -25,6 +25,10 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 12,
   },
+  languageModalTitle: {
+    color: Colors.neonCyan,
+    marginBottom: 20,
+  },
   modalMessage: {
     ...regular,
     fontSize: 16,
@@ -61,5 +65,42 @@ export const styles = StyleSheet.create({
   },
   modalButtonLabelDanger: {
     color: Colors.warningRed,
+  },
+  languageValue: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  languageValueLabel: {
+    ...semiBold,
+    fontSize: 16,
+    letterSpacing: 0.5,
+    color: Colors.neonCyan,
+  },
+  flag: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    minHeight: 52,
+    paddingHorizontal: 14,
+    marginBottom: 10,
+    borderWidth: 1.5,
+    borderRadius: 2,
+    borderColor: Colors.grayText,
+  },
+  languageOptionSelected: {
+    borderColor: Colors.neonCyan,
+    backgroundColor: 'rgba(60, 246, 255, 0.12)',
+  },
+  languageOptionLabel: {
+    ...semiBold,
+    fontSize: 18,
+    letterSpacing: 0.5,
+    color: Colors.white,
   },
 });

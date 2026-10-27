@@ -1,4 +1,4 @@
-import settingsReducer, { setSoundEnabled } from './SettingsSlice';
+import settingsReducer, { setLanguage, setSoundEnabled } from './SettingsSlice';
 
 const init = () => settingsReducer(undefined, { type: '@@INIT' });
 
@@ -35,5 +35,14 @@ describe('SettingsSlice', () => {
     );
 
     expect(state.soundEnabled.effect).toBe(true);
+  });
+
+  it('starts from the device language and keeps a chosen language', () => {
+    expect(init().language).toBe('pt');
+
+    const state = settingsReducer(init(), setLanguage('en'));
+
+    expect(state.language).toBe('en');
+    expect(state.soundEnabled.theme).toBe(true);
   });
 });

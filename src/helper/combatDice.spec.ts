@@ -259,16 +259,88 @@ describe('combatDice', () => {
       expect(idsOf(played.discard)).toEqual(idsOf([cards[0], cards[2]]));
     });
 
-    it('reshuffles morto into a new deck once the deck runs out', () => {
-      const dealt = dealHand(cards, 4, keepOrder);
-      const first = playCards(dealt, idsOf(cards.slice(0, 2)), 4, keepOrder);
-      const second = playCards(first, idsOf(cards.slice(2, 4)), 4, keepOrder);
-
-      expect(idsOf(second.hand)).toEqual(
-        idsOf([cards[4], cards[5], cards[0], cards[1]]),
+    it('buys only what the deck has and leaves the rest of the hand short', () => {
+      const nine = toCards(
+        getDice([
+          ...deckIds,
+          'attack-d6-level1-b',
+          'defense-d4-level1-a',
+          'attack-d4-level1-a',
+          'attack-d4-level1-c',
+          'defense-d6-level1-b',
+        ]),
       );
-      expect(idsOf(second.drawPile)).toEqual(idsOf(cards.slice(2, 4)));
-      expect(second.discard).toEqual([]);
+      const dealt = dealHand(nine, 8, keepOrder);
+      const played = playCards(dealt, idsOf(nine.slice(0, 3)), 8, keepOrder);
+
+      expect(dealt.hand).toHaveLength(8);
+      expect(dealt.drawPile).toHaveLength(1);
+      expect(played.hand).toHaveLength(6);
+      expect(played.drawPile).toEqual([]);
+      expect(idsOf(played.discard)).toEqual(idsOf(nine.slice(0, 3)));
+    });
+
+    it('shuffles morto and deals a new hand only after the hand is empty', () => {
+      const nine = toCards(
+        getDice([
+          ...deckIds,
+          'attack-d6-level1-b',
+          'defense-d4-level1-a',
+          'attack-d4-level1-a',
+          'attack-d4-level1-c',
+          'defense-d6-level1-b',
+        ]),
+      );
+      const dealt = dealHand(nine, 8, keepOrder);
+      const first = playCards(dealt, idsOf(nine.slice(0, 3)), 8, keepOrder);
+      const second = playCards(
+        first,
+        idsOf(first.hand.slice(0, 3)),
+        8,
+        keepOrder,
+      );
+      const third = playCards(
+        second,
+        idsOf(second.hand.slice(0, 3)),
+        8,
+        keepOrder,
+      );
+
+      expect(second.hand).toHaveLength(3);
+      expect(second.drawPile).toEqual([]);
+      expect(second.discard).toHaveLength(6);
+      expect(third.hand).toHaveLength(8);
+      expect(third.drawPile).toHaveLength(1);
+      expect(third.discard).toEqual([]);
+    });
+
+    it('shuffles morto when the hand cannot fill the slots', () => {
+      const nine = toCards(
+        getDice([
+          ...deckIds,
+          'attack-d6-level1-b',
+          'defense-d4-level1-a',
+          'attack-d4-level1-a',
+          'attack-d4-level1-c',
+          'defense-d6-level1-b',
+        ]),
+      );
+      const dealt = dealHand(nine, 8, keepOrder);
+      const short = playCards(dealt, idsOf(nine.slice(0, 3)), 8, keepOrder, 3);
+      const kept = short.hand[short.hand.length - 1];
+      const refilled = playCards(
+        short,
+        idsOf(short.hand.slice(0, short.hand.length - 1)),
+        8,
+        keepOrder,
+        3,
+      );
+
+      expect(short.hand).toHaveLength(6);
+      expect(refilled.hand).toHaveLength(8);
+      expect(refilled.drawPile).toHaveLength(1);
+      expect(refilled.discard).toEqual([]);
+      expect(idsOf(refilled.hand)).toContain(kept.id);
     });
   });
 });

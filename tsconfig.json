@@ -23,8 +23,6 @@
       "@helper/*": ["./src/helper/*"],
       "@hooks": ["./src/hooks"],
       "@hooks/*": ["./src/hooks/*"],
-      "@jest": ["./jest"],
-      "@jest/*": ["./jest/*"],
       "@navigators": ["./src/routes"],
       "@navigators/*": ["./src/routes/*"],
       "@redux": ["./src/redux"],

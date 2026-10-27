@@ -49,18 +49,18 @@ export const usePrepare = (dice: ICombatDie[]) => {
     nativeEvent,
   }: NativeSyntheticEvent<NativeScrollEvent>) => {
     updateTrayEnd({
-      offset: nativeEvent.contentOffset.y,
-      visible: nativeEvent.layoutMeasurement.height,
-      content: nativeEvent.contentSize.height,
+      offset: nativeEvent.contentOffset.x,
+      visible: nativeEvent.layoutMeasurement.width,
+      content: nativeEvent.contentSize.width,
     });
   };
 
   const onTrayLayout = ({ nativeEvent }: LayoutChangeEvent) => {
-    updateTrayEnd({ visible: nativeEvent.layout.height });
+    updateTrayEnd({ visible: nativeEvent.layout.width });
   };
 
-  const onTrayContentSizeChange = (_width: number, height: number) => {
-    updateTrayEnd({ content: height });
+  const onTrayContentSizeChange = (width: number) => {
+    updateTrayEnd({ content: width });
   };
 
   const trayDice = dice
