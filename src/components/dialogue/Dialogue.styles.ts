@@ -57,6 +57,10 @@ export const styles = StyleSheet.create({
     width: PORTRAIT_SIZE,
     height: PORTRAIT_SIZE,
   },
+  portraitFrame: {
+    width: '100%',
+    height: '100%',
+  },
   portraitRight: {
     right: 8,
   },

@@ -59,6 +59,7 @@ const TagButton: React.FC<ITagButton> = ({
           height={TAG_BUTTON_HEIGHT}
         >
           <Polygon
+            testID={`${testID}-plate`}
             points={tagPoints(width)}
             fill={fill}
             stroke={accent}

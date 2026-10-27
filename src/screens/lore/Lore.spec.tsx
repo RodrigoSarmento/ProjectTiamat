@@ -78,13 +78,13 @@ describe('Lore', () => {
       expect(screen.getByTestId(`Lore-${id}-new`)).toBeOnTheScreen();
     });
     expect(store.getState().saves.readLoreIds).toEqual([
-      loreReadId('world', opened),
+      loreReadId('history', opened),
     ]);
   });
 
   it('keeps a read card without a dot', async () => {
     const [read] = LORE_ENTRIES;
-    await renderLore([loreReadId('world', read)]);
+    await renderLore([loreReadId('history', read)]);
 
     expect(screen.queryByTestId(`Lore-${read}-new`)).not.toBeOnTheScreen();
     LORE_ENTRIES.slice(1).forEach((id) => {
@@ -92,11 +92,11 @@ describe('Lore', () => {
     });
   });
 
-  it('opens on Mundo and switches to Personagens', async () => {
+  it('opens on História and switches to Personagens', async () => {
     await renderLore();
 
     expect(
-      within(screen.getByTestId('Lore-world')).getByText('Mundo'),
+      within(screen.getByTestId('Lore-history')).getByText('História'),
     ).toHaveStyle({ color: LORE_TAB_SELECTED });
     expect(
       within(screen.getByTestId('Lore-characters')).getByText('Personagens'),
@@ -125,7 +125,7 @@ describe('Lore', () => {
     expect(screen.getByText(translate('lore.characters.jo'))).toBeOnTheScreen();
     expect(screen.queryByTestId('Lore-jo-new')).not.toBeOnTheScreen();
 
-    await fireEvent.press(screen.getByTestId('Lore-world'));
+    await fireEvent.press(screen.getByTestId('Lore-history'));
 
     expect(
       screen.getByText(translate('lore.terceiraGuerra.title')),

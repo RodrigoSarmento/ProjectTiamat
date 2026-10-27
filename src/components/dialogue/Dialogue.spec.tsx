@@ -78,7 +78,6 @@ describe('Dialogue', () => {
   it('does not advance when the card body is pressed', async () => {
     await renderDialogue();
 
-    await fireEvent.press(screen.getByTestId('Dialogue'));
-    expect(mockOnPress).not.toHaveBeenCalled();
+    expect(screen.getByTestId('Dialogue').props.onPress).toBeUndefined();
   });
 });

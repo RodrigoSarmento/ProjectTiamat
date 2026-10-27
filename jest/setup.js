@@ -1,3 +1,5 @@
+require('react-native-gesture-handler/jestSetup');
+
 jest.mock('react-native-sound', () => {
   const MockSound = jest.fn(function MockSound(_file, _bundle, callback) {
     this.play = jest.fn();

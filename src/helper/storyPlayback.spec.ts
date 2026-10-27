@@ -380,12 +380,12 @@ describe('storyPlayback', () => {
     ]);
   });
 
-  it('resolves prologue translation keys before paginating', () => {
+  it('resolves passage translation keys before paginating', () => {
     const pages = getPassagePages(
       {
         type: 'passage',
-        title: 'prologue.dreaming.title',
-        text: 'prologue.wake-voice.text',
+        title: 'first-act-citizen.dreaming.title',
+        text: 'first-act-citizen.wake-voice.text',
       },
       10,
       40,

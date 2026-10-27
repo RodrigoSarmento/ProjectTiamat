@@ -50,21 +50,25 @@ const Dialogue: React.FC<IDialogue> = ({
         <ContinueButton onPress={onPress} testID={`${testID}-continue`} />
       </View>
       {portrait ? (
-        <ImageBackground
+        <View
           testID={`${testID}-portrait-wrap`}
-          source={require('@assets/ui/dialogue_portrait_frame.png')}
           style={[
             styles.portraitWrap,
             isLeft ? styles.portraitLeft : styles.portraitRight,
           ]}
         >
-          <Image
-            testID={`${testID}-portrait`}
-            source={portrait}
-            style={styles.portraitImage}
-            resizeMode="cover"
-          />
-        </ImageBackground>
+          <ImageBackground
+            source={require('@assets/ui/dialogue_portrait_frame.png')}
+            style={styles.portraitFrame}
+          >
+            <Image
+              testID={`${testID}-portrait`}
+              source={portrait}
+              style={styles.portraitImage}
+              resizeMode="cover"
+            />
+          </ImageBackground>
+        </View>
       ) : null}
     </View>
   );

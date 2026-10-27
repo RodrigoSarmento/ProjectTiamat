@@ -19,8 +19,8 @@ jest.mock('react-native-webview', () => {
   };
 });
 
-const emitMessage = (data: object) => {
-  act(() => {
+const emitMessage = async (data: object) => {
+  await act(() => {
     mockOnMessage?.({ nativeEvent: { data: JSON.stringify(data) } });
   });
 };
@@ -32,12 +32,12 @@ describe('DiceRollD20', () => {
       <DiceRollD20 isSuccess={(face) => face >= 10} onComplete={onComplete} />,
     );
 
-    emitMessage({ type: 'ready' });
+    await emitMessage({ type: 'ready' });
     await fireEvent.press(screen.getByTestId('dice-roll-d20'));
     expect(onComplete).not.toHaveBeenCalled();
     expect(screen.queryByText('Sucesso')).toBeNull();
 
-    emitMessage({ type: 'settled', result: 17 });
+    await emitMessage({ type: 'settled', result: 17 });
     expect(screen.getByText('Sucesso')).toBeTruthy();
     expect(onComplete).not.toHaveBeenCalled();
 
@@ -48,9 +48,9 @@ describe('DiceRollD20', () => {
   it('grows a failure label after a failing roll', async () => {
     await render(<DiceRollD20 isSuccess={(face) => face >= 10} />);
 
-    emitMessage({ type: 'ready' });
+    await emitMessage({ type: 'ready' });
     await fireEvent.press(screen.getByTestId('dice-roll-d20'));
-    emitMessage({ type: 'settled', result: 4 });
+    await emitMessage({ type: 'settled', result: 4 });
 
     expect(screen.getByText('Falha')).toBeTruthy();
     expect(screen.queryByText('Sucesso')).toBeNull();

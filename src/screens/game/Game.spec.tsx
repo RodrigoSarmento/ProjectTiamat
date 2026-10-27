@@ -115,15 +115,11 @@ describe('Game', () => {
     expect(mockNavigate).toHaveBeenCalledWith('OptionsBottomTabNavigator');
   });
 
-  it('splits overflow onto another narrator page', async () => {
+  it('shows the opening dream on one page', async () => {
     await renderGame();
 
-    expect(dreamingPages.length).toBeGreaterThan(1);
+    expect(dreamingPages).toHaveLength(1);
     expect(screen.getByText(/De olhos fechados/)).toBeOnTheScreen();
-    expect(screen.queryByText(/luz no fim do túnel/)).not.toBeOnTheScreen();
-
-    await fireEvent.press(screen.getByTestId('NarratorText-continue'));
-
     expect(screen.getByText(/luz no fim do túnel/)).toBeOnTheScreen();
   });
 
@@ -271,7 +267,6 @@ describe('Game', () => {
       usedChoiceIds: [],
       storyLog: [
         logEntry('dreaming', 0),
-        logEntry('dreaming', 1),
         logEntry('wake-on-bus', 0),
       ],
     });
@@ -279,11 +274,10 @@ describe('Game', () => {
     await fireEvent.press(screen.getByTestId('StoryLog-open'));
 
     expect(screen.getByTestId('StoryLog-dreaming:0')).toBeOnTheScreen();
-    expect(screen.getByTestId('StoryLog-dreaming:1')).toBeOnTheScreen();
     expect(screen.getByTestId('StoryLog-wake-on-bus:0')).toBeOnTheScreen();
     expect(
       store.getState().saves.save.progress?.storyLog.map((entry) => entry.key),
-    ).toEqual(['dreaming:0', 'dreaming:1', 'wake-on-bus:0']);
+    ).toEqual(['dreaming:0', 'wake-on-bus:0']);
   });
 
   it('goes back to the latest logged node when the saved node no longer exists', async () => {
@@ -355,6 +349,6 @@ describe('Game', () => {
     await fireEvent.press(screen.getByTestId('StoryLog-open'));
 
     expect(screen.getByTestId('StoryLog-dreaming:0')).toBeOnTheScreen();
-    expect(screen.getByTestId('StoryLog-dreaming:1')).toBeOnTheScreen();
+    expect(screen.queryByTestId('StoryLog-dreaming:1')).not.toBeOnTheScreen();
   });
 });

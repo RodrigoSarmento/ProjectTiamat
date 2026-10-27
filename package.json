@@ -7,6 +7,7 @@
     "dice:report": "node --no-warnings scripts/diceReport.mjs && prettier --write docs/dados-jogador.md docs/dados-inimigo.md",
     "ios": "react-native run-ios",
     "lint": "eslint .",
+    "prepare": "husky",
     "start": "react-native start",
     "test": "jest"
   },

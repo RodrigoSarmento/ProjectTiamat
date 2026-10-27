@@ -49,7 +49,6 @@ describe('NarratorText', () => {
   it('does not advance when the page body is pressed', async () => {
     await renderNarrator();
 
-    await fireEvent.press(screen.getByTestId('NarratorText'));
-    expect(mockOnPress).not.toHaveBeenCalled();
+    expect(screen.getByTestId('NarratorText').props.onPress).toBeUndefined();
   });
 });

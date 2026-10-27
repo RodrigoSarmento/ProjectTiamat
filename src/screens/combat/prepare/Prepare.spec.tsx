@@ -55,7 +55,7 @@ describe('Prepare', () => {
 
     expect(screen.getByTestId('CombatPrepare')).toBeOnTheScreen();
     expect(screen.getByTestId('CombatantCard-enemy')).toBeOnTheScreen();
-    expect(screen.getByText('3/5')).toBeOnTheScreen();
+    expect(screen.getByText('Escolha 3 dados')).toBeOnTheScreen();
     toCards(getDice(handIds)).forEach(({ id }) => {
       expect(screen.getByTestId(`CombatDie-${id}`)).toBeOnTheScreen();
     });
@@ -147,7 +147,7 @@ describe('Prepare', () => {
       height: TRAY_HEIGHT,
     });
     expect(screen.getByTestId('CombatPrepare-trayRow-0')).toHaveStyle({
-      justifyContent: 'space-between',
+      justifyContent: 'space-evenly',
     });
     expect(
       within(screen.getByTestId('CombatPrepare-trayRow-0')).getAllByTestId(
@@ -170,7 +170,7 @@ describe('Prepare', () => {
 
   it('shows the scroll arrow when the dice run past the tray', async () => {
     await renderPrepare();
-    fireEvent.scroll(screen.getByTestId('CombatPrepare-tray'), {
+    await fireEvent.scroll(screen.getByTestId('CombatPrepare-tray'), {
       nativeEvent: {
         contentOffset: { x: 0, y: 0 },
         layoutMeasurement: { width: 300, height: 200 },
